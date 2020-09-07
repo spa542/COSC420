@@ -2,7 +2,6 @@
 #include<stdlib.h>
 #include<math.h>
 #include<mpi.h>
-#include<stdbool.h>
 
 int main(int argc, char** argv) {
 
@@ -37,9 +36,9 @@ int main(int argc, char** argv) {
         startingNum = myRank * stuffToDo + 1; // Where each node will start
     }
 
-    int i, j;
-    for (i = startingNum; i < maxJobs; i += worldSize) {
-        if (endValue % i == 0 && i != endValue) {
+    int i;
+    for (i = startingNum; i <= startingNum + stuffToDo; i++) {
+        if (endValue % i == 0) {
             printf("%d is composite, divisible by %d\n", endValue, i);
         }
     }
