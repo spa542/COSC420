@@ -1,7 +1,8 @@
-#include<stdio.h>
-#include<stdlib.h>
-#include<math.h>
-#include<mpi.h>
+#include<stdio.h> // Standard output
+#include<stdlib.h> // Standard library
+#include<math.h> // sqrt
+#include<mpi.h> // MPI functions
+#include<time.h> // Time functions
 
 int main(int argc, char** argv) {
 
@@ -31,17 +32,26 @@ int main(int argc, char** argv) {
     stuffToDo = maxJobs / worldSize; // Numbers that each node has to check
 
     if (myRank == 0) {
-        startingNum = 2;
+        startingNum = 2; // 0 and 1 are unnecessary
     } else {
         startingNum = myRank * stuffToDo + 1; // Where each node will start
     }
 
+    // Time the Nodes as they do their work
+    time_t before = time(NULL);
+
     int i;
+    printf("Node %d is performing on ranges %d to %d\n", myRank, startingNum, startingNum + stuffToDo);
     for (i = startingNum; i <= startingNum + stuffToDo; i++) {
-        if (endValue % i == 0) {
+        if (endValue % i == 0) { // Checks for prime
             printf("%d is composite, divisible by %d\n", endValue, i);
-        }
+        } 
     }
+
+    time_t after = time(NULL);
+
+    printf("Number of seconds for node %d to compute if %ld was prime is %d\n",
+            worldSize, endValue, after - before);
 
     MPI_Finalize();
 
