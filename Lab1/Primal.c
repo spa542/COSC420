@@ -44,14 +44,14 @@ int main(int argc, char** argv) {
     printf("Node %d is performing on ranges %d to %d\n", myRank, startingNum, startingNum + stuffToDo);
     for (i = startingNum; i <= startingNum + stuffToDo; i++) {
         if (endValue % i == 0) { // Checks for prime
-            printf("%d is composite, divisible by %d\n", endValue, i);
+            printf("%ld is composite, divisible by %d\n", endValue, i);
         } 
     }
 
     time_t after = time(NULL);
 
-    printf("Number of seconds for node %d to compute if %ld was prime is %d\n",
-            worldSize, endValue, after - before);
+    printf("Number of seconds for node %d to compute if %ld was prime is %f\n",
+            worldSize, endValue, difftime(after, before));
 
     MPI_Finalize();
 
