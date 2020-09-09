@@ -3,6 +3,8 @@
 #include<math.h> // sqrt
 #include<mpi.h> // MPI functions
 #include<time.h> // Time functions
+#include<stdbool.h> // bool
+#include<unistd.h> // sleep
 
 int main(int argc, char** argv) {
 
@@ -41,17 +43,24 @@ int main(int argc, char** argv) {
     time_t before = time(NULL);
 
     int i;
+    bool foundAnything = false;
     printf("Node %d is performing on ranges %d to %d\n", myRank, startingNum, startingNum + stuffToDo);
     for (i = startingNum; i <= startingNum + stuffToDo; i++) {
         if (endValue % i == 0) { // Checks for prime
             printf("%ld is composite, divisible by %d\n", endValue, i);
+            foundAnything = true; 
+            break;
         } 
+    }
+
+    if (!foundAnything) {
+        printf("Node %d believes that %ld is prime...\n", myRank, endValue);
     }
 
     time_t after = time(NULL);
 
     printf("Number of seconds for node %d to compute if %ld was prime is %f\n",
-            worldSize, endValue, difftime(after, before));
+            myRank, endValue, difftime(after, before));
 
     MPI_Finalize();
 
