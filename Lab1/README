@@ -49,11 +49,21 @@ After this, each program can be run as such, (mpiexec -n (# of nodes) ./(output 
 
 Questions:
 
-a.
+a. Best case O(1): This is the case when we can determine if the number is prime by what the first number is.
+   This will occur with out program when the number is divisible by 2. 
+   
+   Worst case O(sqrt(N) / p): p being the number of nodes and N is the given number. This is the case when
+   the number is prime / when there are no factorsd and we had to ruin through ever number from 2 to sqrt(N). 
+   And since we had p number of nodes each only had to do sqrt(N)/p number of numbers at the same time.
 
 b.
 
-c.
+c. Note: sqrt(N)*sqrt(N) = N, we know that the sqrt(N) is the half way point of factors. 
+   Let x,y be two factors of N
+   Assume that y > sqrt(N), y=(N/x), N/x > sqrt(N) => sqrt(N) > x
+   Which means x is smaller that sqrt(N) and smaller than y when y is > sqrt(N). Since x was samller than sqrt(N) we know
+   that it was checked in the first "half" of the sqrt(N) checking so checking past sqrt(N) would be overkill and just 
+   rechecking already checked factors. 
 
 d. The code could be improved based in terms of usability by aggregating the data that each node
 displays. The best way to do this would be to aggregate each nodes finding in order from 0 to 
