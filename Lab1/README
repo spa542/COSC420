@@ -15,6 +15,8 @@ depending on the amount of nodes specified by the user, we divided the sqrt(N) j
 of nodes available and that will be the amount of numbers that each node will check. Overall, the
 programs written show how the basics of parallel computing is implemented and how the C language 
 interacts with the MPI Library.
+**Note, no graph is attached in lab because the times recorded are such a small difference that they are not
+showing anything relatively important
 
 Files to pay attention to:
 
@@ -50,20 +52,24 @@ After this, each program can be run as such, (mpiexec -n (# of nodes) ./(output 
 Questions:
 
 a. Best case O(1): This is the case when we can determine if the number is prime by what the first number is.
-   This will occur with out program when the number is divisible by 2. 
-   
-   Worst case O(sqrt(N) / p): p being the number of nodes and N is the given number. This is the case when
-   the number is prime / when there are no factorsd and we had to ruin through ever number from 2 to sqrt(N). 
-   And since we had p number of nodes each only had to do sqrt(N)/p number of numbers at the same time.
+This will occur with out program when the number is divisible by 2. 
+Worst case O(sqrt(N) / p): p being the number of nodes and N is the given number. This is the case when
+the number is prime / when there are no factors and we had to run through every number from 2 to sqrt(N). 
+Since we had p number of nodes, each only had to do sqrt(N)/p number of numbers at the same time.
 
-b.
+b. According to the program, adding more nodes does divide the time relatively well. Using both the linux time
+function and the C time function, there is not enough of a relative difference between the amount of nodes and 
+input because the algorithm is computed so fast regardless of the amount of nodes. But, overall, it would
+make sense for the amount of nodes to relatively divide the time of the algorithm on a very large scale because
+the nodes are dividing up the amount of work to be done. Outside of the overhead of running in parallel and setting
+up, there should be a very good increase in efficiency when looking at a very very large prime number.
 
 c. Note: sqrt(N)*sqrt(N) = N, we know that the sqrt(N) is the half way point of factors. 
-   Let x,y be two factors of N
-   Assume that y > sqrt(N), y=(N/x), N/x > sqrt(N) => sqrt(N) > x
-   Which means x is smaller that sqrt(N) and smaller than y when y is > sqrt(N). Since x was samller than sqrt(N) we know
-   that it was checked in the first "half" of the sqrt(N) checking so checking past sqrt(N) would be overkill and just 
-   rechecking already checked factors. 
+Let x,y be two factors of N
+Assume that y > sqrt(N), y=(N/x), N/x > sqrt(N) => sqrt(N) > x
+Which means x is smaller than sqrt(N) and smaller than y when y is > sqrt(N). Since x was samller than sqrt(N) we know
+that it was checked in the first "half" of the sqrt(N) checking so checking past sqrt(N) would be overkill and just 
+rechecking already checked factors. 
 
 d. The code could be improved based in terms of usability by aggregating the data that each node
 displays. The best way to do this would be to aggregate each nodes finding in order from 0 to 
