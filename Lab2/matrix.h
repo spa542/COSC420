@@ -26,14 +26,14 @@ void initMatrix(Matrix*, int, int);
 // Prints the Matrix to the screen
 void printMatrix(Matrix*);
 // Addition of matrices
-void addMatrices(Matrix*, Matrix*, MPI_Comm, int, int);
+double* addMatrices(Matrix*, Matrix*, MPI_Comm*, int, int);
 // Subtraction of matrices
-void subtractMatrices(Matrix*, Matrix*, MPI_Comm, int, int);
+void subtractMatrices(Matrix*, Matrix*, MPI_Comm*, int, int);
 // Multiplication of matrices
-void multMatrices(Matrix*, Matrix*, MPI_Comm, int, int);
+void multMatrices(Matrix*, Matrix*, MPI_Comm*, int, int);
 // Transpose of matrix
 void transpose(Matrix*);
 // Inner Product of two matrices
-void innerProduct(Matrix*, Matrix*, MPI_Comm, int, int);
+void innerProduct(Matrix*, Matrix*, MPI_Comm*, int, int);
 
 #endif // _MATRIX_H_

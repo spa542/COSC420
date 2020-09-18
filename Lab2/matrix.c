@@ -25,20 +25,53 @@ void printMatrix(Matrix *a) {
         }
         puts("");
     }
+    puts("");
 }
 
 // Adds two matrices together
-void addMatrices(Matrix *a, Matrix *b, MPI_Comm world, int worldSize, int myRank) {
+double* addMatrices(Matrix *a, Matrix *b, MPI_Comm *world, int worldSize, int myRank) {
+  
+  //We need tpo utilize all the nodes given by adding the scatterv and gatherv so that 
+  //we can make cetrian nodes get more stuff to do than other nodes
+  //
+  //ex. 6 elements and 5 nodes means one node needs to do 1 extra comutation.
+  //If we used regular scatter and gather the last one extra would be ignored and not 
+  //calculated. So we used scatterV and gatherV so we can give the extra to nodes
+  //But these functions need an array of how many elements should go places  
+  int Varray = [];
+  int j=0
+  for(j; j<())
+  
+  
+  
+  int matLen = (a->rows * a->cols) / worldSize;//TODO ScatterVarray[myRank]
+  double* rtn = NULL;
+  if(myRank == 0 ) //TODO This is gonna break we need to determine how we watnt hese functions to run
+    rtn = (double*) malloc(matLen*worldSize*sizeof(double));
+    
 
+  double* holder = (double*) malloc(matLen*sizeof(double));
+  double* local_matA = (double*) malloc(matLen*sizeof(double));
+  double* local_matB = (double*) malloc(matLen*sizeof(double));
+  MPI_Scatterv(a->data, , MPI_DOUBLE, local_matA, matLen, MPI_DOUBLE, 0, *world);
+  MPI_Scatterv(b->data, , MPI_DOUBLE, local_matB, matLen, MPI_DOUBLE, 0, *world);
+  //Each now has their needed a data and b data now to add them
+  int i;
+  //double* rtn = (double*) malloc(matLen*sizeof(double));
+  for(i=0; i<matLen; i++){
+    holder[i] = local_matA[i] + local_matB[i];
+  }
+  MPI_Gatherv(holder, matLen, MPI_DOUBLE, rtn, , MPI_DOUBLE, 0, *world);
+  return rtn;
 }
 
 // Subtracts two matrices from each other
-void subtractMatrices(Matrix *a, Matrix *b, MPI_Comm world, int worldSize, int myRank) {
+void subtractMatrices(Matrix *a, Matrix *b, MPI_Comm *world, int worldSize, int myRank) {
 
 }
 
 // Does matrix multiplication 
-void multMatrices(Matrix *a, Matrix *b, MPI_Comm world, int worldSize, int myRank) {
+void multMatrices(Matrix *a, Matrix *b, MPI_Comm *world, int worldSize, int myRank) {
 
 }
 
@@ -48,6 +81,6 @@ void transpose(Matrix* a) {
 }
 
 // Calculates the inner product of two matrices
-void innerProduct(Matrix *a, Matrix *b, MPI_Comm world, int worldSize, int myRank) {
+void innerProduct(Matrix *a, Matrix *b, MPI_Comm *world, int worldSize, int myRank) {
 
 }
