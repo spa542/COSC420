@@ -19,6 +19,7 @@ int main(int argc, char** argv) {
     Matrix a;
     Matrix b;
     Matrix c;
+    Matrix d;
 
     // The row and column length for matrix a, b, and c
     int rowLength =  2, colLength = 3;
@@ -30,6 +31,7 @@ int main(int argc, char** argv) {
         printMatrix(&b);
     
         initMatrix(&c, rowLength, colLength);
+        initMatrix(&d, rowLength, colLength);
     } else {
         a.rows = b.rows = c.rows = rowLength;
         a.cols = b.cols = c.cols = colLength;
@@ -44,8 +46,14 @@ int main(int argc, char** argv) {
     //so they are seperated
     c.data = addMatrices(&a, &b, &world, worldSize, myRank);
     if(myRank == 0) {
-        puts("Result Matrix: "); 
+        puts("Result Matrix: a + b"); 
         printMatrix(&c);
+    }
+
+    d.data = subtractMatrices(&a, &b, &world, worldSize, myRank);
+    if(myRank == 0){
+      puts("Result Matrix: a - b");
+      printMatrix(&d);
     }
 
     MPI_Finalize(); // Wrap everything up
@@ -55,6 +63,7 @@ int main(int argc, char** argv) {
         free(b.data); 
     }
     free(c.data);
+    free(d.data);
 
     return 0;
 }

@@ -28,7 +28,7 @@ void printMatrix(Matrix*);
 // Addition of matrices
 double* addMatrices(Matrix*, Matrix*, MPI_Comm*, int, int);
 // Subtraction of matrices
-void subtractMatrices(Matrix*, Matrix*, MPI_Comm*, int, int);
+double* subtractMatrices(Matrix*, Matrix*, MPI_Comm*, int, int);
 // Multiplication of matrices
 void multMatrices(Matrix*, Matrix*, MPI_Comm*, int, int);
 // Transpose of matrix
