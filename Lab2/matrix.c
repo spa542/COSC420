@@ -30,9 +30,8 @@ void printMatrix(Matrix *a) {
 
 // Adds two matrices together
 double* addMatrices(Matrix *a, Matrix *b, MPI_Comm *world, int worldSize, int myRank) {
-  
-  //We need tpo utilize all the nodes given by adding the scatterv and gatherv so that 
-  //we can make cetrian nodes get more stuff to do than other nodes
+  //We need to utilize all the nodes given by adding the scatterv and gatherv so that 
+  //we can make certainn nodes get more stuff to do than other nodes
   //
   //ex. 6 elements and 5 nodes means one node needs to do 1 extra comutation.
   //If we used regular scatter and gather the last one extra would be ignored and not 
@@ -40,20 +39,26 @@ double* addMatrices(Matrix *a, Matrix *b, MPI_Comm *world, int worldSize, int my
   //But these functions need an array of how many elements should go places  
   int length = a->rows * a->cols;
   int Varray[worldSize];
+  int displacement[worldSize];
   int j;
+  // Initialize Varray sizes
   for(j=0; j<(worldSize); j++){
     Varray[j] = length / worldSize;
   }
+  // Pick up any stragglers
   for(j=0; j<(length % worldSize); j++){
     Varray[j] += 1;
   }
-  int t,k;
-  int displacement[worldSize];
-  for(t=0; t<worldSize; t++){
-    displacement[t] = 0;
-    for(k=t; k>=0; k--){
-      displacement[t] += k;
+  // Initialize displacement array using Varray values
+  int nextLength = 0;
+  for (j = 0; j < worldSize; j++) {
+    if (j == 0){
+        displacement[j] = 0;
+        nextLength = Varray[j];
+        continue;
     }
+    displacement[j] = displacement[j - 1] + nextLength;
+    nextLength = Varray[j];
   }
 
   /*for(j=0; j<worldSize; j++){
@@ -61,24 +66,30 @@ double* addMatrices(Matrix *a, Matrix *b, MPI_Comm *world, int worldSize, int my
   }
   puts("");*/
   
-  int matLen = Varray[myRank];
-  double* rtn = NULL;
-  if(myRank == 0 ) //TODO This is gonna break we need to determine how we watnt hese functions to run
-    rtn = (double*) malloc(matLen*worldSize*sizeof(double));
+  int matLen = Varray[myRank]; // Each nodes divied up array sizes
+  double* rtn = NULL; // For the root node to initialize
+  if(myRank == 0 ) // Root node will initialize the return array
+    rtn = (double*) malloc(length*sizeof(double));
     
-
-  double* holder = (double*) malloc(matLen*sizeof(double));
+  // Each local node solution
+  double* local_solution = (double*) malloc(matLen*sizeof(double));
+  // Local matrix for A
   double* local_matA = (double*) malloc(matLen*sizeof(double));
+  // Local matrix for B
   double* local_matB = (double*) malloc(matLen*sizeof(double));
-  MPI_Scatterv(a->data, Varray, Varray, MPI_DOUBLE, local_matA, matLen, MPI_DOUBLE, 0, *world);
-  MPI_Scatterv(b->data, Varray, Varray, MPI_DOUBLE, local_matB, matLen, MPI_DOUBLE, 0, *world);
-  //Each now has their needed a data and b data now to add them
+  MPI_Scatterv(a->data, Varray, displacement, MPI_DOUBLE, local_matA, matLen, MPI_DOUBLE, 0, *world);
+  MPI_Scatterv(b->data, Varray, displacement, MPI_DOUBLE, local_matB, matLen, MPI_DOUBLE, 0, *world);
+  // Each now has their needed a data and b data now to add them
   int i;
-  //double* rtn = (double*) malloc(matLen*sizeof(double));
   for(i=0; i<matLen; i++){
-    holder[i] = local_matA[i] + local_matB[i];
+    local_solution[i] = local_matA[i] + local_matB[i];
   }
-  MPI_Gatherv(holder, matLen, MPI_DOUBLE, rtn, Varray, Varray, MPI_DOUBLE, 0, *world);
+  // Gather all of the solutions back
+  MPI_Gatherv(local_solution, matLen, MPI_DOUBLE, rtn, Varray, displacement, MPI_DOUBLE, 0, *world);
+
+  free(local_solution);
+  free(local_matA);
+  free(local_matB);
   return rtn;
 }
 
