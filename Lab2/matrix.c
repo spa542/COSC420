@@ -38,13 +38,30 @@ double* addMatrices(Matrix *a, Matrix *b, MPI_Comm *world, int worldSize, int my
   //If we used regular scatter and gather the last one extra would be ignored and not 
   //calculated. So we used scatterV and gatherV so we can give the extra to nodes
   //But these functions need an array of how many elements should go places  
-  int Varray = [];
-  int j=0
-  for(j; j<())
+  int length = a->rows * a->cols;
+  int Varray[worldSize];
+  int j;
+  for(j=0; j<(worldSize); j++){
+    Varray[j] = length / worldSize;
+  }
+  for(j=0; j<(length % worldSize); j++){
+    Varray[j] += 1;
+  }
+  int t,k;
+  int displacement[worldSize];
+  for(t=0; t<worldSize; t++){
+    displacement[t] = 0;
+    for(k=t; k>=0; k--){
+      displacement[t] += k;
+    }
+  }
+
+  /*for(j=0; j<worldSize; j++){
+    printf("%d ", Varray[j]);
+  }
+  puts("");*/
   
-  
-  
-  int matLen = (a->rows * a->cols) / worldSize;//TODO ScatterVarray[myRank]
+  int matLen = Varray[myRank];
   double* rtn = NULL;
   if(myRank == 0 ) //TODO This is gonna break we need to determine how we watnt hese functions to run
     rtn = (double*) malloc(matLen*worldSize*sizeof(double));
@@ -53,15 +70,15 @@ double* addMatrices(Matrix *a, Matrix *b, MPI_Comm *world, int worldSize, int my
   double* holder = (double*) malloc(matLen*sizeof(double));
   double* local_matA = (double*) malloc(matLen*sizeof(double));
   double* local_matB = (double*) malloc(matLen*sizeof(double));
-  MPI_Scatterv(a->data, , MPI_DOUBLE, local_matA, matLen, MPI_DOUBLE, 0, *world);
-  MPI_Scatterv(b->data, , MPI_DOUBLE, local_matB, matLen, MPI_DOUBLE, 0, *world);
+  MPI_Scatterv(a->data, Varray, Varray, MPI_DOUBLE, local_matA, matLen, MPI_DOUBLE, 0, *world);
+  MPI_Scatterv(b->data, Varray, Varray, MPI_DOUBLE, local_matB, matLen, MPI_DOUBLE, 0, *world);
   //Each now has their needed a data and b data now to add them
   int i;
   //double* rtn = (double*) malloc(matLen*sizeof(double));
   for(i=0; i<matLen; i++){
     holder[i] = local_matA[i] + local_matB[i];
   }
-  MPI_Gatherv(holder, matLen, MPI_DOUBLE, rtn, , MPI_DOUBLE, 0, *world);
+  MPI_Gatherv(holder, matLen, MPI_DOUBLE, rtn, Varray, Varray, MPI_DOUBLE, 0, *world);
   return rtn;
 }
 
