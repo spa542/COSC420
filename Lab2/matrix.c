@@ -153,8 +153,23 @@ void multMatrices(Matrix *a, Matrix *b, MPI_Comm *world, int worldSize, int myRa
 }
 
 // Transposes the given matrix
-void transpose(Matrix* a) {
+// CAN ONLY BE USED BY ONE NODE
+// Returns a pointer to an array that is the transposed matrix
+// Matrix that is accepting this argument must be transposed dimensionally already
+double* transpose(Matrix* a) {
+    // Create the new matrix with the dimensions of the passed matrix
 
+    double *rtn = (double*)malloc(a->rows*a->cols*sizeof(double));
+
+    // Swap i and j for every element in the array
+    int i, j;
+    for (i = 0; i < a->rows; i++) {
+        for (j = 0; j < a->cols; j++) {
+            rtn[a->cols*i + j] = ACCESS(a,j,i);
+        }
+    }
+    // Return the pointer to the array
+    return rtn;
 }
 
 // Calculates the inner product of two matrices

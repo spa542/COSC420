@@ -32,7 +32,7 @@ double* subtractMatrices(Matrix*, Matrix*, MPI_Comm*, int, int);
 // Multiplication of matrices
 void multMatrices(Matrix*, Matrix*, MPI_Comm*, int, int);
 // Transpose of matrix
-void transpose(Matrix*);
+double* transpose(Matrix*);
 // Inner Product of two matrices
 void innerProduct(Matrix*, Matrix*, MPI_Comm*, int, int);
 

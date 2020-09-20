@@ -20,6 +20,7 @@ int main(int argc, char** argv) {
     Matrix b;
     Matrix c;
     Matrix d;
+    Matrix e;
 
     // The row and column length for matrix a, b, and c
     int rowLength =  2, colLength = 3;
@@ -32,6 +33,9 @@ int main(int argc, char** argv) {
     
         initMatrix(&c, rowLength, colLength);
         initMatrix(&d, rowLength, colLength);
+        initMatrix(&e, rowLength, colLength);
+        puts("Matrix to be transposed");
+        printMatrix(&e);
     } else {
         a.rows = b.rows = c.rows = rowLength;
         a.cols = b.cols = c.cols = colLength;
@@ -54,6 +58,14 @@ int main(int argc, char** argv) {
     if(myRank == 0){
       puts("Result Matrix: a - b");
       printMatrix(&d);
+    }
+
+    if (myRank == 0) {
+        puts("Transposed Matrix:");
+        Matrix tmp;
+        initMatrix(&tmp, colLength, rowLength);
+        tmp.data = transpose(&e);
+        printMatrix(&tmp);
     }
 
     MPI_Finalize(); // Wrap everything up
