@@ -163,9 +163,9 @@ double* transpose(Matrix* a) {
 
     // Swap i and j for every element in the array
     int i, j;
-    for (i = 0; i < a->rows; i++) {
-        for (j = 0; j < a->cols; j++) {
-            rtn[a->cols*i + j] = ACCESS(a,j,i);
+    for (i = 0; i < a->cols; i++) {
+        for (j = 0; j < a->rows; j++) {
+            rtn[a->rows*i + j] = ACCESS(a,j,i);
         }
     }
     // Return the pointer to the array

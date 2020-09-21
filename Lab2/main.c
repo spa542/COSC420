@@ -14,6 +14,7 @@ int main(int argc, char** argv) {
     int worldSize, myRank;
     MPI_Comm_size(world, &worldSize); // Get the world size
     MPI_Comm_rank(world, &myRank); // Get the rank of the "current" node
+    printf("myRank %d\n", myRank);
 
     // Create the matrices
     Matrix a;
