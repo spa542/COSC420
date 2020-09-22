@@ -2,7 +2,7 @@
 COSC 420-001
 9/7/20
 
-# Lab-2: Matricies
+# Lab-2: Matrices
 * Develop familiarity with C programming language
 * Develop familiarity with parallel computing tool OpenMPI
 * Explore empirical tests for program efficiency in terms of parallel computation and resources
