@@ -19,9 +19,20 @@ int main(int argc, char** argv) {
     // Create the matrices
     Matrix a;
     Matrix b;
+    // For addition result
     Matrix c;
+    // For subtraction result
     Matrix d;
+    // For transpose
     Matrix e;
+    // For inner product
+    Matrix f;
+    Matrix g;
+    // For matrix multiplication
+    Matrix h;
+    Matrix i;
+    // Result for matrix multiplication
+    Matrix j;
 
     // The row and column length for matrix a, b, and c
     int rowLength =  2, colLength = 3;
@@ -33,13 +44,35 @@ int main(int argc, char** argv) {
         printMatrix(&b);
     
         initMatrix(&c, rowLength, colLength);
+        free(c.data); // We change the result of c
         initMatrix(&d, rowLength, colLength);
+        free(d.data); // We change the result of d
         initMatrix(&e, rowLength, colLength);
         puts("Matrix to be transposed");
         printMatrix(&e);
+
+        initMatrix(&f, 3, 1);
+        initMatrix(&g, 3, 1);
+        puts("f matrix for inner product:");
+        printMatrix(&f);
+        puts("g matrix for inner product:");
+        printMatrix(&g);
+
+        initMatrix(&h, 4, 4);
+        initMatrix(&i, 4, 4);
+        puts("h matrix for matrix multiplication:");
+        printMatrix(&h);
+        puts("i matrix for matrix multiplication:");
+        printMatrix(&i);
+        initMatrix(&j, 4, 4);
+        free(j.data); // We change the result of j
     } else {
         a.rows = b.rows = c.rows = rowLength;
         a.cols = b.cols = c.cols = colLength;
+        f.rows = g.rows = 3;
+        f.cols = g.cols = 1;
+        h.rows = i.rows = j.rows = 4;
+        h.cols = i.cols = j.cols = 4;
     }
    
 
@@ -65,8 +98,22 @@ int main(int argc, char** argv) {
         puts("Transposed Matrix:");
         Matrix tmp;
         initMatrix(&tmp, colLength, rowLength);
+        free(tmp.data);
         tmp.data = transpose(&e);
         printMatrix(&tmp);
+        free(tmp.data);
+        free(e.data);
+    }
+
+    double innerProdResult = innerProduct(&f, &g, &world, worldSize, myRank);
+    if (myRank == 0) {
+        printf("The inner product result is %f\n", innerProdResult);
+    }
+
+    j.data = multMatrices(&h, &i, &world, worldSize, myRank);
+    if (myRank == 0) {
+        puts("Matrix Mult Answer:");
+        printMatrix(&j);
     }
 
     MPI_Finalize(); // Wrap everything up
@@ -77,6 +124,10 @@ int main(int argc, char** argv) {
     }
     free(c.data);
     free(d.data);
+    free(f.data);
+    free(g.data);
+    free(h.data);
+    free(i.data);
 
     return 0;
 }

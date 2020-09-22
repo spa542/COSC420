@@ -61,11 +61,6 @@ double* addMatrices(Matrix *a, Matrix *b, MPI_Comm *world, int worldSize, int my
     nextLength = Varray[j];
   }
 
-  /*for(j=0; j<worldSize; j++){
-    printf("%d ", Varray[j]);
-  }
-  puts("");*/
-  
   int matLen = Varray[myRank]; // Each nodes divied up array sizes
   double* rtn = NULL; // For the root node to initialize
   if(myRank == 0 ) // Root node will initialize the return array
@@ -118,7 +113,6 @@ double* subtractMatrices(Matrix *a, Matrix *b, MPI_Comm *world, int worldSize, i
     displacement[j] = displacement[j - 1] + nextLength;
     nextLength = Varray[j];
   }
-
   
   int matLen = Varray[myRank]; // Each nodes divied up array sizes
   double* rtn = NULL; // For the root node to initialize
@@ -148,8 +142,51 @@ double* subtractMatrices(Matrix *a, Matrix *b, MPI_Comm *world, int worldSize, i
 }
 
 // Does matrix multiplication 
-void multMatrices(Matrix *a, Matrix *b, MPI_Comm *world, int worldSize, int myRank) {
+double* multMatrices(Matrix *a, Matrix *b, MPI_Comm *world, int worldSize, int myRank) {
+    if (a->cols != b->rows) {
+        puts("WRONG, dimensions do not match matrix multiplication formula");
+        return NULL;
+    }
 
+    
+    double* rtn = NULL;
+    if (myRank == 0) {
+        rtn = (double*)malloc(a->rows*b->cols*sizeof(double));
+    }
+    Matrix atmp; // Holds the vector of current row of A
+    Matrix btmp; // Holds the vector of current column of B
+
+    initMatrix(&atmp, 1, a->cols);
+    initMatrix(&btmp, b->rows, 1);
+    // Start the process
+    int i, j, l;
+    for (i = 0; i < a->rows; i++) {
+        for (j = 0; j < b->cols; j++) {
+            // Copy over the current row of A
+            if (myRank == 0) {
+                for (l = 0; l < a->cols; l++) {
+                    atmp.data[l] = ACCESS(a,i,l);
+                }
+            }
+            // Copy over the current row of B
+            if (myRank == 0) {
+                for (l = 0; l < b->rows; l++) {
+                    btmp.data[l] = ACCESS(b,l,j);
+                }
+            }
+            double innerProd = innerProduct(&atmp, &btmp, world, worldSize, myRank);
+            if (myRank == 0) {
+                rtn[INDEX(b,i,j)] = innerProd;
+            }
+        }
+    }
+
+    // Free the tmp arrays before we leave
+    free(atmp.data);
+    free(btmp.data);
+
+    // Return the result
+    return rtn;
 }
 
 // Transposes the given matrix
@@ -173,6 +210,67 @@ double* transpose(Matrix* a) {
 }
 
 // Calculates the inner product of two matrices
-void innerProduct(Matrix *a, Matrix *b, MPI_Comm *world, int worldSize, int myRank) {
+// MUST ENTER COLUMN VECTORS!!!!
+double innerProduct(Matrix *a, Matrix *b, MPI_Comm *world, int worldSize, int myRank) {
+    if (a->rows != 1 && a->cols != 1) {
+        puts("A matrix is not a vector");
+        return -99999;
+    }
+    if (b->rows != 1 && b->cols != 1) {
+        puts("B matrix is not a vector");
+        return -99999;
+    }
+    if (a->rows*a->cols != b->rows*b->cols) {
+        puts("Matrices are not the same length");
+        return -99999;
+    }
+     
+    int length = a->rows * a->cols;
+    int Varray[worldSize];
+    int displacement[worldSize];
+    int j;
+    // Initialize Varray sizes
+    for(j=0; j<(worldSize); j++){
+        Varray[j] = length / worldSize;
+    }
+    // Pick up any stragglers
+    for(j=0; j<(length % worldSize); j++){
+        Varray[j] += 1;
+    }
+    // Initialize displacement array using Varray values
+    int nextLength = 0;
+    for (j = 0; j < worldSize; j++) {
+        if (j == 0){
+            displacement[j] = 0;
+            nextLength = Varray[j];
+            continue;
+        }
+        displacement[j] = displacement[j - 1] + nextLength;
+        nextLength = Varray[j];
+    }
+  
+    int matLen = Varray[myRank]; // Each nodes divied up array sizes
+    double rtnResult = 0; // Final answer
+    
+    // Local matrix for A
+    double* local_matA = (double*) malloc(matLen*sizeof(double));
+    // Local matrix for B
+    double* local_matB = (double*) malloc(matLen*sizeof(double));
+    MPI_Scatterv(a->data, Varray, displacement, MPI_DOUBLE, local_matA, matLen, MPI_DOUBLE, 0, *world);
+    MPI_Scatterv(b->data, Varray, displacement, MPI_DOUBLE, local_matB, matLen, MPI_DOUBLE, 0, *world);
 
+    double sum = 0;
+    for (j = 0; j < matLen; j++) {
+        sum += local_matA[j] * local_matB[j]; 
+    }
+
+    // Sum the remaining sums
+    MPI_Reduce(&sum, &rtnResult, 1, MPI_DOUBLE, MPI_SUM, 0, *world);
+
+    free(local_matA);
+    free(local_matB);
+    if (myRank == 0) {
+        return rtnResult;
+    }
+    return -1;
 }

@@ -30,10 +30,10 @@ double* addMatrices(Matrix*, Matrix*, MPI_Comm*, int, int);
 // Subtraction of matrices
 double* subtractMatrices(Matrix*, Matrix*, MPI_Comm*, int, int);
 // Multiplication of matrices
-void multMatrices(Matrix*, Matrix*, MPI_Comm*, int, int);
+double* multMatrices(Matrix*, Matrix*, MPI_Comm*, int, int);
 // Transpose of matrix
 double* transpose(Matrix*);
 // Inner Product of two matrices
-void innerProduct(Matrix*, Matrix*, MPI_Comm*, int, int);
+double innerProduct(Matrix*, Matrix*, MPI_Comm*, int, int);
 
 #endif // _MATRIX_H_
