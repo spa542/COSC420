@@ -9,9 +9,11 @@ COSC 420-001
  
 
 ## Lab Description:
-  1. Develop familiarity with C programming language
-  2. Develop familiarity with parallel computing tools MPICH and OpenMPI
-  3. Explore empirical tests for program efficiency in terms of parallel computation and resources
+This lab demonstrates parallel matrix functions. We implemented every basic
+matrix operation such as addition, subtraction, multiplication, and inner 
+product with the help of parallel computing. These functions go beyond
+basic functionality by using MPICH to divide up our matrices during 
+computation in order to make our functions faster.
 
 ## Questions:
 
