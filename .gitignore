@@ -42,6 +42,9 @@
 *.idb
 *.pdb
 
+#HPCL made junk
+.nfs*
+
 # Kernel Module Compile Results
 *.mod*
 *.cmd
