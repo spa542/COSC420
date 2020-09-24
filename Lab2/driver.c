@@ -78,6 +78,7 @@ int main(int argc, char** argv){
 
 
     //Testing Inner Product
+    /*
     int ArowLength = 1;
     int AcolLength = DIMENSION;
     int BrowLength = DIMENSION;
@@ -99,7 +100,7 @@ int main(int argc, char** argv){
         free(A.data);
         free(B.data);
     }
-    
+    */ 
 
 
 
