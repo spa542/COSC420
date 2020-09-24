@@ -214,15 +214,15 @@ double* transpose(Matrix* a) {
 double innerProduct(Matrix *a, Matrix *b, MPI_Comm *world, int worldSize, int myRank) {
     if (a->rows != 1 && a->cols != 1) {
         puts("A matrix is not a vector");
-        return -99999;
+        return -31999;
     }
     if (b->rows != 1 && b->cols != 1) {
         puts("B matrix is not a vector");
-        return -99999;
+        return -31999;
     }
     if (a->rows*a->cols != b->rows*b->cols) {
         puts("Matrices are not the same length");
-        return -99999;
+        return -31999;
     }
      
     int length = a->rows * a->cols;

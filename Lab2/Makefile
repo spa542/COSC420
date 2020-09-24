@@ -1,4 +1,4 @@
-main: main.o matrix.o
+main: main.o matrix.o driver
 	mpicc -o main main.o matrix.o -g
 driver: driver.o matrix.o
 	mpicc -o driver driver.o matrix.o -g
