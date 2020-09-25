@@ -1,4 +1,8 @@
-main: main.c
-	mpicc -o main main.c -g
+main: main.o stack.o
+	mpicc -o main main.o stack.o -g
+main.o: main.c stack.c
+	mpicc -c main.c -g
+stack.o: stack.c stack.h
+	mpicc -c stack.c -g
 clean:
 	rm -f *.o main
