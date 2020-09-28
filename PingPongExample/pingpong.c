@@ -27,7 +27,7 @@ int main(int argc, char** argv) {
             MPI_Send(&token, 1, MPI_INT, (myRank + 1) % 2, 0, world);    
         } else {
             MPI_Recv(&token, 1, MPI_INT, (myRank + 1) % 2, 0, world, MPI_STATUS_IGNORE);
-            printf("Proc %d sent %d to %d\n", myRank, token, (myRank + 1) % 2);
+            printf("Proc %d received %d from %d\n", myRank, token, (myRank + 1) % 2);
         }
     }
 
