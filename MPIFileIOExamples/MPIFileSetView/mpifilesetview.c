@@ -49,7 +49,7 @@ int main(int argc, char** argv) {
 
     // This is the command to see the contents of the datafile
     // hexdump -v -e '5/4 "%3d"' -e '"\n"' datafile
-    MPI_File_write(fh, buf, N, MPI_INT, MPI_STATUS_IGNORE); // Write to the file normally, set view has the displacements already set up
+    MPI_File_write(fh, nums, N, MPI_INT, MPI_STATUS_IGNORE); // Write to the file normally, set view has the displacements already set up
      
     MPI_File_close(&fh); // Close the file after use
 
