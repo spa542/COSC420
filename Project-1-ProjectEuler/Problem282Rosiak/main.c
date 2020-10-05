@@ -11,7 +11,18 @@
 unsigned long long knuthArrow(unsigned long long a, unsigned long long b) {
     a %= reduce;
     b %= reduce;
-    return ((unsigned long long)pow(a, b)) % reduce;
+    //return ((unsigned long long)pow(a, b)) % reduce;
+
+    unsigned long long n = a;
+    int limit = 0;
+    while (limit < b) {
+        if (n > reduce) {
+            n %= reduce;
+        }
+        n *= a;
+        limit++;
+    }
+    return n;
 }
 
 // Ackermann function using closed forms
@@ -88,6 +99,22 @@ int main(int argc, char** argv) {
     printf("A(4,3) = %lld\n", ack(4,3));
 
     printf("A(4,4) = %lld\n", ack(4,4));
+
+    //printf("A(5,5) = %lld\n", ack(5,5));
+
+    //printf("A(6,6) = %lld\n", ack(6,6));
+
+    unsigned long long sum = 0, tmp = 0;
+    int i;
+    for (i = 0; i <= 6; i++) {
+        if (i == 0) {
+            sum = ack(i,i);
+        } else {
+            tmp = (sum % reduce) + (ack(i,i) % reduce);
+            sum = tmp % reduce;
+        }
+    }
+    printf("sum: %lld\n", sum % reduce);
 
     MPI_Finalize();
 
