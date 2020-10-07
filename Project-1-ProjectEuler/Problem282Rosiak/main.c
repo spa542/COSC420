@@ -105,7 +105,6 @@ unsigned long long ack(unsigned long long m, unsigned long long n) {
 int main(int argc, char** argv) {
 
     MPI_Init(&argc, &argv);
-
     //stackPtr newptr = NULL; // Declare a pointer that starts the top of the stack
    /* 
     printf("2up->4 = %lld\n", knuthArrow(2,4));
@@ -121,7 +120,6 @@ int main(int argc, char** argv) {
     printf("A(4,1) = %lld\n", ack(4,1));
     printf("A(4,2) = %lld\n", ack(4,2));
     printf("A(4,3) = %lld\n", ack(4,3));
-    */
     printf("A(0,0) = %lld\n", ack(0,0));
 
     printf("A(1,1) = %lld\n", ack(1,1));
@@ -135,7 +133,7 @@ int main(int argc, char** argv) {
     printf("A(5,5) = %lld\n", ack(5,5));
 
     printf("A(6,6) = %lld\n", ack(6,6));
-    /*
+
     unsigned long long sum = 0;
     int i;
     for (i = 0; i <= 6; i++) {
