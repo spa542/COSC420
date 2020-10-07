@@ -1,5 +1,6 @@
 #include<stdio.h> // I/O
 #include<stdlib.h> // Standard library
+#include<unistd.h> // sleep
 #include<mpi.h> // MPI Library
 #include<stdbool.h> // bool
 #include<math.h> // Math functions
@@ -48,7 +49,7 @@ unsigned long long knuthArrow3(unsigned long long a, unsigned long long b) {
     printf("Copies knuth arrow 3 = %lld\n", copies);
     unsigned long long limit = 0;
     unsigned long long n = a;
-    while (limit < copies) {
+    while (limit < copies - 1) {
         if (n > reduce) {
             n %= reduce;
         }
@@ -79,39 +80,6 @@ unsigned long long knuthArrow4(unsigned long long a, unsigned long long b) {
 
 // Ackermann function using closed forms
 unsigned long long ack(unsigned long long m, unsigned long long n) {
-    //m %= reduce; // reduce the number by mod 14^8
-    //n %= reduce; // reduce the number by mod 14^8
-    /*
-    push(top, m);
-    while(count(top) != 0) {
-        m = pop(top);
-      skipStack:
-        if (m == 0) {
-            n = ((n % reduce) + (1 % reduce)) % reduce;
-        } else if (m == 1) {
-            n = ((n % reduce) + (2 % reduce)) % reduce;
-        } else if (m == 2) {
-            n = 2 * n + 3;
-        } else if (m == 3) {
-            n = pow(2, n + 3) - 3;
-        } else if (m == 4) {
-            n = knuthArrow(2, knuthArrow(2, n + 3)) - 3; 
-        } else if (m == 5) {
-            n = knuthArrow(2, knuthArrow(2, knuthArrow(2, n + 3))) - 3; 
-        } else {
-            n = knuthArrow(2, knuthArrow(2, knuthArrow(2, knuthArrow(2, n + 3)))) - 3; 
-        }
-        } else if (n == 0) {
-            --m;
-            n = 1;
-            goto skipStack;
-        } else {
-            push(top, m - 1);
-            --n;
-            goto skipStack;
-        }
-    }
-    */
     if (m == 0) {
         n += 1;
         n %= reduce;
@@ -144,7 +112,6 @@ int main(int argc, char** argv) {
     printf("2up->up->4 = %lld\n", knuthArrow2(2,4));
     printf("2up->up->up->4 = %lld\n", knuthArrow3(2,4));
     printf("2up->up->up->up->4 = %lld\n", knuthArrow4(2,4));
-
     printf("A(1,0) = %lld\n", ack(1,0));
 
     printf("A(2,2) = %lld\n", ack(2,2));
@@ -154,13 +121,21 @@ int main(int argc, char** argv) {
     printf("A(4,1) = %lld\n", ack(4,1));
     printf("A(4,2) = %lld\n", ack(4,2));
     printf("A(4,3) = %lld\n", ack(4,3));
+    */
+    printf("A(0,0) = %lld\n", ack(0,0));
+
+    printf("A(1,1) = %lld\n", ack(1,1));
+
+    printf("A(2,2) = %lld\n", ack(2,2));
+
+    printf("A(3,3) = %lld\n", ack(3,3));
 
     printf("A(4,4) = %lld\n", ack(4,4));
 
     printf("A(5,5) = %lld\n", ack(5,5));
 
     printf("A(6,6) = %lld\n", ack(6,6));
-    */
+    /*
     unsigned long long sum = 0;
     int i;
     for (i = 0; i <= 6; i++) {
@@ -168,6 +143,7 @@ int main(int argc, char** argv) {
     }
     sum %= reduce;
     printf("sum: %lld\n", sum);
+    */
 
     MPI_Finalize();
 
