@@ -32,7 +32,7 @@ void printMatrix(Matrix *a) {
 double* addMatrices(Matrix *a, Matrix *b, MPI_Comm *world, int worldSize, int myRank) {
     if (a->rows != b->rows && a->cols != b->cols) {
         puts("Wrong dimensions");
-        return 99999;
+        return NULL;
     }
     //We need to utilize all the nodes given by adding the scatterv and gatherv so that 
     //we can make certainn nodes get more stuff to do than other nodes
@@ -96,7 +96,7 @@ double* addMatrices(Matrix *a, Matrix *b, MPI_Comm *world, int worldSize, int my
 double* subtractMatrices(Matrix *a, Matrix *b, MPI_Comm *world, int worldSize, int myRank) {
     if (a->rows != b->rows && a->cols != b->cols) {
         puts("Wrong dimensions");
-        return 99999;
+        return NULL;
     }
     int length = a->rows * a->cols;
     int Varray[worldSize];
@@ -285,7 +285,7 @@ double innerProduct(Matrix *a, Matrix *b, MPI_Comm *world, int worldSize, int my
 
 //  Gauss-Jordan Inverse algorithm only works for square matriciesies where 
 //  A * A.T = I
-double* inverse(Matrix *a, MPI_Comm* world, int worldSize, int myRank){
+/*double* inverse(Matrix *a, MPI_Comm* world, int worldSize, int myRank){
     int i;
     if(myRank == 0){
         if(a->rows != a->cols){
@@ -307,7 +307,7 @@ double* inverse(Matrix *a, MPI_Comm* world, int worldSize, int myRank){
     
     }      
 
-}
+*/}
 
 
 
