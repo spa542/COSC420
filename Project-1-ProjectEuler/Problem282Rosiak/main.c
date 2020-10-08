@@ -106,6 +106,17 @@ unsigned long long ack(unsigned long long m, unsigned long long n) {
 int main(int argc, char** argv) {
 
     MPI_Init(&argc, &argv);
+
+    BigInteger* a = makeBigIntStr("1000000000000000000000000");
+    BigInteger* b = makeBigIntStr("2000");
+
+    BigInteger* c = c_mult(a, b);
+
+    printf("%s\n", c_str(c));
+
+    destroy(a);
+    destroy(b);
+    destroy(c);
     //stackPtr newptr = NULL; // Declare a pointer that starts the top of the stack
    /* 
     printf("2up->4 = %lld\n", knuthArrow(2,4));

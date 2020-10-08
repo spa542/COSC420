@@ -506,6 +506,9 @@ extern "C" {
         }
         return 0;
     }
+    extern void destroy(BigInteger* a) {
+        delete a;
+    }
 #else
     extern BigInteger* c_pp(BigInteger* a);
     extern BigInteger* c_add(BigInteger* a, BigInteger* b);
@@ -518,6 +521,7 @@ extern "C" {
     extern const char* c_str(BigInteger* a);
     extern int c_eqeq(BigInteger* a, BigInteger* b);
     extern int c_leeq(BigInteger* a, BigInteger* b);
+    extern void destroy(BigInteger* a);
 #endif
 
 #ifdef __cplusplus

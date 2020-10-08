@@ -1,6 +1,6 @@
-main: main.o stack.o
-	g++ -o main main.o stack.o BigIntegerSingleFile.o -g -lm
-main.o: main.c stack.c
+main: main.o stack.o BigIntegerSingleFile.o
+	./mpipp -o main main.o stack.o BigIntegerSingleFile.o -g -lm
+main.o: main.c stack.h
 	mpicc -c main.c -g
 BigIntegerSingleFile.o: BigIntegerSingleFile.cpp
 	g++ -c BigIntegerSingleFile.cpp -g
