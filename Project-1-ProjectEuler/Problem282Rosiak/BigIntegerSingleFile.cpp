@@ -462,8 +462,20 @@ extern "C" {
       BigInteger rtn_o = *a + *b;
       return new BigInteger(string(rtn_o));
     }
+    extern BigInteger* c_sub(BigInteger* a, BigInteger* b){
+      BigInteger rtn_o = *a - *b;
+      return new BigInteger(string(rtn_o));
+    }
     extern BigInteger* c_mult(BigInteger* a, BigInteger* b){
       BigInteger rtn_o = (*a)*(*b);
+      return new BigInteger(string(rtn_o));
+    }
+    extern BigInteger* c_mod(BigInteger* a, BigInteger* b){
+      BigInteger rtn_o = (*a)%(*b);
+      return new BigInteger(string(rtn_o));
+    }
+    extern BigInteger* c_div(BigInteger* a, BigInteger* b){
+      BigInteger rtn_o = (*a)/(*b);
       return new BigInteger(string(rtn_o));
     }
     extern BigInteger* makeBigInt(int n){
@@ -477,12 +489,35 @@ extern "C" {
       const char* rtn = string(*a).c_str();
       return rtn;
     }
+    extern int c_eqeq(BigInteger* a, BigInteger* b){
+        if((*a) == (*b)){
+            return 1;
+        }
+        return 0;
+    }
+    extern BigInteger* c_pp(BigInteger* a){
+        (*a)++;  
+        BigInteger rtn_o = (*a);
+        return new BigInteger(string(rtn_o));
+    }
+    extern int c_leeq(BigInteger* a, BigInteger* b){
+        if((*a) <= (*b)){
+            return 1;
+        }
+        return 0;
+    }
 #else
+    extern BigInteger* c_pp(BigInteger* a);
     extern BigInteger* c_add(BigInteger* a, BigInteger* b);
+    extern BigInteger* c_sub(BigInteger* a, BigInteger* b);
     extern BigInteger* c_mult(BigInteger* a, BigInteger* b);
+    extern BigInteger* c_mod(BigInteger* a, BigInteger* b);
+    extern BigInteger* c_div(BigInteger* a, BigInteger* b);
     extern BigInteger* makeBigInt(int n);
     extern BigInteger* makeBigIntStr(const char*);
     extern const char* c_str(BigInteger* a);
+    extern int c_eqeq(BigInteger* a, BigInteger* b);
+    extern int c_leeq(BigInteger* a, BigInteger* b);
 #endif
 
 #ifdef __cplusplus

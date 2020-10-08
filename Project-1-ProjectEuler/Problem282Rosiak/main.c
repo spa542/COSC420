@@ -5,6 +5,7 @@
 #include<stdbool.h> // bool
 #include<math.h> // Math functions
 #include"stack.h" // Stack functions
+#include"BigIntegerSingleFile.cpp" // Big Int library in c++
 
 #define reduce 1475789056
 
