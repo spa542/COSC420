@@ -146,8 +146,13 @@ BigInteger* knuthArrow4(BigInteger* a, BigInteger* b) {
     BigInteger* n = makeBigIntStr("1");
     BigInteger* limit = makeBigIntStr("0");
     BigInteger* one = makeBigIntStr("1");
+    BigInteger* mod = makeBigIntStr("1475789056");
     while (c_lt(limit,copies)) { 
         tmp = c_mult(n,a); 
+        destroy(n);
+        n = tmp;
+
+        tmp = c_mod(n,mod);
         destroy(n);
         n = tmp;
 
@@ -156,6 +161,7 @@ BigInteger* knuthArrow4(BigInteger* a, BigInteger* b) {
         limit = tmp2;
     }
     tmp = tmp2 = NULL;
+    destroy(mod);
 
     printf("Result of knuth arrow 4: %s\n", c_str(n));
     return n;
