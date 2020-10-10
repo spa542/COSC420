@@ -515,6 +515,12 @@ extern "C" {
         }
         return 0;
     }
+    extern int c_gt(BigInteger* a, BigInteger* b) {
+        if ((*a) > (*b)) {
+            return 1;
+        }
+        return 0;
+    }
     extern void destroy(BigInteger* a) {
         delete a;
     }
@@ -531,6 +537,7 @@ extern "C" {
     extern int c_eqeq(BigInteger* a, BigInteger* b);
     extern int c_leeq(BigInteger* a, BigInteger* b);
     extern int c_lt(BigInteger* a, BigInteger* b);
+    extern int c_gt(BigInteger* a, BigInteger* b);
     extern void destroy(BigInteger* a);
 #endif
 
