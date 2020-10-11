@@ -150,8 +150,22 @@ BigInteger* knuthArrow3(BigInteger* a, BigInteger* b, MPI_Comm* world, int world
     BigInteger* atmp = makeBigIntStr(c_str(a));
     BigInteger* btmp = makeBigIntStr(c_str(b));
     BigInteger* copies = knuthArrow2(atmp,btmp);
+    BigInteger* ws = makeBigInt(worldSize); // BigInt worldSize
 
+    BigInteger* local_num = makeBigIntStr(c_str(c_div(copies, ws)));
+    if (myRank == 0) {
+        BigInteger* remainder = makeBigIntStr(c_str(c_mod(copies, ws)));
+        BigInteger* temp = c_add(local_num, remainder);
+        destroy(local_num);
+        local_num = temp;
+        destroy(remainder);
+    }
+    printf("Node %d has a local_num of size %s\n", myRank, c_str(local_num));
 
+    printf("Node %d here!\n", myRank);
+    local_num = powIter(atmp, local_num);
+
+    // TODO: Now create a large array on root and use gather
 
     BigInteger* n = powIter(atmp, copies);
     //printf("Result of knuth arrow 3: %s\n", c_str(n));
@@ -162,8 +176,20 @@ BigInteger* knuthArrow4(BigInteger* a, BigInteger* b, MPI_Comm* world, int world
     BigInteger* atmp = makeBigIntStr(c_str(a));
     BigInteger* btmp = makeBigIntStr(c_str(b));
     BigInteger* copies = knuthArrow3(atmp,btmp, world, worldSize, myRank);
+    BigInteger* ws = makeBigInt(worldSize); // BigInt worldSize
 
+    BigInteger* local_num = makeBigIntStr(c_str(c_div(copies, ws)));
+    if (myRank == 0) {
+        BigInteger* remainder = makeBigIntStr(c_str(c_mod(copies, ws)));
+        BigInteger* temp = c_add(local_num, remainder);
+        destroy(local_num);
+        local_num = temp;
+        destroy(remainder);
+    }
 
+    local_num = powIter(atmp, local_num);
+
+    // TODO: Now create a large array on root and use gather
 
     BigInteger* n = powIterMod(atmp, copies);
     //printf("Result of knuth arrow 4: %s\n", c_str(n));
@@ -211,30 +237,34 @@ BigInteger* ack(BigInteger* mt, BigInteger* nt, MPI_Comm* world, int worldSize, 
         temp = temp2;
     } else if (c_eqeq(m, five)) {
         temp = knuthArrow3(two, nplus3, world, worldSize, myRank);
-        temp2 = c_mod(temp, reduce);
-        destroy(temp);
-        temp = temp2;
+        if (myRank == 0) {
+            temp2 = c_mod(temp, reduce);
+            destroy(temp);
+            temp = temp2;
 
-        temp2 = c_sub(temp, three);
-        destroy(temp);
-        temp = temp2;
-        
-        temp2 = c_mod(temp, reduce);
-        destroy(temp);
-        temp = temp2;
+            temp2 = c_sub(temp, three);
+            destroy(temp);
+            temp = temp2;
+            
+            temp2 = c_mod(temp, reduce);
+            destroy(temp);
+            temp = temp2;
+        }
     } else if (c_eqeq(m, six)) {
-        temp = knuthArrow4(two, nplus3, world, worldSize, myRank);
-        temp2 = c_mod(temp, reduce);
-        destroy(temp);
-        temp = temp2;
+            temp = knuthArrow4(two, nplus3, world, worldSize, myRank);
+        if (myRank == 0) {
+            temp2 = c_mod(temp, reduce);
+            destroy(temp);
+            temp = temp2;
 
-        temp2 = c_sub(temp, three);
-        destroy(temp);
-        temp = temp2;
-        
-        temp2 = c_mod(temp, reduce);
-        destroy(temp);
-        temp = temp2;
+            temp2 = c_sub(temp, three);
+            destroy(temp);
+            temp = temp2;
+            
+            temp2 = c_mod(temp, reduce);
+            destroy(temp);
+            temp = temp2;
+        }
     }
     destroy(m);
     destroy(n);
