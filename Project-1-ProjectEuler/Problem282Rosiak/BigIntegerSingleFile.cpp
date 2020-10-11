@@ -524,6 +524,9 @@ extern "C" {
     extern void destroy(BigInteger* a) {
         delete a;
     }
+    extern void del_str(char* a) {
+        delete [] a;
+    }
 #else
     extern BigInteger* c_pp(BigInteger* a);
     extern BigInteger* c_add(BigInteger* a, BigInteger* b);
@@ -539,6 +542,7 @@ extern "C" {
     extern int c_lt(BigInteger* a, BigInteger* b);
     extern int c_gt(BigInteger* a, BigInteger* b);
     extern void destroy(BigInteger* a);
+    extern void del_str(char* a);
 #endif
 
 #ifdef __cplusplus

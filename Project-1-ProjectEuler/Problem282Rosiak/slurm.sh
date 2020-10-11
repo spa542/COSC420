@@ -1,9 +1,10 @@
 #!/bin/sh
 
-#SBATCH --job-name=myproject
-#SBATCH --ntasks=30         # will run with -n 30 tasks
-#SBATCH --mem=2gb
-#SBATCH --tim-00:05:00      # Time limit in the form hh:mm::ss
+#SBATCH --job-name=RosiakProject1Prob282
+#SBATCH --nodes=3
+#SBATCH --ntasks-per-node=20        # will run with -n 150 tasks
+#SBATCH --mem=4gb
+#SBATCH --time=00:15:00      # Time limit in the form hh::mm::ss
 #SBATCH --output=out/%j.log
 
 module load mpi/mpich-3.2-x86_64

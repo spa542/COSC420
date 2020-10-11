@@ -4,6 +4,7 @@
 #include<mpi.h> // MPI Library
 #include<stdbool.h> // bool
 #include<math.h> // Math functions
+#include<string.h> // String functions
 #include"BigIntegerSingleFile.cpp" // Big Int library in c++
 
 #define reducer 1475789056
@@ -162,14 +163,54 @@ BigInteger* knuthArrow3(BigInteger* a, BigInteger* b, MPI_Comm* world, int world
     }
     printf("Node %d has a local_num of size %s\n", myRank, c_str(local_num));
 
-    printf("Node %d here!\n", myRank);
+    //printf("Node %d here!\n", myRank);
     local_num = powIter(atmp, local_num);
+    printf("Node %d local_num is %s\n", myRank, c_str(local_num));
 
-    // TODO: Now create a large array on root and use gather
+    int numLength[worldSize];
+    char* ree = c_str(local_num);
+    int ln = strlen(ree);
+    del_str(ree);
+    MPI_Allgather(&ln, 1, MPI_INT, numLength, 1, MPI_INT, *world);
+    int disp[worldSize];
+    int i;
+    int nextLength = 0;
+    for (i = 0; i < worldSize; i++) {
+        disp[i] = nextLength;
+        nextLength += numLength[i];
+    }
+    const char* local_num_str = c_str(local_num);
+    char* collector = NULL;
+    if (myRank == 0) {
+        collector = (char*)malloc(nextLength*sizeof(char)); 
+    }
+    MPI_Gatherv(local_num_str, numLength[myRank], MPI_CHAR, collector, numLength, disp, MPI_CHAR, 0, *world);
 
-    BigInteger* n = powIter(atmp, copies);
+    destroy(local_num); 
+    BigInteger* finalNum = NULL;
+    char* rtnMe = NULL;
+    if (myRank == 0) {
+        BigInteger* collector2[worldSize];
+        for (i = 0; i < worldSize; i++) {
+            char num[numLength[i] + 1];
+            strncpy(num, collector + disp[i], numLength[i]);
+            collector2[i] = makeBigIntStr(num);
+        }
+
+        BigInteger* temp = NULL; 
+        finalNum = makeBigIntStr("0");
+        for (i = 0; i < worldSize; i++) {
+            temp = c_add(collector2[i], finalNum);
+            destroy(finalNum);
+            finalNum = temp;
+        }
+        rtnMe = c_str(finalNum);
+    }
+    MPI_Bcast(rtnMe, 1, MPI_CHAR, 0, *world);
+    BigInteger* rtn = makeBigIntStr(rtnMe);
+    //BigInteger* n = powIter(atmp, copies);
     //printf("Result of knuth arrow 3: %s\n", c_str(n));
-    return n;
+    return rtn;
 }
 
 BigInteger* knuthArrow4(BigInteger* a, BigInteger* b, MPI_Comm* world, int worldSize, int myRank) {
@@ -189,11 +230,56 @@ BigInteger* knuthArrow4(BigInteger* a, BigInteger* b, MPI_Comm* world, int world
 
     local_num = powIter(atmp, local_num);
 
-    // TODO: Now create a large array on root and use gather
+    printf("Node %d has a local_num of size %s\n", myRank, c_str(local_num));
 
-    BigInteger* n = powIterMod(atmp, copies);
-    //printf("Result of knuth arrow 4: %s\n", c_str(n));
-    return n;
+    //printf("Node %d here!\n", myRank);
+    local_num = powIter(atmp, local_num);
+    printf("Node %d local_num is %s\n", myRank, c_str(local_num));
+
+    int numLength[worldSize];
+    char* ree = c_str(local_num);
+    int ln = strlen(ree);
+    del_str(ree);
+    MPI_Allgather(&ln, 1, MPI_INT, numLength, 1, MPI_INT, *world);
+    int disp[worldSize];
+    int i;
+    int nextLength = 0;
+    for (i = 0; i < worldSize; i++) {
+        disp[i] = nextLength;
+        nextLength += numLength[i];
+    }
+    const char* local_num_str = c_str(local_num);
+    char* collector = NULL;
+    if (myRank == 0) {
+        collector = (char*)malloc(nextLength*sizeof(char)); 
+    }
+    MPI_Gatherv(local_num_str, numLength[myRank], MPI_CHAR, collector, numLength, disp, MPI_CHAR, 0, *world);
+
+    destroy(local_num); 
+    BigInteger* finalNum = NULL;
+    char* rtnMe = NULL;
+    if (myRank == 0) {
+        BigInteger* collector2[worldSize];
+        for (i = 0; i < worldSize; i++) {
+            char num[numLength[i] + 1];
+            strncpy(num, collector + disp[i], numLength[i]);
+            collector2[i] = makeBigIntStr(num);
+        }
+
+        BigInteger* temp = NULL; 
+        finalNum = makeBigIntStr("0");
+        for (i = 0; i < worldSize; i++) {
+            temp = c_add(collector2[i], finalNum);
+            destroy(finalNum);
+            finalNum = temp;
+        }
+        rtnMe = c_str(finalNum);
+    }
+    MPI_Bcast(rtnMe, 1, MPI_CHAR, 0, *world);
+    BigInteger* rtn = makeBigIntStr(rtnMe);
+    //BigInteger* n = powIter(atmp, copies);
+    //printf("Result of knuth arrow 3: %s\n", c_str(n));
+    return rtn;
 }
 
 // Ackermann function using closed forms

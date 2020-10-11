@@ -3,3 +3,12 @@ COSC 420-001
 Project 1 Problem 282
 10/11/20
 
+The Ackermann Function:
+The Ackermann Function is one of the fastest growing functions ever. It involves
+two inputs where it the function will recursively call itself over and over again
+until it brings each input to 0. This function grows so large, that numbers where
+inputs are 4,4 and higher get into over 10000 digits long. This is a large task to 
+deal with. My solution is described below.
+
+Solution:
+
