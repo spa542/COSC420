@@ -8,6 +8,8 @@
 
 #ifdef __cplusplus
 
+#include <string.h>
+#include <stdio.h>
 #include <iostream>
 #include <string>
 #include <sstream>
@@ -458,25 +460,27 @@ extern "C" {
 #endif
 
 #if defined(__cplusplus)
-    extern BigInteger* c_add(BigInteger* a, BigInteger* b){
-      BigInteger rtn_o = *a + *b;
-      return new BigInteger(string(rtn_o));
+    extern BigInteger* c__mod(BigInteger* a, BigInteger* b){
+        BigInteger rtn_o = (*a) % (*b);
+        return new BigInteger(string(rtn_o));
     }
-    extern BigInteger* c_sub(BigInteger* a, BigInteger* b){
-      BigInteger rtn_o = *a - *b;
-      return new BigInteger(string(rtn_o));
+  
+    extern void c_add(BigInteger* a, BigInteger* b){
+      *a += *b;
     }
-    extern BigInteger* c_mult(BigInteger* a, BigInteger* b){
-      BigInteger rtn_o = (*a)*(*b);
-      return new BigInteger(string(rtn_o));
+    extern void c_sub(BigInteger* a, BigInteger* b){
+      *a -= *b;
     }
-    extern BigInteger* c_mod(BigInteger* a, BigInteger* b){
-      BigInteger rtn_o = (*a)%(*b);
-      return new BigInteger(string(rtn_o));
+    extern void c_mult(BigInteger* a, BigInteger* b){
+      *a *= (*b);
+     
+      //printf("a: %s | b: %s | rtn_o: %s\n", string(*a).c_str(), string(*b).c_str(), string(rtn_o).c_str());
     }
-    extern BigInteger* c_div(BigInteger* a, BigInteger* b){
-      BigInteger rtn_o = (*a)/(*b);
-      return new BigInteger(string(rtn_o));
+    extern void c_mod(BigInteger* a, BigInteger* b){
+      *a %= (*b);
+    }
+    extern void c_div(BigInteger* a, BigInteger* b){
+      *a /= (*b);
     }
     extern BigInteger* makeBigInt(int n){
       return new BigInteger(n);
@@ -486,8 +490,10 @@ extern "C" {
     }
     extern const char* c_str(BigInteger* a){
       //std::cout << string(*a) << std::endl;
-      const char* rtn = string(*a).c_str();
-      return rtn;
+      //const char* rtn = string(*a).c_str();
+      char* rtn_o = new char [string(*a).length()+1];
+      strcpy(rtn_o, string(*a).c_str());
+      return rtn_o;
     }
     extern int c_eqeq(BigInteger* a, BigInteger* b){
         if((*a) == (*b)){
@@ -495,10 +501,8 @@ extern "C" {
         }
         return 0;
     }
-    extern BigInteger* c_pp(BigInteger* a){
-        (*a)++;  
-        BigInteger rtn_o = (*a);
-        return new BigInteger(string(rtn_o));
+    extern void c_pp(BigInteger* a){
+        (*a)++; 
     }
     extern int c_leeq(BigInteger* a, BigInteger* b){
         if((*a) <= (*b)){
@@ -506,18 +510,33 @@ extern "C" {
         }
         return 0;
     }
+    extern void del(BigInteger* a){
+        delete a;
+    }
+    extern void del_str(char* a){
+        delete [] a;
+    }
+    extern int c_greq(BigInteger* a, BigInteger* b){
+        if((*a) >= (*b))
+          return 1;
+        return 0;
+    }
 #else
-    extern BigInteger* c_pp(BigInteger* a);
+    extern void del_str(char*);
+    extern void del(BigInteger* a);
+    extern void c_pp(BigInteger* a);
     extern BigInteger* c_add(BigInteger* a, BigInteger* b);
     extern BigInteger* c_sub(BigInteger* a, BigInteger* b);
-    extern BigInteger* c_mult(BigInteger* a, BigInteger* b);
-    extern BigInteger* c_mod(BigInteger* a, BigInteger* b);
-    extern BigInteger* c_div(BigInteger* a, BigInteger* b);
+    extern void c_mult(BigInteger* a, BigInteger* b);
+    extern void c_mod(BigInteger* a, BigInteger* b);
+    extern BigInteger* c__mod(BigInteger* a, BigInteger* b);
+    extern void c_div(BigInteger* a, BigInteger* b);
     extern BigInteger* makeBigInt(int n);
     extern BigInteger* makeBigIntStr(const char*);
     extern const char* c_str(BigInteger* a);
     extern int c_eqeq(BigInteger* a, BigInteger* b);
     extern int c_leeq(BigInteger* a, BigInteger* b);
+    extern int c_greq(BigInteger* a, BigInteger* b);
 #endif
 
 #ifdef __cplusplus
