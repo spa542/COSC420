@@ -1,4 +1,11 @@
 #include"matrix.h"
+/*
+ *Through out thei progrma we used the chase size of the machine
+ *  we worked on to make the code more effiecient
+ *Our L1 cashe size was : 32k
+ *  Found using cat /sys/devices/system/cpu/cpu0/cache/index1/size
+ */
+static int cashe = 32000;
 
 // Initializes a "Matrix" struct with random values
 // MUST have rows and columns initialized or will seg fault
@@ -80,8 +87,16 @@ double* addMatrices(Matrix *a, Matrix *b, MPI_Comm *world, int worldSize, int my
     MPI_Scatterv(b->data, Varray, displacement, MPI_DOUBLE, local_matB, matLen, MPI_DOUBLE, 0, *world);
     // Each now has their needed a data and b data now to add them
     int i;
-    for(i=0; i<matLen; i++){
-    local_solution[i] = local_matA[i] + local_matB[i];
+    int matLenByte = matLen*sizeof(double);
+    int cash = (matLenByte/cashe);
+    if(matLenByte<cashe){
+        for(i=0; i<matLen; i++)
+           local_solution[i] = local_matA[i] + local_matB[i];
+    }else{
+        for(i=0; i<matLenByte*cash; i+=cash){
+          for(j=i; j<i+cash && j<matLen; j++)
+              local_solution[i] = local_matA[i] + local_matB[i]; 
+        }
     }
     // Gather all of the solutions back
     MPI_Gatherv(local_solution, matLen, MPI_DOUBLE, rtn, Varray, displacement, MPI_DOUBLE, 0, *world);
@@ -135,10 +150,18 @@ double* subtractMatrices(Matrix *a, Matrix *b, MPI_Comm *world, int worldSize, i
     double* local_matB = (double*) malloc(matLen*sizeof(double));
     MPI_Scatterv(a->data, Varray, displacement, MPI_DOUBLE, local_matA, matLen, MPI_DOUBLE, 0, *world);
     MPI_Scatterv(b->data, Varray, displacement, MPI_DOUBLE, local_matB, matLen, MPI_DOUBLE, 0, *world);
-    // Each now has their needed a data and b data now to add them
+    // Each now has their needed a data and b data now to add them 
     int i;
-    for(i=0; i<matLen; i++){
-    local_solution[i] = local_matA[i] - local_matB[i];
+    int matLenByte = matLen*sizeof(double);
+    int cash = (matLenByte/cashe);
+    if(matLenByte<cashe){
+        for(i=0; i<matLen; i++)
+           local_solution[i] = local_matA[i] - local_matB[i];
+    }else{
+        for(i=0; i<matLenByte*cash; i+=cash){
+          for(j=i; j<i+cash && j<matLen; j++)
+              local_solution[i] = local_matA[i] - local_matB[i]; 
+        }
     }
     // Gather all of the solutions back
     MPI_Gatherv(local_solution, matLen, MPI_DOUBLE, rtn, Varray, displacement, MPI_DOUBLE, 0, *world);
@@ -267,9 +290,18 @@ double innerProduct(Matrix *a, Matrix *b, MPI_Comm *world, int worldSize, int my
     MPI_Scatterv(a->data, Varray, displacement, MPI_DOUBLE, local_matA, matLen, MPI_DOUBLE, 0, *world);
     MPI_Scatterv(b->data, Varray, displacement, MPI_DOUBLE, local_matB, matLen, MPI_DOUBLE, 0, *world);
 
-    double sum = 0;
-    for (j = 0; j < matLen; j++) {
-        sum += local_matA[j] * local_matB[j]; 
+    double sum = 0; 
+    int i;
+    int matLenByte = matLen*sizeof(double);
+    int cash = (matLenByte/cashe);
+    if(matLenByte<cashe){
+        for(i=0; i<matLen; i++)
+           sum += local_matA[i] * local_matB[i];
+    }else{
+        for(i=0; i<matLenByte*cash; i+=cash){
+          for(j=i; j<i+cash && j<matLen; j++)
+              sum += local_matA[i] * local_matB[i]; 
+        }
     }
 
     // Sum the remaining sums
@@ -307,7 +339,7 @@ double innerProduct(Matrix *a, Matrix *b, MPI_Comm *world, int worldSize, int my
     
     }      
 
-*/}
+}*/
 
 
 
