@@ -1,0 +1,2900 @@
+mpicc -c -g main.c
+main.c: In function ‘factorial’:
+main.c:66:25: warning: initialization discards ‘const’ qualifier from pointer target type [enabled by default]
+     char* printfinish = c_str(finish);
+                         ^
+main.c:67:24: warning: initialization discards ‘const’ qualifier from pointer target type [enabled by default]
+     char* printstart = c_str(start);
+                        ^
+main.c:92:18: warning: initialization discards ‘const’ qualifier from pointer target type [enabled by default]
+     char* reee = c_str(local_fact);
+                  ^
+main.c: In function ‘main’:
+main.c:219:41: warning: ‘start’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+         double timeSpent = (double) (end-start) / CLOCKS_PER_SEC;
+                                         ^
+./mpipp -o main main.o BigIntegerSingleFile.o 
+fac: 64000000	line 65 Rank: 12 | start: 1333333 | finish: 1444443
+fac: 64000000fac: 64000000	line 65 Rank: 530 | start: 58888831 | finish: 58999941
+	line 65 Rank: 549 | start: 60999940 | finish: 61111050
+fac: 64000000	line 65 Rank: 124 | start: 13777765 | finish: 13888875
+fac: 64000000fac: 64000000fac: 64000000	line 65 Rank: 481 | start: 53444392 | finish: 53555502
+	line 65 Rank: 126 | start: 13999987 | finish: 14111097
+	line 65 Rank: 16 | start: 1777777 | finish: 1888887
+fac: 64000000	line 65 Rank: 501 | start: 55666612 | finish: 55777722
+fac: 64000000	line 65 Rank: 78 | start: 8666659 | finish: 8777769
+fac: 64000000	line 65 Rank: 87 | start: 9666658 | finish: 9777768
+fac: 64000000	line 65 Rank: 532 | start: 59111053 | finish: 59222163
+fac: 64000000	line 65 Rank: 393 | start: 43666624 | finish: 43777734
+fac: 64000000	line 65 Rank: 2 | start: 222223 | finish: 333333
+fac: 64000000fac: 64000000	line 65 Rank: 402 | start: 44666623 | finish: 44777733
+fac: 64000000fac: 64000000	line 65 Rank: 330 | start: 36666631 | finish: 36777741
+	line 65 Rank: 89 | start: 9888880 | finish: 9999990
+	line 65 Rank: 45 | start: 4999996 | finish: 5111106
+fac: 64000000	line 65 Rank: 326 | start: 36222187 | finish: 36333297
+fac: 64000000	line 65 Rank: 39 | start: 4333330 | finish: 4444440
+fac: 64000000	line 65 Rank: 485 | start: 53888836 | finish: 53999946
+fac: 64000000fac: 64000000	line 65 Rank: 138 | start: 15333319 | finish: 15444429
+	line 65 Rank: 546 | start: 60666607 | finish: 60777717
+fac: 64000000	line 65 Rank: 130 | start: 14444431 | finish: 14555541
+fac: 64000000	line 65 Rank: 494 | start: 54888835 | finish: 54999945
+fac: 64000000	line 65 Rank: 57 | start: 6333328 | finish: 6444438
+fac: 64000000	line 65 Rank: 20 | start: 2222221 | finish: 2333331
+fac: 64000000	line 65 Rank: 54 | start: 5999995 | finish: 6111105
+fac: 64000000	line 65 Rank: 406 | start: 45111067 | finish: 45222177
+fac: 64000000	line 65 Rank: 82 | start: 9111103 | finish: 9222213
+fac: 64000000fac: 64000000	line 65 Rank: 550 | start: 61111051 | finish: 61222161
+	line 65 Rank: 462 | start: 51333283 | finish: 51444393
+fac: 64000000fac: 64000000	line 65 Rank: 335 | start: 37222186 | finish: 37333296
+	line 65 Rank: 33 | start: 3666664 | finish: 3777774
+fac: 64000000	line 65 Rank: 62 | start: 6888883 | finish: 6999993
+fac: 64000000	line 65 Rank: 306 | start: 33999967 | finish: 34111077
+fac: 64000000fac: 64000000	line 65 Rank: 358 | start: 39777739 | finish: 39888849
+fac: 64000000	line 65 Rank: 293 | start: 32555524 | finish: 32666634
+	line 65 Rank: 401 | start: 44555512 | finish: 44666622
+fac: 64000000	line 65 Rank: 0 | start: 2 | finish: 111111
+fac: 64000000fac: 64000000fac: 64000000	line 65 Rank: 43 | start: 4777774 | finish: 4888884
+	line 65 Rank: 350 | start: 38888851 | finish: 38999961
+	line 65 Rank: 72 | start: 7999993 | finish: 8111103
+fac: 64000000fac: 64000000	line 65 Rank: 213 | start: 23666644 | finish: 23777754
+	line 65 Rank: 493 | start: 54777724 | finish: 54888834
+fac: 64000000	line 65 Rank: 463 | start: 51444394 | finish: 51555504
+fac: 64000000fac: 64000000	line 65 Rank: 529 | start: 58777720 | finish: 58888830
+	line 65 Rank: 129 | start: 14333320 | finish: 14444430
+fac: 64000000	line 65 Rank: 319 | start: 35444410 | finish: 35555520
+fac: 64000000	line 65 Rank: 76 | start: 8444437 | finish: 8555547
+fac: 64000000fac: 64000000	line 65 Rank: 399 | start: 44333290 | finish: 44444400
+fac: 64000000	line 65 Rank: 142 | start: 15777763 | finish: 15888873
+fac: 64000000fac: 64000000	line 65 Rank: 233 | start: 25888864 | finish: 25999974
+	line 65 Rank: 58 | start: 6444439 | finish: 6555549
+fac: 64000000	line 65 Rank: 7 | start: 777778 | finish: 888888
+fac: 64000000fac: 64000000	line 65 Rank: 496 | start: 55111057 | finish: 55222167
+	line 65 Rank: 424 | start: 47111065 | finish: 47222175
+fac: 64000000	line 65 Rank: 50 | start: 5555551 | finish: 5666661
+fac: 64000000	line 65 Rank: 412 | start: 45777733 | finish: 45888843
+fac: 64000000fac: 64000000fac: 64000000	line 65 Rank: 297 | start: 32999968 | finish: 33111078
+	line 65 Rank: 545 | start: 60555496 | finish: 60666606
+	line 65 Rank: 460 | start: 51111061 | finish: 51222171
+fac: 64000000	line 65 Rank: 46 | start: 5111107 | finish: 5222217
+fac: 64000000fac: 64000000fac: 64000000	line 65 Rank: 96 | start: 10666657 | finish: 10777767
+	line 65 Rank: 210 | start: 23333311 | finish: 23444421
+	line 65 Rank: 105 | start: 11666656 | finish: 11777766
+fac: 64000000	line 65 Rank: 231 | start: 25666642 | finish: 25777752
+fac: 64000000fac: 64000000fac: 64000000	line 65 Rank: 198 | start: 21999979 | finish: 22111089
+	line 65 Rank: 321 | start: 35666632 | finish: 35777742
+fac: 64000000	line 65 Rank: 75 | start: 8333326 | finish: 8444436
+	line 65 Rank: 359 | start: 39888850 | finish: 39999960
+fac: 64000000	line 65 Rank: 304 | start: 33777745 | finish: 33888855
+fac: 64000000	line 65 Rank: 64 | start: 7111105 | finish: 7222215
+fac: 64000000	line 65 Rank: 249 | start: 27666640 | finish: 27777750
+fac: 64000000	line 65 Rank: 416 | start: 46222177 | finish: 46333287
+fac: 64000000fac: 64000000	line 65 Rank: 392 | start: 43555513 | finish: 43666623
+	line 65 Rank: 477 | start: 52999948 | finish: 53111058
+fac: 64000000fac: 64000000fac: 64000000	line 65 Rank: 262 | start: 29111083 | finish: 29222193
+fac: 64000000	line 65 Rank: 135 | start: 14999986 | finish: 15111096
+fac: 64000000	line 65 Rank: 17 | start: 1888888 | finish: 1999998
+	line 65 Rank: 28 | start: 3111109 | finish: 3222219
+	line 65 Rank: 337 | start: 37444408 | finish: 37555518
+fac: 64000000fac: 64000000fac: 64000000	line 65 Rank: 83 | start: 9222214 | finish: 9333324
+	line 65 Rank: 491 | start: 54555502 | finish: 54666612
+fac: 64000000	line 65 Rank: 272 | start: 30222193 | finish: 30333303
+fac: 64000000	line 65 Rank: 533 | start: 59222164 | finish: 59333274
+	line 65 Rank: 400 | start: 44444401 | finish: 44555511
+fac: 64000000	line 65 Rank: 323 | start: 35888854 | finish: 35999964
+fac: 64000000	line 65 Rank: 6 | start: 666667 | finish: 777777
+fac: 64000000	line 65 Rank: 527 | start: 58555498 | finish: 58666608
+fac: 64000000	line 65 Rank: 506 | start: 56222167 | finish: 56333277
+fac: 64000000fac: 64000000fac: 64000000	line 65 Rank: 100 | start: 11111101 | finish: 11222211
+	line 65 Rank: 440 | start: 48888841 | finish: 48999951
+	line 65 Rank: 127 | start: 14111098 | finish: 14222208
+fac: 64000000fac: 64000000	line 65 Rank: 238 | start: 26444419 | finish: 26555529
+fac: 64000000	line 65 Rank: 202 | start: 22444423 | finish: 22555533
+	line 65 Rank: 56 | start: 6222217 | finish: 6333327
+fac: 64000000	line 65 Rank: 84 | start: 9333325 | finish: 9444435
+fac: 64000000fac: 64000000fac: 64000000	line 65 Rank: 426 | start: 47333287 | finish: 47444397
+	line 65 Rank: 502 | start: 55777723 | finish: 55888833
+	line 65 Rank: 282 | start: 31333303 | finish: 31444413
+fac: 64000000	line 65 Rank: 432 | start: 47999953 | finish: 48111063
+fac: 64000000fac: 64000000	line 65 Rank: 473 | start: 52555504 | finish: 52666614
+	line 65 Rank: 537 | start: 59666608 | finish: 59777718
+fac: 64000000	line 65 Rank: 60 | start: 6666661 | finish: 6777771
+fac: 64000000	line 65 Rank: 32 | start: 3555553 | finish: 3666663
+fac: 64000000	line 65 Rank: 417 | start: 46333288 | finish: 46444398
+fac: 64000000fac: 64000000	line 65 Rank: 381 | start: 42333292 | finish: 42444402
+	line 65 Rank: 208 | start: 23111089 | finish: 23222199
+fac: 64000000	line 65 Rank: 367 | start: 40777738 | finish: 40888848
+fac: 64000000	line 65 Rank: 302 | start: 33555523 | finish: 33666633
+fac: 64000000	line 65 Rank: 232 | start: 25777753 | finish: 25888863
+fac: 64000000fac: 64000000fac: 64000000	line 65 Rank: 353 | start: 39222184 | finish: 39333294
+	line 65 Rank: 324 | start: 35999965 | finish: 36111075
+	line 65 Rank: 117 | start: 12999988 | finish: 13111098
+fac: 64000000	line 65 Rank: 308 | start: 34222189 | finish: 34333299
+fac: 64000000	line 65 Rank: 245 | start: 27222196 | finish: 27333306
+fac: 64000000	line 65 Rank: 517 | start: 57444388 | finish: 57555498
+fac: 64000000	line 65 Rank: 74 | start: 8222215 | finish: 8333325
+fac: 64000000fac: 64000000	line 65 Rank: 172 | start: 19111093 | finish: 19222203
+	line 65 Rank: 174 | start: 19333315 | finish: 19444425
+fac: 64000000	line 65 Rank: 116 | start: 12888877 | finish: 12999987
+fac: 64000000fac: 64000000	line 65 Rank: 36 | start: 3999997 | finish: 4111107
+fac: 64000000	line 65 Rank: 215 | start: 23888866 | finish: 23999976
+fac: 64000000	line 65 Rank: 92 | start: 10222213 | finish: 10333323
+	line 65 Rank: 5 | start: 555556 | finish: 666666
+fac: 64000000fac: 64000000	line 65 Rank: 362 | start: 40222183 | finish: 40333293
+fac: 64000000	line 65 Rank: 275 | start: 30555526 | finish: 30666636
+	line 65 Rank: 500 | start: 55555501 | finish: 55666611
+fac: 64000000fac: 64000000	line 65 Rank: 443 | start: 49222174 | finish: 49333284
+fac: 64000000	line 65 Rank: 467 | start: 51888838 | finish: 51999948
+fac: 64000000fac: 64000000	line 65 Rank: 403 | start: 44777734 | finish: 44888844
+fac: 64000000	line 65 Rank: 542 | start: 60222163 | finish: 60333273
+fac: 64000000	line 65 Rank: 133 | start: 14777764 | finish: 14888874
+	line 65 Rank: 390 | start: 43333291 | finish: 43444401
+	line 65 Rank: 254 | start: 28222195 | finish: 28333305
+fac: 64000000fac: 64000000	line 65 Rank: 342 | start: 37999963 | finish: 38111073
+	line 65 Rank: 239 | start: 26555530 | finish: 26666640
+fac: 64000000	line 65 Rank: 512 | start: 56888833 | finish: 56999943
+fac: 64000000	line 65 Rank: 68 | start: 7555549 | finish: 7666659
+fac: 64000000fac: 64000000	line 65 Rank: 411 | start: 45666622 | finish: 45777732
+fac: 64000000	line 65 Rank: 13 | start: 1444444 | finish: 1555554
+fac: 64000000	line 65 Rank: 315 | start: 34999966 | finish: 35111076
+	line 65 Rank: 38 | start: 4222219 | finish: 4333329
+fac: 64000000	line 65 Rank: 520 | start: 57777721 | finish: 57888831
+fac: 64000000fac: 64000000fac: 64000000	line 65 Rank: 444 | start: 49333285 | finish: 49444395
+	line 65 Rank: 140 | start: 15555541 | finish: 15666651
+	line 65 Rank: 471 | start: 52333282 | finish: 52444392
+fac: 64000000fac: 64000000	line 65 Rank: 119 | start: 13222210 | finish: 13333320
+	line 65 Rank: 197 | start: 21888868 | finish: 21999978
+fac: 64000000	line 65 Rank: 110 | start: 12222211 | finish: 12333321
+fac: 64000000	line 65 Rank: 185 | start: 20555536 | finish: 20666646
+fac: 64000000	line 65 Rank: 495 | start: 54999946 | finish: 55111056
+fac: 64000000	line 65 Rank: 270 | start: 29999971 | finish: 30111081
+fac: 64000000fac: 64000000	line 65 Rank: 455 | start: 50555506 | finish: 50666616
+fac: 64000000	line 65 Rank: 541 | start: 60111052 | finish: 60222162
+	line 65 Rank: 71 | start: 7888882 | finish: 7999992
+fac: 64000000	line 65 Rank: 226 | start: 25111087 | finish: 25222197
+fac: 64000000	line 65 Rank: 196 | start: 21777757 | finish: 21888867
+fac: 64000000fac: 64000000	line 65 Rank: 317 | start: 35222188 | finish: 35333298
+	line 65 Rank: 430 | start: 47777731 | finish: 47888841
+fac: 64000000	line 65 Rank: 81 | start: 8999992 | finish: 9111102
+fac: 64000000fac: 64000000	line 65 Rank: 276 | start: 30666637 | finish: 30777747
+	line 65 Rank: 370 | start: 41111071 | finish: 41222181
+fac: 64000000	line 65 Rank: 300 | start: 33333301 | finish: 33444411
+fac: 64000000	line 65 Rank: 303 | start: 33666634 | finish: 33777744
+fac: 64000000	line 65 Rank: 55 | start: 6111106 | finish: 6222216
+fac: 64000000	line 65 Rank: 355 | start: 39444406 | finish: 39555516
+fac: 64000000	line 65 Rank: 391 | start: 43444402 | finish: 43555512
+fac: 64000000fac: 64000000	line 65 Rank: 250 | start: 27777751 | finish: 27888861
+	line 65 Rank: 423 | start: 46999954 | finish: 47111064
+fac: 64000000fac: 64000000	line 65 Rank: 19 | start: 2111110 | finish: 2222220
+	line 65 Rank: 169 | start: 18777760 | finish: 18888870
+fac: 64000000fac: 64000000	line 65 Rank: 483 | start: 53666614 | finish: 53777724
+	line 65 Rank: 360 | start: 39999961 | finish: 40111071
+fac: 64000000	line 65 Rank: 547 | start: 60777718 | finish: 60888828
+fac: 64000000	line 65 Rank: 136 | start: 15111097 | finish: 15222207
+fac: 64000000	line 65 Rank: 147 | start: 16333318 | finish: 16444428
+fac: 64000000fac: 64000000fac: 64000000	line 65 Rank: 30 | start: 3333331 | finish: 3444441
+	line 65 Rank: 348 | start: 38666629 | finish: 38777739
+	line 65 Rank: 234 | start: 25999975 | finish: 26111085
+fac: 64000000	line 65 Rank: 513 | start: 56999944 | finish: 57111054
+fac: 64000000fac: 64000000	line 65 Rank: 94 | start: 10444435 | finish: 10555545
+	line 65 Rank: 404 | start: 44888845 | finish: 44999955
+fac: 64000000fac: 64000000	line 65 Rank: 168 | start: 18666649 | finish: 18777759
+	line 65 Rank: 73 | start: 8111104 | finish: 8222214
+fac: 64000000	line 65 Rank: 474 | start: 52666615 | finish: 52777725
+fac: 64000000	line 65 Rank: 447 | start: 49666618 | finish: 49777728
+fac: 64000000fac: 64000000	line 65 Rank: 246 | start: 27333307 | finish: 27444417
+	line 65 Rank: 125 | start: 13888876 | finish: 13999986
+fac: 64000000	line 65 Rank: 98 | start: 10888879 | finish: 10999989
+fac: 64000000fac: 64000000fac: 64000000fac: 64000000fac: 64000000	line 65 Rank: 211 | start: 23444422 | finish: 23555532
+fac: 64000000	line 65 Rank: 10 | start: 1111111 | finish: 1222221
+	line 65 Rank: 40 | start: 4444441 | finish: 4555551
+	line 65 Rank: 146 | start: 16222207 | finish: 16333317
+	line 65 Rank: 313 | start: 34777744 | finish: 34888854
+	line 65 Rank: 575 | start: 63888826 | finish: 64000000
+fac: 64000000	line 65 Rank: 70 | start: 7777771 | finish: 7888881
+fac: 64000000	line 65 Rank: 562 | start: 62444383 | finish: 62555493
+fac: 64000000fac: 64000000	line 65 Rank: 108 | start: 11999989 | finish: 12111099
+	line 65 Rank: 489 | start: 54333280 | finish: 54444390
+fac: 64000000fac: 64000000	line 65 Rank: 278 | start: 30888859 | finish: 30999969
+fac: 64000000	line 65 Rank: 515 | start: 57222166 | finish: 57333276
+fac: 64000000fac: 64000000	line 65 Rank: 194 | start: 21555535 | finish: 21666645
+fac: 64000000	line 65 Rank: 535 | start: 59444386 | finish: 59555496
+	line 65 Rank: 310 | start: 34444411 | finish: 34555521
+	line 65 Rank: 458 | start: 50888839 | finish: 50999949
+fac: 64000000fac: 64000000	line 65 Rank: 149 | start: 16555540 | finish: 16666650
+	line 65 Rank: 451 | start: 50111062 | finish: 50222172
+fac: 64000000	line 65 Rank: 221 | start: 24555532 | finish: 24666642
+fac: 64000000fac: 64000000	line 65 Rank: 521 | start: 57888832 | finish: 57999942
+fac: 64000000	line 65 Rank: 65 | start: 7222216 | finish: 7333326
+	line 65 Rank: 307 | start: 34111078 | finish: 34222188
+fac: 64000000fac: 64000000	line 65 Rank: 61 | start: 6777772 | finish: 6888882
+fac: 64000000	line 65 Rank: 318 | start: 35333299 | finish: 35444409
+	line 65 Rank: 431 | start: 47888842 | finish: 47999952
+fac: 64000000fac: 64000000fac: 64000000	line 65 Rank: 207 | start: 22999978 | finish: 23111088
+	line 65 Rank: 378 | start: 41999959 | finish: 42111069
+	line 65 Rank: 356 | start: 39555517 | finish: 39666627
+fac: 64000000fac: 64000000	line 65 Rank: 170 | start: 18888871 | finish: 18999981
+fac: 64000000	line 65 Rank: 284 | start: 31555525 | finish: 31666635
+	line 65 Rank: 384 | start: 42666625 | finish: 42777735
+fac: 64000000fac: 64000000fac: 64000000	line 65 Rank: 159 | start: 17666650 | finish: 17777760
+	line 65 Rank: 410 | start: 45555511 | finish: 45666621
+fac: 64000000	line 65 Rank: 95 | start: 10555546 | finish: 10666656
+	line 65 Rank: 4 | start: 444445 | finish: 555555
+fac: 64000000	line 65 Rank: 346 | start: 38444407 | finish: 38555517
+fac: 64000000	line 65 Rank: 498 | start: 55333279 | finish: 55444389
+fac: 64000000	line 65 Rank: 452 | start: 50222173 | finish: 50333283
+fac: 64000000fac: 64000000	line 65 Rank: 534 | start: 59333275 | finish: 59444385
+fac: 64000000fac: 64000000	line 65 Rank: 559 | start: 62111050 | finish: 62222160
+	line 65 Rank: 137 | start: 15222208 | finish: 15333318
+fac: 64000000	line 65 Rank: 180 | start: 19999981 | finish: 20111091
+	line 65 Rank: 242 | start: 26888863 | finish: 26999973
+fac: 64000000fac: 64000000	line 65 Rank: 279 | start: 30999970 | finish: 31111080
+fac: 64000000	line 65 Rank: 372 | start: 41333293 | finish: 41444403
+	line 65 Rank: 389 | start: 43222180 | finish: 43333290
+fac: 64000000	line 65 Rank: 112 | start: 12444433 | finish: 12555543
+fac: 64000000fac: 64000000fac: 64000000	line 65 Rank: 235 | start: 26111086 | finish: 26222196
+	line 65 Rank: 260 | start: 28888861 | finish: 28999971
+	line 65 Rank: 37 | start: 4111108 | finish: 4222218
+fac: 64000000	line 65 Rank: 88 | start: 9777769 | finish: 9888879
+fac: 64000000fac: 64000000fac: 64000000	line 65 Rank: 190 | start: 21111091 | finish: 21222201
+	line 65 Rank: 572 | start: 63555493 | finish: 63666603
+fac: 64000000fac: 64000000	line 65 Rank: 468 | start: 51999949 | finish: 52111059
+	line 65 Rank: 120 | start: 13333321 | finish: 13444431
+	line 65 Rank: 160 | start: 17777761 | finish: 17888871
+fac: 64000000	line 65 Rank: 53 | start: 5888884 | finish: 5999994
+fac: 64000000fac: 64000000fac: 64000000	line 65 Rank: 314 | start: 34888855 | finish: 34999965
+	line 65 Rank: 1 | start: 111112 | finish: 222222
+	line 65 Rank: 26 | start: 2888887 | finish: 2999997
+fac: 64000000fac: 64000000	line 65 Rank: 192 | start: 21333313 | finish: 21444423
+	line 65 Rank: 488 | start: 54222169 | finish: 54333279
+fac: 64000000	line 65 Rank: 85 | start: 9444436 | finish: 9555546
+fac: 64000000fac: 64000000fac: 64000000fac: 64000000	line 65 Rank: 519 | start: 57666610 | finish: 57777720
+fac: 64000000	line 65 Rank: 281 | start: 31222192 | finish: 31333302
+	line 65 Rank: 294 | start: 32666635 | finish: 32777745
+	line 65 Rank: 449 | start: 49888840 | finish: 49999950
+fac: 64000000	line 65 Rank: 528 | start: 58666609 | finish: 58777719
+fac: 64000000fac: 64000000	line 65 Rank: 554 | start: 61555495 | finish: 61666605
+	line 65 Rank: 469 | start: 52111060 | finish: 52222170
+	line 65 Rank: 222 | start: 24666643 | finish: 24777753
+fac: 64000000fac: 64000000	line 65 Rank: 101 | start: 11222212 | finish: 11333322
+	line 65 Rank: 97 | start: 10777768 | finish: 10888878
+fac: 64000000	line 65 Rank: 445 | start: 49444396 | finish: 49555506
+fac: 64000000	line 65 Rank: 334 | start: 37111075 | finish: 37222185
+fac: 64000000fac: 64000000fac: 64000000	line 65 Rank: 341 | start: 37888852 | finish: 37999962
+fac: 64000000	line 65 Rank: 511 | start: 56777722 | finish: 56888832
+	line 65 Rank: 265 | start: 29444416 | finish: 29555526
+fac: 64000000	line 65 Rank: 365 | start: 40555516 | finish: 40666626
+	line 65 Rank: 295 | start: 32777746 | finish: 32888856
+fac: 64000000fac: 64000000	line 65 Rank: 59 | start: 6555550 | finish: 6666660
+	line 65 Rank: 422 | start: 46888843 | finish: 46999953
+fac: 64000000	line 65 Rank: 204 | start: 22666645 | finish: 22777755
+fac: 64000000fac: 64000000fac: 64000000	line 65 Rank: 398 | start: 44222179 | finish: 44333289
+fac: 64000000	line 65 Rank: 540 | start: 59999941 | finish: 60111051
+fac: 64000000	line 65 Rank: 396 | start: 43999957 | finish: 44111067
+	line 65 Rank: 157 | start: 17444428 | finish: 17555538
+	line 65 Rank: 139 | start: 15444430 | finish: 15555540
+fac: 64000000fac: 64000000fac: 64000000fac: 64000000fac: 64000000	line 65 Rank: 247 | start: 27444418 | finish: 27555528
+	line 65 Rank: 427 | start: 47444398 | finish: 47555508
+	line 65 Rank: 14 | start: 1555555 | finish: 1666665
+	line 65 Rank: 216 | start: 23999977 | finish: 24111087
+	line 65 Rank: 352 | start: 39111073 | finish: 39222183
+fac: 64000000fac: 64000000	line 65 Rank: 182 | start: 20222203 | finish: 20333313
+	line 65 Rank: 484 | start: 53777725 | finish: 53888835
+fac: 64000000	line 65 Rank: 375 | start: 41666626 | finish: 41777736
+fac: 64000000fac: 64000000	line 65 Rank: 212 | start: 23555533 | finish: 23666643
+	line 65 Rank: 27 | start: 2999998 | finish: 3111108
+fac: 64000000fac: 64000000	line 65 Rank: 93 | start: 10333324 | finish: 10444434
+	line 65 Rank: 34 | start: 3777775 | finish: 3888885
+fac: 64000000fac: 64000000	line 65 Rank: 561 | start: 62333272 | finish: 62444382
+	line 65 Rank: 497 | start: 55222168 | finish: 55333278
+fac: 64000000fac: 64000000	line 65 Rank: 448 | start: 49777729 | finish: 49888839
+	line 65 Rank: 122 | start: 13555543 | finish: 13666653
+fac: 64000000fac: 64000000	line 65 Rank: 150 | start: 16666651 | finish: 16777761
+	line 65 Rank: 261 | start: 28999972 | finish: 29111082
+fac: 64000000	line 65 Rank: 102 | start: 11333323 | finish: 11444433
+fac: 64000000fac: 64000000	line 65 Rank: 574 | start: 63777715 | finish: 63888825
+	line 65 Rank: 332 | start: 36888853 | finish: 36999963
+fac: 64000000fac: 64000000	line 65 Rank: 523 | start: 58111054 | finish: 58222164
+fac: 64000000	line 65 Rank: 80 | start: 8888881 | finish: 8999991
+fac: 64000000fac: 64000000fac: 64000000	line 65 Rank: 292 | start: 32444413 | finish: 32555523
+	line 65 Rank: 187 | start: 20777758 | finish: 20888868
+	line 65 Rank: 466 | start: 51777727 | finish: 51888837
+	line 65 Rank: 536 | start: 59555497 | finish: 59666607
+fac: 64000000fac: 64000000	line 65 Rank: 229 | start: 25444420 | finish: 25555530
+	line 65 Rank: 11 | start: 1222222 | finish: 1333332
+fac: 64000000	line 65 Rank: 312 | start: 34666633 | finish: 34777743
+fac: 64000000fac: 64000000	line 65 Rank: 285 | start: 31666636 | finish: 31777746
+fac: 64000000	line 65 Rank: 436 | start: 48444397 | finish: 48555507
+	line 65 Rank: 478 | start: 53111059 | finish: 53222169
+fac: 64000000fac: 64000000	line 65 Rank: 115 | start: 12777766 | finish: 12888876
+	line 65 Rank: 201 | start: 22333312 | finish: 22444422
+fac: 64000000fac: 64000000	line 65 Rank: 193 | start: 21444424 | finish: 21555534
+	line 65 Rank: 349 | start: 38777740 | finish: 38888850
+fac: 64000000fac: 64000000	line 65 Rank: 385 | start: 42777736 | finish: 42888846
+	line 65 Rank: 291 | start: 32333302 | finish: 32444412
+fac: 64000000	line 65 Rank: 48 | start: 5333329 | finish: 5444439
+fac: 64000000fac: 64000000	line 65 Rank: 63 | start: 6999994 | finish: 7111104
+	line 65 Rank: 419 | start: 46555510 | finish: 46666620
+fac: 64000000	line 65 Rank: 79 | start: 8777770 | finish: 8888880
+fac: 64000000fac: 64000000fac: 64000000	line 65 Rank: 564 | start: 62666605 | finish: 62777715
+fac: 64000000	line 65 Rank: 509 | start: 56555500 | finish: 56666610
+	line 65 Rank: 273 | start: 30333304 | finish: 30444414
+	line 65 Rank: 383 | start: 42555514 | finish: 42666624
+fac: 64000000fac: 64000000	line 65 Rank: 386 | start: 42888847 | finish: 42999957
+fac: 64000000	line 65 Rank: 544 | start: 60444385 | finish: 60555495
+	line 65 Rank: 134 | start: 14888875 | finish: 14999985
+fac: 64000000fac: 64000000	line 65 Rank: 99 | start: 10999990 | finish: 11111100
+fac: 64000000	line 65 Rank: 252 | start: 27999973 | finish: 28111083
+fac: 64000000	line 65 Rank: 15 | start: 1666666 | finish: 1777776
+	line 65 Rank: 340 | start: 37777741 | finish: 37888851
+fac: 64000000fac: 64000000	line 65 Rank: 490 | start: 54444391 | finish: 54555501
+	line 65 Rank: 366 | start: 40666627 | finish: 40777737
+fac: 64000000	line 65 Rank: 154 | start: 17111095 | finish: 17222205
+fac: 64000000	line 65 Rank: 230 | start: 25555531 | finish: 25666641
+fac: 64000000	line 65 Rank: 414 | start: 45999955 | finish: 46111065
+fac: 64000000	line 65 Rank: 41 | start: 4555552 | finish: 4666662
+fac: 64000000fac: 64000000	line 65 Rank: 77 | start: 8555548 | finish: 8666658
+	line 65 Rank: 565 | start: 62777716 | finish: 62888826
+fac: 64000000	line 65 Rank: 128 | start: 14222209 | finish: 14333319
+fac: 64000000fac: 64000000fac: 64000000	line 65 Rank: 309 | start: 34333300 | finish: 34444410
+fac: 64000000	line 65 Rank: 66 | start: 7333327 | finish: 7444437
+	line 65 Rank: 543 | start: 60333274 | finish: 60444384
+fac: 64000000	line 65 Rank: 164 | start: 18222205 | finish: 18333315
+	line 65 Rank: 47 | start: 5222218 | finish: 5333328
+fac: 64000000	line 65 Rank: 316 | start: 35111077 | finish: 35222187
+fac: 64000000	line 65 Rank: 203 | start: 22555534 | finish: 22666644
+fac: 64000000	line 65 Rank: 480 | start: 53333281 | finish: 53444391
+fac: 64000000fac: 64000000	line 65 Rank: 177 | start: 19666648 | finish: 19777758
+	line 65 Rank: 524 | start: 58222165 | finish: 58333275
+fac: 64000000	line 65 Rank: 453 | start: 50333284 | finish: 50444394
+fac: 64000000fac: 64000000	line 65 Rank: 263 | start: 29222194 | finish: 29333304
+	line 65 Rank: 217 | start: 24111088 | finish: 24222198
+fac: 64000000fac: 64000000fac: 64000000	line 65 Rank: 23 | start: 2555554 | finish: 2666664
+	line 65 Rank: 320 | start: 35555521 | finish: 35666631
+fac: 64000000	line 65 Rank: 90 | start: 9999991 | finish: 10111101
+	line 65 Rank: 569 | start: 63222160 | finish: 63333270
+fac: 64000000fac: 64000000fac: 64000000	line 65 Rank: 438 | start: 48666619 | finish: 48777729
+	line 65 Rank: 184 | start: 20444425 | finish: 20555535
+fac: 64000000	line 65 Rank: 563 | start: 62555494 | finish: 62666604
+	line 65 Rank: 476 | start: 52888837 | finish: 52999947
+fac: 64000000	line 65 Rank: 290 | start: 32222191 | finish: 32333301
+fac: 64000000	line 65 Rank: 107 | start: 11888878 | finish: 11999988
+fac: 64000000fac: 64000000fac: 64000000fac: 64000000	line 65 Rank: 336 | start: 37333297 | finish: 37444407
+	line 65 Rank: 397 | start: 44111068 | finish: 44222178
+	line 65 Rank: 206 | start: 22888867 | finish: 22999977
+	line 65 Rank: 280 | start: 31111081 | finish: 31222191
+fac: 64000000	line 65 Rank: 457 | start: 50777728 | finish: 50888838
+fac: 64000000	line 65 Rank: 69 | start: 7666660 | finish: 7777770
+fac: 64000000	line 65 Rank: 21 | start: 2333332 | finish: 2444442
+fac: 64000000	line 65 Rank: 551 | start: 61222162 | finish: 61333272
+fac: 64000000fac: 64000000fac: 64000000fac: 64000000fac: 64000000	line 65 Rank: 51 | start: 5666662 | finish: 5777772
+	line 65 Rank: 114 | start: 12666655 | finish: 12777765
+	line 65 Rank: 237 | start: 26333308 | finish: 26444418
+	line 65 Rank: 345 | start: 38333296 | finish: 38444406
+	line 65 Rank: 420 | start: 46666621 | finish: 46777731
+fac: 64000000fac: 64000000fac: 64000000fac: 64000000	line 65 Rank: 514 | start: 57111055 | finish: 57222165
+fac: 64000000fac: 64000000	line 65 Rank: 209 | start: 23222200 | finish: 23333310
+	line 65 Rank: 271 | start: 30111082 | finish: 30222192
+	line 65 Rank: 388 | start: 43111069 | finish: 43222179
+	line 65 Rank: 86 | start: 9555547 | finish: 9666657
+fac: 64000000	line 65 Rank: 171 | start: 18999982 | finish: 19111092
+	line 65 Rank: 382 | start: 42444403 | finish: 42555513
+fac: 64000000fac: 64000000	line 65 Rank: 121 | start: 13444432 | finish: 13555542
+fac: 64000000	line 65 Rank: 257 | start: 28555528 | finish: 28666638
+fac: 64000000	line 65 Rank: 555 | start: 61666606 | finish: 61777716
+	line 65 Rank: 131 | start: 14555542 | finish: 14666652
+fac: 64000000	line 65 Rank: 31 | start: 3444442 | finish: 3555552
+fac: 64000000fac: 64000000	line 65 Rank: 486 | start: 53999947 | finish: 54111057
+	line 65 Rank: 371 | start: 41222182 | finish: 41333292
+fac: 64000000	line 65 Rank: 163 | start: 18111094 | finish: 18222204
+fac: 64000000fac: 64000000fac: 64000000	line 65 Rank: 479 | start: 53222170 | finish: 53333280
+	line 65 Rank: 434 | start: 48222175 | finish: 48333285
+	line 65 Rank: 289 | start: 32111080 | finish: 32222190
+fac: 64000000	line 65 Rank: 428 | start: 47555509 | finish: 47666619
+fac: 64000000	line 65 Rank: 35 | start: 3888886 | finish: 3999996
+fac: 64000000	line 65 Rank: 503 | start: 55888834 | finish: 55999944
+fac: 64000000	line 65 Rank: 510 | start: 56666611 | finish: 56777721
+fac: 64000000fac: 64000000	line 65 Rank: 567 | start: 62999938 | finish: 63111048
+	line 65 Rank: 548 | start: 60888829 | finish: 60999939
+fac: 64000000fac: 64000000fac: 64000000	line 65 Rank: 228 | start: 25333309 | finish: 25444419
+	line 65 Rank: 259 | start: 28777750 | finish: 28888860
+	line 65 Rank: 327 | start: 36333298 | finish: 36444408
+fac: 64000000	line 65 Rank: 322 | start: 35777743 | finish: 35888853
+fac: 64000000	line 65 Rank: 176 | start: 19555537 | finish: 19666647
+fac: 64000000	line 65 Rank: 435 | start: 48333286 | finish: 48444396
+fac: 64000000fac: 64000000	line 65 Rank: 552 | start: 61333273 | finish: 61444383
+	line 65 Rank: 22 | start: 2444443 | finish: 2555553
+fac: 64000000fac: 64000000	line 65 Rank: 195 | start: 21666646 | finish: 21777756
+fac: 64000000fac: 64000000	line 65 Rank: 286 | start: 31777747 | finish: 31888857
+	line 65 Rank: 405 | start: 44999956 | finish: 45111066
+fac: 64000000	line 65 Rank: 178 | start: 19777759 | finish: 19888869
+	line 65 Rank: 113 | start: 12555544 | finish: 12666654
+fac: 64000000	line 65 Rank: 301 | start: 33444412 | finish: 33555522
+fac: 64000000	line 65 Rank: 465 | start: 51666616 | finish: 51777726
+fac: 64000000	line 65 Rank: 118 | start: 13111099 | finish: 13222209
+fac: 64000000	line 65 Rank: 354 | start: 39333295 | finish: 39444405
+fac: 64000000fac: 64000000	line 65 Rank: 338 | start: 37555519 | finish: 37666629
+	line 65 Rank: 499 | start: 55444390 | finish: 55555500
+fac: 64000000	line 65 Rank: 504 | start: 55999945 | finish: 56111055
+fac: 64000000	line 65 Rank: 531 | start: 58999942 | finish: 59111052
+fac: 64000000fac: 64000000	line 65 Rank: 67 | start: 7444438 | finish: 7555548
+	line 65 Rank: 158 | start: 17555539 | finish: 17666649
+fac: 64000000	line 65 Rank: 18 | start: 1999999 | finish: 2111109
+fac: 64000000fac: 64000000	line 65 Rank: 266 | start: 29555527 | finish: 29666637
+fac: 64000000	line 65 Rank: 214 | start: 23777755 | finish: 23888865
+	line 65 Rank: 387 | start: 42999958 | finish: 43111068
+fac: 64000000	line 65 Rank: 132 | start: 14666653 | finish: 14777763
+fac: 64000000	line 65 Rank: 236 | start: 26222197 | finish: 26333307
+fac: 64000000	line 65 Rank: 429 | start: 47666620 | finish: 47777730
+fac: 64000000	line 65 Rank: 91 | start: 10111102 | finish: 10222212
+fac: 64000000fac: 64000000	line 65 Rank: 361 | start: 40111072 | finish: 40222182
+fac: 64000000fac: 64000000	line 65 Rank: 145 | start: 16111096 | finish: 16222206
+	line 65 Rank: 487 | start: 54111058 | finish: 54222168
+	line 65 Rank: 264 | start: 29333305 | finish: 29444415
+fac: 64000000	line 65 Rank: 191 | start: 21222202 | finish: 21333312
+fac: 64000000fac: 64000000fac: 64000000	line 65 Rank: 143 | start: 15888874 | finish: 15999984
+fac: 64000000	line 65 Rank: 456 | start: 50666617 | finish: 50777727
+	line 65 Rank: 241 | start: 26777752 | finish: 26888862
+	line 65 Rank: 296 | start: 32888857 | finish: 32999967
+fac: 64000000fac: 64000000	line 65 Rank: 380 | start: 42222181 | finish: 42333291
+	line 65 Rank: 525 | start: 58333276 | finish: 58444386
+fac: 64000000fac: 64000000	line 65 Rank: 454 | start: 50444395 | finish: 50555505
+	line 65 Rank: 539 | start: 59888830 | finish: 59999940
+fac: 64000000	line 65 Rank: 439 | start: 48777730 | finish: 48888840
+fac: 64000000fac: 64000000	line 65 Rank: 49 | start: 5444440 | finish: 5555550
+fac: 64000000	line 65 Rank: 225 | start: 24999976 | finish: 25111086
+fac: 64000000	line 65 Rank: 44 | start: 4888885 | finish: 4999995
+	line 65 Rank: 409 | start: 45444400 | finish: 45555510
+fac: 64000000	line 65 Rank: 558 | start: 61999939 | finish: 62111049
+fac: 64000000fac: 64000000	line 65 Rank: 258 | start: 28666639 | finish: 28777749
+	line 65 Rank: 288 | start: 31999969 | finish: 32111079
+fac: 64000000	line 65 Rank: 328 | start: 36444409 | finish: 36555519
+fac: 64000000	line 65 Rank: 331 | start: 36777742 | finish: 36888852
+fac: 64000000	line 65 Rank: 568 | start: 63111049 | finish: 63222159
+fac: 64000000fac: 64000000	line 65 Rank: 200 | start: 22222201 | finish: 22333311
+	line 65 Rank: 395 | start: 43888846 | finish: 43999956
+fac: 64000000	line 65 Rank: 175 | start: 19444426 | finish: 19555536
+fac: 64000000fac: 64000000fac: 64000000	line 65 Rank: 111 | start: 12333322 | finish: 12444432
+	line 65 Rank: 103 | start: 11444434 | finish: 11555544
+	line 65 Rank: 8 | start: 888889 | finish: 999999
+fac: 64000000fac: 64000000	line 65 Rank: 492 | start: 54666613 | finish: 54777723
+	line 65 Rank: 152 | start: 16888873 | finish: 16999983
+fac: 64000000	line 65 Rank: 459 | start: 50999950 | finish: 51111060
+fac: 64000000fac: 64000000	line 65 Rank: 538 | start: 59777719 | finish: 59888829
+	line 65 Rank: 181 | start: 20111092 | finish: 20222202
+fac: 64000000	line 65 Rank: 25 | start: 2777776 | finish: 2888886
+fac: 64000000	line 65 Rank: 351 | start: 38999962 | finish: 39111072
+fac: 64000000fac: 64000000fac: 64000000fac: 64000000	line 65 Rank: 3 | start: 333334 | finish: 444444
+	line 65 Rank: 219 | start: 24333310 | finish: 24444420
+	line 65 Rank: 357 | start: 39666628 | finish: 39777738
+fac: 64000000	line 65 Rank: 518 | start: 57555499 | finish: 57666609
+	line 65 Rank: 267 | start: 29666638 | finish: 29777748
+fac: 64000000	line 65 Rank: 394 | start: 43777735 | finish: 43888845
+fac: 64000000	line 65 Rank: 437 | start: 48555508 | finish: 48666618
+fac: 64000000fac: 64000000	line 65 Rank: 123 | start: 13666654 | finish: 13777764
+fac: 64000000	line 65 Rank: 166 | start: 18444427 | finish: 18555537
+fac: 64000000	line 65 Rank: 224 | start: 24888865 | finish: 24999975
+	line 65 Rank: 141 | start: 15666652 | finish: 15777762
+fac: 64000000fac: 64000000	line 65 Rank: 205 | start: 22777756 | finish: 22888866
+	line 65 Rank: 425 | start: 47222176 | finish: 47333286
+fac: 64000000fac: 64000000	line 65 Rank: 556 | start: 61777717 | finish: 61888827
+fac: 64000000	line 65 Rank: 277 | start: 30777748 | finish: 30888858
+	line 65 Rank: 379 | start: 42111070 | finish: 42222180
+fac: 64000000	line 65 Rank: 52 | start: 5777773 | finish: 5888883
+fac: 64000000fac: 64000000	line 65 Rank: 329 | start: 36555520 | finish: 36666630
+	line 65 Rank: 251 | start: 27888862 | finish: 27999972
+fac: 64000000	line 65 Rank: 482 | start: 53555503 | finish: 53666613
+	line 65 Rank: 199 | start: 22111090 | finish: 22222200
+fac: 64000000fac: 64000000	line 65 Rank: 522 | start: 57999943 | finish: 58111053
+fac: 64000000fac: 64000000	line 65 Rank: 368 | start: 40888849 | finish: 40999959
+	line 65 Rank: 311 | start: 34555522 | finish: 34666632
+	line 65 Rank: 461 | start: 51222172 | finish: 51333282
+fac: 64000000fac: 64000000	line 65 Rank: 106 | start: 11777767 | finish: 11888877
+	line 65 Rank: 42 | start: 4666663 | finish: 4777773
+fac: 64000000	line 65 Rank: 421 | start: 46777732 | finish: 46888842
+fac: 64000000fac: 64000000	line 65 Rank: 573 | start: 63666604 | finish: 63777714
+	line 65 Rank: 9 | start: 1000000 | finish: 1111110
+fac: 64000000	line 65 Rank: 433 | start: 48111064 | finish: 48222174
+fac: 64000000	line 65 Rank: 343 | start: 38111074 | finish: 38222184
+fac: 64000000	line 65 Rank: 407 | start: 45222178 | finish: 45333288
+fac: 64000000	line 65 Rank: 298 | start: 33111079 | finish: 33222189
+fac: 64000000	line 65 Rank: 470 | start: 52222171 | finish: 52333281
+fac: 64000000	line 65 Rank: 255 | start: 28333306 | finish: 28444416
+fac: 64000000	line 65 Rank: 325 | start: 36111076 | finish: 36222186
+fac: 64000000	line 65 Rank: 104 | start: 11555545 | finish: 11666655
+fac: 64000000fac: 64000000	line 65 Rank: 186 | start: 20666647 | finish: 20777757
+	line 65 Rank: 570 | start: 63333271 | finish: 63444381
+fac: 64000000fac: 64000000	line 65 Rank: 156 | start: 17333317 | finish: 17444427
+	line 65 Rank: 173 | start: 19222204 | finish: 19333314
+fac: 64000000	line 65 Rank: 29 | start: 3222220 | finish: 3333330
+fac: 64000000	line 65 Rank: 339 | start: 37666630 | finish: 37777740
+fac: 64000000	line 65 Rank: 218 | start: 24222199 | finish: 24333309
+fac: 64000000	line 65 Rank: 223 | start: 24777754 | finish: 24888864
+fac: 64000000fac: 64000000	line 65 Rank: 408 | start: 45333289 | finish: 45444399
+	line 65 Rank: 268 | start: 29777749 | finish: 29888859
+fac: 64000000fac: 64000000fac: 64000000	line 65 Rank: 442 | start: 49111063 | finish: 49222173
+	line 65 Rank: 165 | start: 18333316 | finish: 18444426
+	line 65 Rank: 464 | start: 51555505 | finish: 51666615
+fac: 64000000fac: 64000000	line 65 Rank: 369 | start: 40999960 | finish: 41111070
+fac: 64000000	line 65 Rank: 373 | start: 41444404 | finish: 41555514
+	line 65 Rank: 305 | start: 33888856 | finish: 33999966
+fac: 64000000fac: 64000000	line 65 Rank: 243 | start: 26999974 | finish: 27111084
+fac: 64000000	line 65 Rank: 24 | start: 2666665 | finish: 2777775
+fac: 64000000	line 65 Rank: 553 | start: 61444384 | finish: 61555494
+	line 65 Rank: 109 | start: 12111100 | finish: 12222210
+fac: 64000000	line 65 Rank: 507 | start: 56333278 | finish: 56444388
+fac: 64000000	line 65 Rank: 441 | start: 48999952 | finish: 49111062
+fac: 64000000fac: 64000000	line 65 Rank: 418 | start: 46444399 | finish: 46555509
+	line 65 Rank: 571 | start: 63444382 | finish: 63555492
+fac: 64000000	line 65 Rank: 344 | start: 38222185 | finish: 38333295
+fac: 64000000	line 65 Rank: 508 | start: 56444389 | finish: 56555499
+fac: 64000000	line 65 Rank: 299 | start: 33222190 | finish: 33333300
+fac: 64000000fac: 64000000fac: 64000000	line 65 Rank: 162 | start: 17999983 | finish: 18111093
+	line 65 Rank: 220 | start: 24444421 | finish: 24555531
+	line 65 Rank: 333 | start: 36999964 | finish: 37111074
+fac: 64000000	line 65 Rank: 347 | start: 38555518 | finish: 38666628
+fac: 64000000	line 65 Rank: 475 | start: 52777726 | finish: 52888836
+fac: 64000000	line 65 Rank: 240 | start: 26666641 | finish: 26777751
+fac: 64000000	line 65 Rank: 183 | start: 20333314 | finish: 20444424
+fac: 64000000fac: 64000000	line 65 Rank: 153 | start: 16999984 | finish: 17111094
+	line 65 Rank: 227 | start: 25222198 | finish: 25333308
+fac: 64000000	line 65 Rank: 526 | start: 58444387 | finish: 58555497
+fac: 64000000fac: 64000000	line 65 Rank: 269 | start: 29888860 | finish: 29999970
+fac: 64000000	line 65 Rank: 376 | start: 41777737 | finish: 41888847
+	line 65 Rank: 287 | start: 31888858 | finish: 31999968
+fac: 64000000	line 65 Rank: 413 | start: 45888844 | finish: 45999954
+fac: 64000000fac: 64000000fac: 64000000	line 65 Rank: 188 | start: 20888869 | finish: 20999979
+	line 65 Rank: 472 | start: 52444393 | finish: 52555503
+	line 65 Rank: 374 | start: 41555515 | finish: 41666625
+fac: 64000000fac: 64000000	line 65 Rank: 244 | start: 27111085 | finish: 27222195
+	line 65 Rank: 566 | start: 62888827 | finish: 62999937
+fac: 64000000fac: 64000000	line 65 Rank: 283 | start: 31444414 | finish: 31555524
+	line 65 Rank: 450 | start: 49999951 | finish: 50111061
+fac: 64000000	line 65 Rank: 516 | start: 57333277 | finish: 57444387
+fac: 64000000	line 65 Rank: 505 | start: 56111056 | finish: 56222166
+fac: 64000000	line 65 Rank: 557 | start: 61888828 | finish: 61999938
+fac: 64000000	line 65 Rank: 161 | start: 17888872 | finish: 17999982
+fac: 64000000	line 65 Rank: 248 | start: 27555529 | finish: 27666639
+fac: 64000000	line 65 Rank: 167 | start: 18555538 | finish: 18666648
+fac: 64000000fac: 64000000	line 65 Rank: 179 | start: 19888870 | finish: 19999980
+	line 65 Rank: 274 | start: 30444415 | finish: 30555525
+fac: 64000000	line 65 Rank: 415 | start: 46111066 | finish: 46222176
+fac: 64000000	line 65 Rank: 377 | start: 41888848 | finish: 41999958
+fac: 64000000	line 65 Rank: 446 | start: 49555507 | finish: 49666617
+fac: 64000000	line 65 Rank: 253 | start: 28111084 | finish: 28222194
+fac: 64000000	line 65 Rank: 363 | start: 40333294 | finish: 40444404
+fac: 64000000	line 65 Rank: 560 | start: 62222161 | finish: 62333271
+fac: 64000000fac: 64000000	line 65 Rank: 144 | start: 15999985 | finish: 16111095
+	line 65 Rank: 256 | start: 28444417 | finish: 28555527
+fac: 64000000	line 65 Rank: 155 | start: 17222206 | finish: 17333316
+fac: 64000000	line 65 Rank: 189 | start: 20999980 | finish: 21111090
+fac: 64000000	line 65 Rank: 364 | start: 40444405 | finish: 40555515
+fac: 64000000	line 65 Rank: 148 | start: 16444429 | finish: 16555539
+fac: 64000000	line 65 Rank: 151 | start: 16777762 | finish: 16888872
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: local_fact: 
+
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: local_fact: 
+
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: local_fact: 
+
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: local_fact: 
+
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: local_fact: 
+
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: local_fact: 
+
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: local_fact: 
+
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: local_fact: 
+
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: local_fact: 
+
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+
+local_fact: 
+local_fact: local_fact: 
+
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: local_fact: 
+
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: local_fact: 
+
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: local_fact: 
+local_fact: 
+
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: local_fact: 
+
+local_fact: local_fact: 
+
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+local_fact: 
+79 367
+local_num = 997763139207168 | Rank: 367 
+79 239
+local_num = 594262668836864 | Rank: 239 
+79 182
+local_num = 944767244173312 | Rank: 182 
+79 502
+local_num = 731549147496448 | Rank: 502 
+79 303
+local_num = 286733316063232 | Rank: 303 
+79 111
+local_num = 539425044987904 | Rank: 111 
+79 354
+local_num = 692633440141312 | Rank: 354 
+79 310
+local_num = 367397597446144 | Rank: 310 
+79 559
+local_num = 826133982216192 | Rank: 559 
+79 352
+local_num = 922803803389952 | Rank: 352 
+79 278
+local_num = 28649615622144 | Rank: 278 
+79 347
+local_num = 795286578921472 | Rank: 347 
+79 566
+local_num = 344764874620928 | Rank: 566 
+79 406
+79 175
+local_num = 397577059926016 | Rank: 175 
+local_num = 459631451537408 | Rank: 406 
+79 335
+local_num = 307797224783872 | Rank: 335 
+79 432
+local_num = 606058344218624 | Rank: 432 
+79 431
+local_num = 997169422893056 | Rank: 431 
+79 193
+79 513
+local_num = 552949194391552 | Rank: 193 
+local_num = 165801342435328 | Rank: 513 
+79 150
+79 246
+local_num = 288871449821184 | Rank: 150 
+local_num = 85758029135872 | Rank: 246 
+79 214
+local_num = 750281278406656 | Rank: 214 
+79 417
+local_num = 920458803576832 | Rank: 417 
+79 219
+local_num = 161518842413056 | Rank: 219 
+79 342
+local_num = 47507932577792 | Rank: 342 
+79 350
+local_num = 463793342906368 | Rank: 350 
+79 313
+local_num = 864789248835584 | Rank: 313 
+79 47
+local_num = 81754142081024 | Rank: 47 
+79 22
+local_num = 983867612463104 | Rank: 22 
+79 388
+local_num = 187273306636288 | Rank: 388 
+79 385
+local_num = 791591643348992 | Rank: 385 
+79 315
+local_num = 276802996666368 | Rank: 315 
+79 419
+local_num = 632858316111872 | Rank: 419 
+79 304
+local_num = 326011493793792 | Rank: 304 
+79 412
+local_num = 951233799651328 | Rank: 412 
+79 86
+local_num = 940746984620032 | Rank: 86 
+79 368
+79 320
+local_num = 443275436621824 | Rank: 320 
+local_num = 328090458652672 | Rank: 368 
+79 257
+79 54
+local_num = 633150311333888 | Rank: 257 
+local_num = 321237697839104 | Rank: 54 
+79 336
+local_num = 210947791847424 | Rank: 336 
+79 353
+local_num = 21236015333376 | Rank: 353 
+79 101
+local_num = 747805068263424 | Rank: 101 
+79 421
+local_num = 491222770712576 | Rank: 421 
+79 283
+local_num = 416849167056896 | Rank: 283 
+79 1
+local_num = 410806311190528 | Rank: 1 
+79 207
+local_num = 412694747316224 | Rank: 207 
+79 271
+local_num = 315922595577856 | Rank: 271 
+79 224
+local_num = 32036128628736 | Rank: 224 
+79 397
+local_num = 475797012054016 | Rank: 397 
+79 262
+local_num = 414677769289728 | Rank: 262 
+79 374
+local_num = 716640864956416 | Rank: 374 
+79 165
+local_num = 216286503960576 | Rank: 165 
+79 208
+local_num = 82994183995392 | Rank: 208 
+79 357
+local_num = 499349833449472 | Rank: 357 
+79 209
+local_num = 866722964406272 | Rank: 209 
+79 302
+local_num = 966015914049536 | Rank: 302 
+79 361
+local_num = 353442313404416 | Rank: 361 
+79 321
+local_num = 610855023017984 | Rank: 321 
+79 495
+local_num = 743569298030592 | Rank: 495 
+79 213
+local_num = 954950111494144 | Rank: 213 
+79 229
+local_num = 106864124264448 | Rank: 229 
+79 533
+local_num = 406455729651712 | Rank: 533 
+79 393
+local_num = 686949952585728 | Rank: 393 
+79 241
+local_num = 370188751273984 | Rank: 241 
+79 270
+local_num = 344214216310784 | Rank: 270 
+79 438
+local_num = 877992221474816 | Rank: 438 
+79 79
+local_num = 434842841645056 | Rank: 79 
+79 96
+local_num = 85849589121024 | Rank: 96 
+79 293
+local_num = 500871064190976 | Rank: 293 
+79 251
+local_num = 151016613937152 | Rank: 251 
+79 324
+local_num = 589025186709504 | Rank: 324 
+79 129
+local_num = 17032738537472 | Rank: 129 
+79 118
+local_num = 967378509758464 | Rank: 118 
+79 192
+local_num = 498842566885376 | Rank: 192 
+79 358
+local_num = 74788827693056 | Rank: 358 
+79 288
+local_num = 654323396182016 | Rank: 288 
+79 161
+local_num = 65077744205824 | Rank: 161 
+79 225
+local_num = 54354685591552 | Rank: 225 
+79 398
+local_num = 661559952211968 | Rank: 398 
+79 449
+local_num = 834579486048256 | Rank: 449 
+79 256
+local_num = 765648589389824 | Rank: 256 
+79 329
+local_num = 804274040602624 | Rank: 329 
+79 470
+local_num = 836653223247872 | Rank: 470 
+79 132
+79 64
+local_num = 969945114509312 | Rank: 132 
+local_num = 970412713721856 | Rank: 64 
+79 200
+local_num = 62875800797184 | Rank: 200 
+79 520
+local_num = 81270727704576 | Rank: 520 
+79 6
+local_num = 683720244166656 | Rank: 6 
+79 70
+local_num = 515280218324992 | Rank: 70 
+79 416
+local_num = 406924712804352 | Rank: 416 
+79 80
+local_num = 852486316589056 | Rank: 80 
+79 539
+local_num = 416730330136576 | Rank: 539 
+79 326
+local_num = 214737047683072 | Rank: 326 
+79 160
+local_num = 882643130974208 | Rank: 160 
+79 126
+local_num = 821641957441536 | Rank: 126 
+79 48
+local_num = 283536508092416 | Rank: 48 
+79 97
+local_num = 638618772406272 | Rank: 97 
+79 264
+local_num = 651723702894592 | Rank: 264 
+79 134
+local_num = 240733707812864 | Rank: 134 
+79 37
+local_num = 105615041396736 | Rank: 37 
+79 369
+local_num = 601049495076864 | Rank: 369 
+79 529
+local_num = 146054366298112 | Rank: 529 
+79 382
+local_num = 578210125447168 | Rank: 382 
+79 181
+local_num = 630382102151168 | Rank: 181 
+79 137
+local_num = 854164740866048 | Rank: 137 
+79 201
+local_num = 570955151802368 | Rank: 201 
+79 356
+local_num = 527664452739072 | Rank: 356 
+79 305
+local_num = 589665776959488 | Rank: 305 
+79 235
+local_num = 939202371289088 | Rank: 235 
+79 366
+local_num = 563825593810944 | Rank: 366 
+79 399
+79 176
+local_num = 297432958042112 | Rank: 399 
+local_num = 214897485316096 | Rank: 176 
+79 534
+79 528
+local_num = 649950382948352 | Rank: 528 
+79 544
+local_num = 586390609199104 | Rank: 544 
+local_num = 257815328047104 | Rank: 534 
+79 512
+79 363
+local_num = 762844141289472 | Rank: 512 
+local_num = 716377216385024 | Rank: 363 
+79 68
+local_num = 147558266699776 | Rank: 68 
+79 107
+local_num = 530661299683328 | Rank: 107 
+79 337
+79 81
+local_num = 41795947921408 | Rank: 337 
+79 198
+local_num = 946479956885504 | Rank: 198 
+79 277
+local_num = 524556578193408 | Rank: 81 
+local_num = 210960596107264 | Rank: 277 
+79 149
+79 571
+local_num = 42700004130816 | Rank: 149 
+local_num = 469802404216832 | Rank: 571 
+79 46
+local_num = 733861859459072 | Rank: 46 
+79 400
+local_num = 388758005415936 | Rank: 400 
+79 496
+local_num = 464983836196864 | Rank: 496 
+79 143
+local_num = 638339996024832 | Rank: 143 
+79 59
+local_num = 369981428137984 | Rank: 59 
+79 99
+local_num = 508030014849024 | Rank: 99 
+79 527
+local_num = 985667094740992 | Rank: 527 
+79 272
+79 485
+local_num = 671275315396608 | Rank: 485 
+local_num = 32579074064384 | Rank: 272 
+79 65
+local_num = 15428624531456 | Rank: 65 
+79 360
+local_num = 157827683319808 | Rank: 360 
+79 384
+local_num = 693549671645184 | Rank: 384 
+79 405
+79 457
+local_num = 702106160529408 | Rank: 405 
+local_num = 84624557473792 | Rank: 457 
+79 142
+local_num = 597968652992512 | Rank: 142 
+79 273
+local_num = 361735985659904 | Rank: 273 
+79 55
+local_num = 744637319872512 | Rank: 55 
+79 314
+79 223
+local_num = 258545088397312 | Rank: 223 
+79 232
+local_num = 899819835850752 | Rank: 314 
+local_num = 851333177737216 | Rank: 232 
+79 211
+79 463
+79 233
+local_num = 541638550716416 | Rank: 233 
+local_num = 994160457908224 | Rank: 211 
+79 309
+local_num = 376378151108608 | Rank: 463 
+local_num = 842032600252416 | Rank: 309 
+79 261
+79 222
+local_num = 516535609360384 | Rank: 261 
+local_num = 238464685146112 | Rank: 222 
+79 542
+79 328
+local_num = 991479273521152 | Rank: 328 
+local_num = 951803494105088 | Rank: 542 
+79 0
+79 521
+local_num = 336398399602688 | Rank: 0 
+local_num = 804044406521856 | Rank: 521 
+79 128
+local_num = 824555038408704 | Rank: 128 
+local_fact del 336local_fact del 5479 110
+local_num = 897143856365568 | Rank: 110 
+local_fact del 55979 113
+79 433
+79 119
+local_num = 191058473058304 | Rank: 119 
+79 497
+local_num = 358981796364288 | Rank: 433 
+local_fact del 128local_fact del 38879 183
+local_num = 291207731314688 | Rank: 113 
+local_num = 891484554788864 | Rank: 497 
+79 287
+local_num = 795777493958656 | Rank: 183 
+local_num = 256525893894144 | Rank: 287 
+79 452
+local_fact del 257local_num = 246691899277312 | Rank: 452 
+79 16
+local_num = 273441192968192 | Rank: 16 
+local_fact del 35379 78
+79 284
+local_num = 216118192832512 | Rank: 78 
+local_fact del 16local_num = 948000830472192 | Rank: 284 
+79 289
+79 555
+local_fact del 118local_fact del 463local_fact del 232local_fact del 211local_fact del 261local_fact del 521local_fact del 542local_num = 380344531386368 | Rank: 289 
+local_fact del 314local_fact del 384local_num = 522662770081792 | Rank: 555 
+local_fact del 497local_fact del 433local_fact del 222local_fact del 287local_fact del 309local_fact del 328local_fact del 183local_fact del 113local_fact del 45279 57
+local_fact del 421local_fact del 7879 377
+local_num = 764829438083072 | Rank: 57 
+local_fact del 284local_fact del 555local_num = 658902223355904 | Rank: 377 
+local_fact del 223local_fact del 289local_fact del 53379 423
+local_num = 508160928940032 | Rank: 423 
+79 351
+local_num = 722778313392128 | Rank: 351 
+79 145
+local_num = 508321166262272 | Rank: 145 
+local_fact del 179 480
+local_num = 429758055612416 | Rank: 480 
+79 299
+79 144
+local_num = 736481553547264 | Rank: 299 
+local_num = 318792197718016 | Rank: 144 
+79 334
+79 238
+local_num = 105783454810112 | Rank: 334 
+local_num = 487370807410688 | Rank: 238 
+79 95
+local_num = 958268109062144 | Rank: 95 
+79 21
+local_num = 65246161240064 | Rank: 21 
+local_fact del 35279 464
+local_num = 256192281985024 | Rank: 464 
+79 49
+local_num = 897628778512384 | Rank: 49 
+79 28
+local_num = 458638851538944 | Rank: 28 
+79 481
+local_num = 121816718114816 | Rank: 481 
+79 9
+79 348
+local_num = 11818219864064 | Rank: 9 
+local_num = 371916451119104 | Rank: 348 
+79 191
+79 448
+79 311
+local_num = 63170326233088 | Rank: 191 
+local_num = 400374542368768 | Rank: 448 
+local_num = 270429658611712 | Rank: 311 
+79 53
+79 254
+79 574
+local_num = 369255713636352 | Rank: 53 
+local_num = 943581841719296 | Rank: 254 
+local_num = 139809904164864 | Rank: 574 
+79 112
+79 30
+79 373
+79 226
+local_num = 905356776669184 | Rank: 226 
+local_num = 226454708092928 | Rank: 112 
+local_num = 982124825608192 | Rank: 30 
+local_num = 587042947072 | Rank: 373 
+local_fact del 239local_fact del 27879 73
+local_num = 848516665442304 | Rank: 73 
+79 401
+local_num = 587610240548864 | Rank: 401 
+79 87
+local_num = 394230229663744 | Rank: 87 
+79 411
+79 91
+local_num = 425523690012672 | Rank: 91 
+local_num = 168880252289024 | Rank: 411 
+79 427
+79 5
+local_num = 401284503240704 | Rank: 427 
+local_num = 364524830359552 | Rank: 5 
+79 349
+local_num = 707824306929664 | Rank: 349 
+79 560
+local_num = 840972877758464 | Rank: 560 
+79 151
+79 121
+local_num = 943037035675648 | Rank: 151 
+local_num = 489636536287232 | Rank: 121 
+79 63
+local_num = 771876731387904 | Rank: 63 
+79 100
+local_num = 798261916827648 | Rank: 100 
+79 104
+local_num = 667218803277824 | Rank: 104 
+79 319
+local_num = 766869149515776 | Rank: 319 
+local_fact del 34779 197
+local_num = 512424151318528 | Rank: 197 
+79 379
+local_fact del 214local_num = 307370856513536 | Rank: 379 
+79 206
+local_num = 121558259367936 | Rank: 206 
+79 168
+local_num = 907073093009408 | Rank: 168 
+79 446
+79 297
+local_fact del 566local_num = 26518639869952 | Rank: 446 
+local_num = 779451308539904 | Rank: 297 
+79 167
+local_num = 194874997407744 | Rank: 167 
+79 27
+79 430
+local_num = 659216052092928 | Rank: 27 
+local_num = 323518090870784 | Rank: 430 
+79 13
+79 362
+79 269
+local_num = 738530061221888 | Rank: 13 
+local_num = 394295022649344 | Rank: 362 
+local_num = 303185825431552 | Rank: 269 
+79 390
+79 190
+local_num = 448703968247808 | Rank: 390 
+local_num = 944784460775424 | Rank: 190 
+local_fact del 43179 15
+local_num = 308505081577472 | Rank: 15 
+79 345
+local_num = 387006288232448 | Rank: 345 
+79 465
+local_num = 577626578239488 | Rank: 465 
+79 156
+local_num = 179672349032448 | Rank: 156 
+79 98
+local_num = 103417416482816 | Rank: 98 
+79 141
+local_num = 663746299265024 | Rank: 141 
+79 325
+local_num = 732364761595904 | Rank: 325 
+79 343
+local_num = 138111544459264 | Rank: 343 
+79 177
+local_num = 185286432292864 | Rank: 177 
+79 437
+local_num = 362142736351232 | Rank: 437 
+79 543
+local_num = 75689026781184 | Rank: 543 
+79 33
+79 545
+local_num = 680045126746112 | Rank: 545 
+local_num = 727255189389312 | Rank: 33 
+79 228
+79 546
+local_num = 532208612409344 | Rank: 546 
+79 531
+local_num = 579167397838848 | Rank: 531 
+79 8
+local_num = 67664167632896 | Rank: 228 
+79 549
+local_num = 394938645151744 | Rank: 549 
+local_num = 630695698792448 | Rank: 8 
+79 72
+local_num = 476776256569344 | Rank: 72 
+79 174
+79 292
+local_num = 948885226586112 | Rank: 174 
+local_num = 130155565350912 | Rank: 292 
+79 17
+local_num = 923257899024384 | Rank: 17 
+79 355
+local_num = 267113576071168 | Rank: 355 
+79 375
+local_num = 720171892998144 | Rank: 375 
+79 62
+local_num = 271406740242432 | Rank: 62 
+79 123
+79 255
+local_num = 245066483171328 | Rank: 255 
+local_num = 807469435846656 | Rank: 123 
+local_fact del 17579 475
+79 575
+local_num = 991088792633344 | Rank: 575 
+local_num = 187692050776064 | Rank: 475 
+79 240
+local_num = 909727280013312 | Rank: 240 
+local_fact del 33579 32
+local_num = 693423027748864 | Rank: 32 
+local_fact del 40679 407
+local_num = 53507588194304 | Rank: 407 
+79 185
+79 291
+local_num = 373885882466304 | Rank: 291 
+local_num = 285947906883584 | Rank: 185 
+79 14
+local_num = 129564487335936 | Rank: 14 
+79 365
+local_num = 901583693791232 | Rank: 365 
+local_fact del 150local_fact del 64local_fact del 51379 265
+local_num = 511936152993792 | Rank: 265 
+79 487
+local_fact del 182local_num = 257654476767232 | Rank: 487 
+79 439
+79 290
+79 565
+local_num = 203453916807168 | Rank: 439 
+local_num = 790131284443136 | Rank: 290 
+local_fact del 25679 553
+local_num = 765615795634176 | Rank: 553 
+local_num = 350748453453824 | Rank: 565 
+local_fact del 6local_fact del 219local_fact del 41779 231
+local_num = 476905639018496 | Rank: 231 
+79 34
+local_num = 450022020562944 | Rank: 34 
+79 220
+local_num = 369649910808576 | Rank: 220 
+79 230
+local_num = 916690021023744 | Rank: 230 
+79 286
+local_num = 375625477685248 | Rank: 286 
+79 341
+local_num = 604878585987072 | Rank: 341 
+79 461
+local_num = 716215795515392 | Rank: 461 
+79 155
+local_num = 454518804283392 | Rank: 155 
+79 117
+local_num = 162174553063424 | Rank: 117 
+79 279
+local_num = 360526634614784 | Rank: 279 
+local_fact del 24679 330
+local_num = 440916800536576 | Rank: 330 
+local_fact del 35079 210
+local_num = 607439440674816 | Rank: 210 
+79 503
+local_num = 472549935972352 | Rank: 503 
+79 162
+79 462
+79 558
+local_num = 634852813275136 | Rank: 162 
+local_num = 131450357317632 | Rank: 462 
+79 245
+79 530
+local_num = 80748228542464 | Rank: 558 
+local_num = 263049504980992 | Rank: 245 
+local_num = 147963266138112 | Rank: 530 
+79 35
+local_num = 134201919307776 | Rank: 35 
+local_fact del 8679 383
+79 85
+local_num = 489735367360512 | Rank: 85 
+local_num = 112402621366272 | Rank: 383 
+79 359
+local_num = 405992467103744 | Rank: 359 
+79 69
+local_num = 620953202720768 | Rank: 69 
+79 102
+local_num = 34942607654912 | Rank: 102 
+79 491
+local_num = 49947489140736 | Rank: 491 
+79 127
+local_num = 221938359468032 | Rank: 127 
+79 333
+local_num = 800828817768448 | Rank: 333 
+79 346
+local_num = 52048458809344 | Rank: 346 
+79 196
+local_num = 924112488988672 | Rank: 196 
+79 204
+local_fact del 502local_num = 638555940519936 | Rank: 204 
+local_fact del 432local_fact del 30379 552
+79 441
+local_num = 520814920695808 | Rank: 441 
+local_num = 838826568384512 | Rank: 552 
+79 43
+local_num = 780472926601216 | Rank: 43 
+79 275
+local_num = 83140724293632 | Rank: 275 
+79 389
+79 298
+local_num = 831221932064768 | Rank: 389 
+local_num = 674241316585472 | Rank: 298 
+local_fact del 34279 476
+local_num = 8072471740416 | Rank: 476 
+79 274
+local_num = 36177037508608 | Rank: 274 
+79 249
+local_num = 111145917906944 | Rank: 249 
+local_fact del 313local_fact del 193local_fact del 51279 171
+79 469
+local_num = 502869782462464 | Rank: 171 
+79 567
+local_num = 684164805132288 | Rank: 567 
+local_num = 99508256243712 | Rank: 469 
+79 247
+local_num = 216919039770624 | Rank: 247 
+79 40
+local_num = 671105670807552 | Rank: 40 
+79 415
+local_fact del 47local_num = 131004121022464 | Rank: 415 
+79 94
+local_num = 541585589354496 | Rank: 94 
+79 296
+local_num = 758585313165312 | Rank: 296 
+local_fact del 41979 338
+local_num = 884260552900608 | Rank: 338 
+79 166
+local_num = 688118395109376 | Rank: 166 
+79 105
+local_num = 146569195978752 | Rank: 105 
+79 327
+local_num = 177870267318272 | Rank: 327 
+local_fact del 35479 518
+local_num = 669537347043328 | Rank: 518 
+79 494
+local_num = 699496904278016 | Rank: 494 
+79 453
+79 300
+local_num = 787476359774208 | Rank: 300 
+79 163
+79 364
+local_num = 184930552676352 | Rank: 453 
+local_num = 748337170055168 | Rank: 163 
+local_num = 923316664008704 | Rank: 364 
+79 323
+local_fact del 2279 237
+local_num = 255834891255808 | Rank: 323 
+local_fact del 41279 19
+local_num = 309510250725376 | Rank: 19 
+local_num = 330044339060736 | Rank: 237 
+79 92
+local_num = 605070002978816 | Rank: 92 
+local_fact del 36779 267
+local_num = 117057324843008 | Rank: 267 
+local_fact del 30479 164
+local_num = 276675359588352 | Rank: 164 
+local_fact del 31579 339
+local_num = 523179130159104 | Rank: 339 
+79 215
+79 510
+79 205
+local_num = 538210741846016 | Rank: 205 
+local_num = 210889702014976 | Rank: 510 
+79 501
+local_num = 772918801498112 | Rank: 215 
+local_num = 557569925414912 | Rank: 501 
+79 443
+local_num = 750700758106112 | Rank: 443 
+local_fact del 31079 561
+79 147
+79 454
+local_num = 959103485001728 | Rank: 454 
+local_num = 27900384149504 | Rank: 561 
+local_num = 495562213326848 | Rank: 147 
+79 221
+79 318
+local_num = 68370424397824 | Rank: 318 
+local_num = 966387013517312 | Rank: 221 
+79 268
+local_num = 679436588449792 | Rank: 268 
+79 169
+local_num = 48453658902528 | Rank: 169 
+79 295
+local_num = 878600548876288 | Rank: 295 
+79 424
+local_num = 583234790064128 | Rank: 424 
+79 525
+local_num = 655290603175936 | Rank: 525 
+79 159
+local_num = 852496426991616 | Rank: 159 
+local_fact del 11179 332
+local_num = 58375924514816 | Rank: 332 
+79 526
+local_fact del 368local_num = 916117088305152 | Rank: 526 
+79 554
+79 551
+local_num = 593329245945856 | Rank: 551 
+local_num = 642330882179072 | Rank: 554 
+79 39
+local_fact del 544local_num = 887994589052928 | Rank: 39 
+local_fact del 32079 103
+79 217
+79 418
+local_num = 233035295195136 | Rank: 103 
+local_num = 726137238618112 | Rank: 217 
+local_num = 21004915900416 | Rank: 418 
+79 77
+local_num = 270147005775872 | Rank: 77 
+local_fact del 38579 187
+79 402
+local_num = 982872199954432 | Rank: 187 
+local_num = 180834092220416 | Rank: 402 
+local_fact del 270local_fact del 7079 483
+local_fact del 534local_num = 813062217203712 | Rank: 483 
+79 133
+local_num = 234544572235776 | Rank: 133 
+local_fact del 208local_fact del 2179 41
+79 146
+79 482
+79 378
+79 218
+79 58
+local_fact del 26279 535
+local_num = 406722586673152 | Rank: 535 
+local_fact del 571local_num = 402027782602752 | Rank: 41 
+local_num = 685170635276288 | Rank: 146 
+local_num = 968184763482112 | Rank: 482 
+local_num = 536607794102272 | Rank: 378 
+local_num = 994256479485952 | Rank: 218 
+local_num = 646462227939328 | Rank: 58 
+79 371
+local_num = 810401954168832 | Rank: 371 
+79 392
+local_num = 953915592278016 | Rank: 392 
+79 307
+local_num = 563959521640448 | Rank: 307 
+79 420
+local_num = 55609850626048 | Rank: 420 
+79 505
+local_num = 603777163853824 | Rank: 505 
+79 282
+local_num = 50544590225408 | Rank: 282 
+79 466
+local_num = 984049186144256 | Rank: 466 
+local_fact del 165local_fact del 5779 312
+local_num = 817024826671104 | Rank: 312 
+local_fact del 357local_fact del 209local_fact del 495local_fact del 37479 471
+local_fact del 448local_num = 62504742289408 | Rank: 471 
+local_fact del 22579 317
+local_fact del 9local_num = 238018100690944 | Rank: 317 
+local_fact del 8079 403
+79 301
+local_num = 32705638203392 | Rank: 403 
+local_num = 28622309228544 | Rank: 301 
+79 517
+local_num = 843882746740736 | Rank: 517 
+local_fact del 26479 115
+local_num = 953945811730432 | Rank: 115 
+79 179
+local_num = 718481931403264 | Rank: 179 
+79 136
+local_fact del 241local_num = 607531436998656 | Rank: 136 
+79 195
+79 511
+local_num = 722525526720512 | Rank: 195 
+local_num = 284104841658368 | Rank: 511 
+local_fact del 43879 294
+local_num = 352456086847488 | Rank: 294 
+local_fact del 16179 548
+local_num = 885797952028672 | Rank: 548 
+79 540
+local_num = 123147041128448 | Rank: 540 
+local_fact del 321local_fact del 5local_fact del 9679 42
+79 227
+local_num = 540874015997952 | Rank: 227 
+local_fact del 879 45
+local_num = 492925953048576 | Rank: 45 
+local_fact del 229local_fact del 235local_num = 748685774258176 | Rank: 42 
+79 395
+local_num = 224776976564224 | Rank: 395 
+79 459
+local_num = 398056789213184 | Rank: 459 
+local_fact del 28379 138
+local_num = 729744525819904 | Rank: 138 
+79 380
+79 556
+local_num = 554074522124288 | Rank: 380 
+local_num = 162714717487104 | Rank: 556 
+79 260
+local_num = 713437528588288 | Rank: 260 
+79 488
+local_num = 83854826438656 | Rank: 488 
+79 456
+local_fact del 293local_num = 466260252278784 | Rank: 456 
+local_fact del 25179 547
+local_num = 162993442586624 | Rank: 547 
+local_fact del 15local_fact del 22479 414
+79 106
+79 31
+local_num = 709041679171584 | Rank: 414 
+local_num = 885811574505472 | Rank: 106 
+local_num = 658384898097152 | Rank: 31 
+local_fact del 271local_fact del 397local_fact del 28879 429
+79 493
+local_num = 357010754371584 | Rank: 429 
+local_num = 640326288801792 | Rank: 493 
+79 281
+local_num = 877731043966976 | Rank: 281 
+local_fact del 12979 71
+local_num = 30264306958336 | Rank: 71 
+79 331
+local_num = 629621451587584 | Rank: 331 
+local_fact del 358local_fact del 21379 515
+79 3
+local_num = 960782078672896 | Rank: 515 
+local_num = 616856654544896 | Rank: 3 
+79 478
+79 447
+local_num = 472784241000448 | Rank: 447 
+local_fact del 57579 158
+local_num = 130679244619776 | Rank: 478 
+local_fact del 449local_num = 270866706530304 | Rank: 158 
+local_fact del 17local_fact del 324local_fact del 416local_fact del 3279 83
+79 89
+local_num = 526947298246656 | Rank: 89 
+local_fact del 7979 484
+local_num = 472661105475584 | Rank: 83 
+local_num = 223708065988608 | Rank: 484 
+79 479
+local_num = 485278544592896 | Rank: 479 
+79 422
+local_num = 586115595173888 | Rank: 422 
+local_fact del 527local_fact del 132local_fact del 97local_fact del 19279 507
+79 202
+local_num = 789923569565696 | Rank: 507 
+local_num = 682809908690944 | Rank: 202 
+local_fact del 10179 236
+local_fact del 32979 18
+local_num = 394885041651712 | Rank: 236 
+local_num = 366932278345728 | Rank: 18 
+79 486
+local_fact del 36979 266
+local_num = 691418925727744 | Rank: 486 
+local_num = 818970504986624 | Rank: 266 
+79 394
+local_num = 53023186583552 | Rank: 394 
+local_fact del 470local_fact del 302local_fact del 39879 426
+local_num = 687149648510976 | Rank: 426 
+79 344
+local_num = 246379781783552 | Rank: 344 
+79 285
+local_num = 989328016736256 | Rank: 285 
+79 188
+local_num = 271601833967616 | Rank: 188 
+local_fact del 160local_fact del 126local_fact del 134local_fact del 4879 316
+local_num = 760601485574144 | Rank: 316 
+local_fact del 356local_fact del 19879 199
+local_num = 330714601422848 | Rank: 199 
+local_fact del 20079 524
+local_num = 570147538960384 | Rank: 524 
+local_fact del 528local_fact del 32679 10
+local_fact del 37local_num = 34700640354304 | Rank: 10 
+79 74
+local_num = 598712418443264 | Rank: 74 
+local_fact del 81local_fact del 36679 90
+local_num = 966141130539008 | Rank: 90 
+79 490
+79 410
+79 76
+local_num = 769418101850112 | Rank: 76 
+local_num = 187757021478912 | Rank: 490 
+local_num = 958929078255616 | Rank: 410 
+79 516
+local_num = 253292159107072 | Rank: 516 
+local_fact del 17679 154
+local_fact del 137local_num = 802045457235968 | Rank: 154 
+local_fact del 38279 170
+local_num = 358253585137664 | Rank: 170 
+local_fact del 13local_fact del 14379 519
+local_num = 923895504273408 | Rank: 519 
+79 4
+local_num = 137490670092288 | Rank: 4 
+local_fact del 46local_fact del 361local_fact del 30579 425
+local_num = 76146433425408 | Rank: 425 
+79 523
+local_num = 371793721065472 | Rank: 523 
+79 186
+local_num = 488320280100864 | Rank: 186 
+79 153
+79 308
+local_num = 709122264039424 | Rank: 153 
+local_num = 788214973792256 | Rank: 308 
+local_fact del 18179 263
+local_fact del 68local_num = 499221247623168 | Rank: 263 
+local_fact del 337local_fact del 39979 569
+local_num = 393212849094656 | Rank: 569 
+local_fact del 14979 122
+79 259
+79 538
+local_num = 607903489032192 | Rank: 122 
+local_num = 24738857713664 | Rank: 538 
+local_num = 211001252282368 | Rank: 259 
+79 322
+local_fact del 19local_fact del 9979 25
+79 234
+local_num = 551227010514944 | Rank: 234 
+local_num = 105243386118144 | Rank: 322 
+79 7
+local_num = 602743214309376 | Rank: 7 
+local_num = 397325109198848 | Rank: 25 
+79 93
+local_fact del 277local_num = 558115608756224 | Rank: 93 
+local_fact del 485local_fact del 360local_fact del 405local_fact del 272local_fact del 65local_fact del 107local_fact del 36379 173
+local_num = 126239494275072 | Rank: 173 
+79 243
+79 135
+local_fact del 59local_num = 487617983348736 | Rank: 135 
+local_num = 302157884325888 | Rank: 243 
+79 203
+local_num = 338120733622272 | Rank: 203 
+local_fact del 496local_fact del 40079 442
+local_fact del 560local_num = 59319760420864 | Rank: 442 
+local_fact del 539local_fact del 14279 541
+local_num = 213048339890176 | Rank: 541 
+79 36
+79 216
+79 536
+79 409
+local_num = 482636176654336 | Rank: 216 
+local_num = 769419930238976 | Rank: 536 
+local_num = 120102767951872 | Rank: 409 
+local_num = 87143470301184 | Rank: 36 
+79 458
+local_num = 312172417220608 | Rank: 458 
+79 340
+79 88
+local_num = 251637656469504 | Rank: 340 
+local_num = 202474694049792 | Rank: 88 
+local_fact del 273local_fact del 5579 108
+local_num = 425387670601728 | Rank: 108 
+79 172
+local_num = 488292393484288 | Rank: 172 
+79 124
+79 250
+local_num = 692437941354496 | Rank: 250 
+local_num = 706952259305472 | Rank: 124 
+79 67
+local_num = 209327131099136 | Rank: 67 
+local_fact del 45779 444
+local_fact del 574local_num = 112960533839872 | Rank: 444 
+local_fact del 52979 82
+local_num = 855653857263616 | Rank: 82 
+local_fact del 39379 180
+local_num = 745522856165376 | Rank: 180 
+79 66
+local_fact del 377local_num = 656979074777088 | Rank: 66 
+local_fact del 299local_fact del 379local_fact del 33local_fact del 103local_fact del 351local_fact del 423local_fact del 191local_fact del 77local_fact del 20779 435
+79 568
+local_fact del 144local_num = 297455704834048 | Rank: 435 
+local_fact del 25479 550
+local_num = 520148820197376 | Rank: 550 
+local_num = 383794369757184 | Rank: 568 
+local_fact del 1479 130
+79 194
+local_fact del 33479 23
+local_num = 539690475618304 | Rank: 23 
+local_num = 86997862187008 | Rank: 130 
+local_num = 766592234651648 | Rank: 194 
+79 467
+local_num = 823086462828544 | Rank: 467 
+79 522
+local_num = 353934141620224 | Rank: 522 
+local_fact del 311local_fact del 14579 109
+79 413
+local_num = 403327997345792 | Rank: 109 
+79 44
+local_num = 785922087878656 | Rank: 413 
+local_num = 592771925180416 | Rank: 44 
+local_fact del 95local_fact del 16879 139
+79 248
+local_fact del 49local_num = 816702578720768 | Rank: 248 
+local_num = 757119359680512 | Rank: 139 
+local_fact del 34879 391
+local_num = 144240881467392 | Rank: 391 
+79 474
+local_fact del 167local_num = 377663549833216 | Rank: 474 
+79 537
+local_fact del 121local_num = 837938473074688 | Rank: 537 
+79 26
+local_num = 324128651247616 | Rank: 26 
+79 38
+local_fact del 2779 84
+local_num = 607815553122304 | Rank: 38 
+79 280
+local_num = 350374784401408 | Rank: 84 
+local_num = 382309306433536 | Rank: 280 
+79 189
+local_fact del 297local_num = 421124011556864 | Rank: 189 
+79 51
+local_num = 620561193828352 | Rank: 51 
+local_fact del 104local_fact del 110local_fact del 349local_fact del 17779 140
+79 258
+local_num = 489811158515712 | Rank: 140 
+local_num = 617691144486912 | Rank: 258 
+local_fact del 390local_fact del 464local_fact del 43779 131
+local_fact del 240local_num = 489711561080832 | Rank: 131 
+79 12
+local_fact del 233local_fact del 411local_fact del 238local_num = 208960653492224 | Rank: 12 
+79 75
+local_num = 901346977185792 | Rank: 75 
+local_fact del 481local_fact del 319local_fact del 427local_fact del 15179 60
+local_fact del 119local_num = 945714855182336 | Rank: 60 
+local_fact del 28local_fact del 345local_fact del 63local_fact del 206local_fact del 8779 508
+local_num = 874722338766848 | Rank: 508 
+local_fact del 401local_fact del 46579 557
+local_num = 529919460835328 | Rank: 557 
+79 252
+local_num = 708727948607488 | Rank: 252 
+local_fact del 430local_fact del 269local_fact del 475local_fact del 325local_fact del 520local_fact del 362local_fact del 190local_fact del 156local_fact del 100local_fact del 355local_fact del 9179 489
+local_num = 760123922120704 | Rank: 489 
+local_fact del 141local_fact del 343local_fact del 197local_fact del 73local_fact del 201local_fact del 439local_fact del 565local_fact del 34local_fact del 29279 148
+local_num = 7116327878656 | Rank: 148 
+local_fact del 37579 506
+local_num = 618350220607488 | Rank: 506 
+local_fact del 174local_fact del 53local_fact del 255local_fact del 72local_fact del 185local_fact del 123local_fact del 62local_fact del 40779 396
+local_num = 846512084877312 | Rank: 396 
+79 563
+local_fact del 291local_num = 396790236381184 | Rank: 563 
+79 24
+local_fact del 226local_num = 462163799810048 | Rank: 24 
+local_fact del 265local_fact del 365local_fact del 29079 253
+local_num = 32310289399808 | Rank: 253 
+local_fact del 98local_fact del 48779 178
+local_num = 281656244994048 | Rank: 178 
+79 386
+local_num = 719352141348864 | Rank: 386 
+local_fact del 228local_fact del 1879 11
+local_num = 964096996769792 | Rank: 11 
+local_fact del 28679 152
+local_num = 125050130530304 | Rank: 152 
+local_fact del 37379 306
+local_num = 386844932538368 | Rank: 306 
+79 50
+local_num = 677258336403456 | Rank: 50 
+local_fact del 11279 564
+local_fact del 543local_num = 178236227928064 | Rank: 564 
+79 244
+local_num = 285055970050048 | Rank: 244 
+local_fact del 10local_fact del 779 477
+local_num = 974311492026368 | Rank: 477 
+79 408
+local_num = 257870702313472 | Rank: 408 
+79 157
+local_num = 673180802023424 | Rank: 157 
+79 52
+local_num = 81529156698112 | Rank: 52 
+79 114
+local_num = 237552119250944 | Rank: 114 
+79 29
+local_num = 459551162597376 | Rank: 29 
+79 370
+local_num = 980438652977152 | Rank: 370 
+79 434
+local_num = 371380404027392 | Rank: 434 
+79 404
+79 455
+local_num = 452928416301056 | Rank: 404 
+local_num = 217055551389696 | Rank: 455 
+local_fact del 479 276
+local_num = 728470980984832 | Rank: 276 
+79 61
+79 116
+local_num = 922364329426944 | Rank: 61 
+local_num = 842370186706944 | Rank: 116 
+79 387
+79 473
+local_num = 27877952094208 | Rank: 387 
+local_num = 638987716165632 | Rank: 473 
+79 499
+local_num = 639815705034752 | Rank: 499 
+79 450
+local_num = 854155332943872 | Rank: 450 
+79 212
+local_num = 291950861221888 | Rank: 212 
+79 472
+local_num = 262003561365504 | Rank: 472 
+79 184
+79 2
+local_num = 722465771978752 | Rank: 2 
+79 428
+local_num = 444769627799552 | Rank: 184 
+79 20
+local_num = 128996746985472 | Rank: 20 
+local_num = 699070383194112 | Rank: 428 
+79 509
+local_num = 627047610089472 | Rank: 509 
+79 570
+local_num = 403050120511488 | Rank: 570 
+79 242
+local_num = 215916304564224 | Rank: 242 
+local_fact del 2379 498
+local_num = 325768147140608 | Rank: 498 
+79 372
+local_num = 765466995359744 | Rank: 372 
+local_fact del 102local_fact del 41local_fact del 482local_fact del 316local_fact del 458local_fact del 39local_fact del 67local_fact del 250local_fact del 535local_fact del 82local_fact del 541local_fact del 444local_fact del 66local_fact del 180local_fact del 40279 460
+local_fact del 307local_fact del 568local_num = 16208962256896 | Rank: 460 
+local_fact del 498local_fact del 435local_fact del 130local_fact del 217local_fact del 508local_fact del 428local_fact del 139local_fact del 282local_fact del 420local_fact del 30local_fact del 37179 492
+local_fact del 392local_num = 98559764529152 | Rank: 492 
+local_fact del 47179 572
+local_num = 992093767008256 | Rank: 572 
+local_fact del 133local_fact del 218local_fact del 418local_fact del 285local_fact del 317local_fact del 505local_fact del 480local_fact del 312local_fact del 195local_fact del 187local_fact del 466local_fact del 454local_fact del 551local_fact del 379 514
+local_num = 322097799053312 | Rank: 514 
+local_fact del 48379 532
+local_num = 409061789663232 | Rank: 532 
+local_fact del 12local_fact del 429local_fact del 517local_fact del 294local_fact del 106local_fact del 31local_fact del 115local_fact del 446local_fact del 540local_fact del 71local_fact del 515local_fact del 403local_fact del 456local_fact del 301local_fact del 136local_fact del 281local_fact del 422local_fact del 4279 381
+local_num = 734447817719808 | Rank: 381 
+local_fact del 158local_fact del 17979 451
+local_num = 187845788205056 | Rank: 451 
+local_fact del 260local_fact del 53079 56
+local_num = 345555580895232 | Rank: 56 
+79 500
+local_num = 600964506943488 | Rank: 500 
+local_fact del 39579 468
+local_fact del 556local_num = 420403457261568 | Rank: 468 
+79 562
+local_num = 135427390111744 | Rank: 562 
+local_fact del 547local_fact del 138local_fact del 227local_fact del 236local_fact del 344local_fact del 45local_fact del 488local_fact del 155local_fact del 331local_fact del 117local_fact del 171local_fact del 479local_fact del 548local_fact del 58local_fact del 511local_fact del 484local_fact del 389local_fact del 478local_fact del 553local_fact del 414local_fact del 341local_fact del 266local_fact del 383local_fact del 154local_fact del 162local_fact del 330local_fact del 202local_fact del 443local_fact del 196local_fact del 83local_fact del 507local_fact del 486local_fact del 462local_fact del 546local_fact del 127local_fact del 245local_fact del 359local_fact del 279local_fact del 42679 573
+local_num = 658360748146688 | Rank: 573 
+local_fact del 333local_fact del 188local_fact del 46179 436
+local_num = 231986934677504 | Rank: 436 
+local_fact del 11local_fact del 346local_fact del 89local_fact del 524local_fact del 490local_fact del 394local_fact del 447local_fact del 298local_fact del 55279 125
+local_num = 689302471245824 | Rank: 125 
+local_fact del 274local_fact del 516local_fact del 503local_fact del 35local_fact del 199local_fact del 170local_fact del 210local_fact del 519local_fact del 49179 445
+local_num = 132187217821696 | Rank: 445 
+local_fact del 531local_fact del 231local_fact del 410local_fact del 275local_fact del 425local_fact del 523local_fact del 43local_fact del 94local_fact del 459local_fact del 249local_fact del 69local_fact del 204local_fact del 90local_fact del 469local_fact del 441local_fact del 558local_fact del 54579 120
+local_fact del 247local_num = 973323490787328 | Rank: 120 
+local_fact del 220local_fact del 415local_fact del 230local_fact del 378local_fact del 74local_fact del 186local_fact del 2local_fact del 20local_fact del 38079 504
+local_num = 504532915175424 | Rank: 504 
+local_fact del 146local_fact del 172local_fact del 476local_fact del 88local_fact del 493local_fact del 372local_fact del 572local_fact del 109local_fact del 522local_fact del 26local_fact del 131local_fact del 51local_fact del 537local_fact del 391local_fact del 84local_fact del 550local_fact del 280local_fact del 184local_fact del 29local_fact del 468local_fact del 514local_fact del 258local_fact del 140local_fact del 252local_fact del 370local_fact del 18979 376
+local_num = 16117985804288 | Rank: 376 
+local_fact del 194local_fact del 60local_fact del 489local_fact del 114local_fact del 557local_fact del 44local_fact del 506local_fact del 24local_fact del 178local_fact del 253local_fact del 386local_fact del 404local_fact del 569local_fact del 244local_fact del 50local_fact del 306local_fact del 563local_fact del 148local_fact del 38local_fact del 263local_fact del 216local_fact del 276local_fact del 408local_fact del 308local_fact del 157local_fact del 116local_fact del 467local_fact del 93local_fact del 387local_fact del 396local_fact del 455local_fact del 538local_fact del 122local_fact del 477local_fact del 322local_fact del 25local_fact del 564local_fact del 153local_fact del 173local_fact del 450local_fact del 243local_fact del 108local_fact del 499local_fact del 135local_fact del 259local_fact del 536local_fact del 52local_fact del 413local_fact del 36local_fact del 570local_fact del 152local_fact del 203local_fact del 473local_fact del 212local_fact del 442local_fact del 124local_fact del 61local_fact del 234local_fact del 340local_fact del 472local_fact del 409local_fact del 76local_fact del 50979 440
+local_num = 930947083599872 | Rank: 440 
+local_fact del 242local_fact del 474local_fact del 248local_fact del 75local_fact del 376local_fact del 532local_fact del 451local_fact del 500local_fact del 381local_fact del 434local_fact del 56local_fact del 445local_fact del 125local_fact del 436local_fact del 562local_fact del 120local_fact del 573local_fact del 504local_fact del 460local_fact del 492local_fact del 296local_fact del 338local_fact del 440local_fact del 147local_fact del 300local_fact del 554local_fact del 510local_fact del 567local_fact del 518local_fact del 327local_fact del 267local_fact del 549local_fact del 166local_fact del 40local_fact del 237local_fact del 494local_fact del 268local_fact del 453local_fact del 424local_fact del 164local_fact del 339local_fact del 364local_fact del 85local_fact del 92local_fact del 295local_fact del 105local_fact del 221local_fact del 318local_fact del 332local_fact del 159local_fact del 215local_fact del 525local_fact del 169local_fact del 501local_fact del 205local_fact del 561local_fact del 163local_fact del 0HERE
+word: 336398399602688
+word: 410806311190528
+word: 722465771978752
+word: 616856654544896
+word: 137490670092288
+word: 364524830359552
+word: 683720244166656
+word: 602743214309376
+word: 630695698792448
+word: 11818219864064
+word: 34700640354304
+word: 964096996769792
+word: 208960653492224
+word: 738530061221888
+word: 129564487335936
+word: 308505081577472
+word: 273441192968192
+word: 923257899024384
+word: 366932278345728
+word: 309510250725376
+word: 128996746985472
+word: 65246161240064
+word: 983867612463104
+word: 539690475618304
+word: 462163799810048
+word: 397325109198848
+word: 324128651247616
+word: 659216052092928
+word: 458638851538944
+word: 459551162597376
+word: 982124825608192
+word: 658384898097152
+word: 693423027748864
+word: 727255189389312
+word: 450022020562944
+word: 134201919307776
+word: 87143470301184
+word: 105615041396736
+word: 607815553122304
+word: 887994589052928
+word: 671105670807552
+word: 402027782602752
+word: 748685774258176
+word: 780472926601216
+word: 592771925180416
+word: 492925953048576
+word: 733861859459072
+word: 81754142081024
+word: 283536508092416
+word: 897628778512384
+word: 677258336403456
+word: 620561193828352
+word: 81529156698112
+word: 369255713636352
+word: 321237697839104
+word: 744637319872512
+word: 345555580895232
+word: 764829438083072
+word: 646462227939328
+word: 369981428137984
+word: 945714855182336
+word: 922364329426944
+word: 271406740242432
+word: 771876731387904
+word: 970412713721856
+word: 15428624531456
+word: 656979074777088
+word: 209327131099136
+word: 147558266699776
+word: 620953202720768
+word: 515280218324992
+local_fact del 323word: 30264306958336
+word: 476776256569344
+word: 848516665442304
+word: 598712418443264
+word: 901346977185792
+word: 769418101850112
+word: 270147005775872
+word: 216118192832512
+word: 434842841645056
+word: 852486316589056
+word: 524556578193408
+word: 855653857263616
+word: 472661105475584
+word: 350374784401408
+word: 489735367360512
+word: 940746984620032
+word: 394230229663744
+word: 202474694049792
+word: 526947298246656
+word: 966141130539008
+word: 425523690012672
+word: 605070002978816
+word: 558115608756224
+word: 541585589354496
+word: 958268109062144
+word: 85849589121024
+word: 638618772406272
+word: 103417416482816
+word: 508030014849024
+word: 798261916827648
+word: 747805068263424
+word: 34942607654912
+word: 233035295195136
+word: 667218803277824
+word: 146569195978752
+word: 885811574505472
+word: 530661299683328
+word: 425387670601728
+word: 403327997345792
+word: 897143856365568
+word: 539425044987904
+word: 226454708092928
+word: 291207731314688
+word: 237552119250944
+word: 953945811730432
+word: 842370186706944
+word: 162174553063424
+word: 967378509758464
+word: 191058473058304
+word: 973323490787328
+word: 489636536287232
+word: 607903489032192
+word: 807469435846656
+word: 706952259305472
+word: 689302471245824
+word: 821641957441536
+word: 221938359468032
+word: 824555038408704
+word: 17032738537472
+word: 86997862187008
+word: 489711561080832
+word: 969945114509312
+word: 234544572235776
+word: 240733707812864
+word: 487617983348736
+word: 607531436998656
+word: 854164740866048
+word: 729744525819904
+word: 757119359680512
+word: 489811158515712
+word: 663746299265024
+word: 597968652992512
+word: 638339996024832
+word: 318792197718016
+word: 508321166262272
+word: 685170635276288
+word: 495562213326848
+word: 7116327878656
+word: 42700004130816
+word: 288871449821184
+word: 943037035675648
+word: 125050130530304
+word: 709122264039424
+word: 802045457235968
+word: 454518804283392
+word: 179672349032448
+word: 673180802023424
+word: 270866706530304
+word: 852496426991616
+word: 882643130974208
+word: 65077744205824
+word: 634852813275136
+word: 748337170055168
+word: 276675359588352
+word: 216286503960576
+word: 688118395109376
+word: 194874997407744
+word: 907073093009408
+word: 48453658902528
+word: 358253585137664
+word: 502869782462464
+word: 488292393484288
+word: 126239494275072
+word: 948885226586112
+word: 397577059926016
+word: 214897485316096
+word: 185286432292864
+word: 281656244994048
+word: 718481931403264
+word: 745522856165376
+word: 630382102151168
+word: 944767244173312
+word: 795777493958656
+word: 444769627799552
+word: 285947906883584
+word: 488320280100864
+word: 982872199954432
+word: 271601833967616
+word: 421124011556864
+word: 944784460775424
+word: 63170326233088
+word: 498842566885376
+word: 552949194391552
+word: 766592234651648
+word: 722525526720512
+word: 924112488988672
+word: 512424151318528
+word: 946479956885504
+word: 330714601422848
+word: 62875800797184
+word: 570955151802368
+word: 682809908690944
+word: 338120733622272
+word: 638555940519936
+word: 538210741846016
+word: 121558259367936
+word: 412694747316224
+word: 82994183995392
+word: 866722964406272
+word: 607439440674816
+word: 994160457908224
+word: 291950861221888
+word: 954950111494144
+word: 750281278406656
+word: 772918801498112
+word: 482636176654336
+word: 726137238618112
+word: 994256479485952
+word: 161518842413056
+word: 369649910808576
+word: 966387013517312
+word: 238464685146112
+word: 258545088397312
+word: 32036128628736
+word: 54354685591552
+word: 905356776669184
+word: 540874015997952
+word: 67664167632896
+word: 106864124264448
+word: 916690021023744
+word: 476905639018496
+word: 851333177737216
+word: 541638550716416
+word: 551227010514944
+word: 939202371289088
+word: 394885041651712
+word: 330044339060736
+word: 487370807410688
+word: 594262668836864
+word: 909727280013312
+word: 370188751273984
+word: 215916304564224
+word: 302157884325888
+word: 285055970050048
+word: 263049504980992
+word: 85758029135872
+word: 216919039770624
+word: 816702578720768
+word: 111145917906944
+word: 692437941354496
+word: 151016613937152
+word: 708727948607488
+word: 32310289399808
+word: 943581841719296
+word: 245066483171328
+word: 765648589389824
+word: 633150311333888
+word: 617691144486912
+word: 211001252282368
+word: 713437528588288
+word: 516535609360384
+word: 414677769289728
+word: 499221247623168
+word: 651723702894592
+word: 511936152993792
+word: 818970504986624
+word: 117057324843008
+word: 679436588449792
+word: 303185825431552
+word: 344214216310784
+word: 315922595577856
+word: 32579074064384
+word: 361735985659904
+word: 36177037508608
+word: 83140724293632
+word: 728470980984832
+word: 210960596107264
+word: 28649615622144
+word: 360526634614784
+word: 382309306433536
+word: 877731043966976
+word: 50544590225408
+word: 416849167056896
+word: 948000830472192
+word: 989328016736256
+word: 375625477685248
+word: 256525893894144
+word: 654323396182016
+word: 380344531386368
+word: 790131284443136
+word: 373885882466304
+word: 130155565350912
+word: 500871064190976
+word: 352456086847488
+word: 878600548876288
+word: 758585313165312
+word: 779451308539904
+word: 674241316585472
+word: 736481553547264
+word: 787476359774208
+word: 28622309228544
+word: 966015914049536
+word: 286733316063232
+word: 326011493793792
+word: 589665776959488
+word: 386844932538368
+word: 563959521640448
+word: 788214973792256
+word: 842032600252416
+word: 367397597446144
+word: 270429658611712
+word: 817024826671104
+word: 864789248835584
+word: 899819835850752
+word: 276802996666368
+word: 760601485574144
+word: 238018100690944
+word: 68370424397824
+word: 766869149515776
+word: 443275436621824
+word: 610855023017984
+word: 105243386118144
+word: 255834891255808
+word: 589025186709504
+word: 732364761595904
+word: 214737047683072
+word: 177870267318272
+word: 991479273521152
+word: 804274040602624
+word: 440916800536576
+word: 629621451587584
+word: 58375924514816
+word: 800828817768448
+word: 105783454810112
+word: 307797224783872
+word: 210947791847424
+word: 41795947921408
+word: 884260552900608
+word: 523179130159104
+word: 251637656469504
+word: 604878585987072
+word: 47507932577792
+word: 138111544459264
+word: 246379781783552
+word: 387006288232448
+word: 52048458809344
+word: 795286578921472
+word: 371916451119104
+word: 707824306929664
+word: 463793342906368
+word: 722778313392128
+word: 922803803389952
+word: 21236015333376
+word: 692633440141312
+word: 267113576071168
+word: 527664452739072
+word: 499349833449472
+word: 74788827693056
+word: 405992467103744
+word: 157827683319808
+word: 353442313404416
+word: 394295022649344
+word: 716377216385024
+word: 923316664008704
+word: 901583693791232
+word: 563825593810944
+word: 997763139207168
+word: 328090458652672
+word: 601049495076864
+word: 980438652977152
+word: 810401954168832
+word: 765466995359744
+word: 587042947072
+word: 716640864956416
+word: 720171892998144
+word: 16117985804288
+word: 658902223355904
+word: 536607794102272
+word: 307370856513536
+word: 554074522124288
+word: 734447817719808
+word: 578210125447168
+word: 112402621366272
+word: 693549671645184
+word: 791591643348992
+word: 719352141348864
+word: 27877952094208
+word: 187273306636288
+word: 831221932064768
+word: 448703968247808
+word: 144240881467392
+word: 953915592278016
+word: 686949952585728
+word: 53023186583552
+word: 224776976564224
+word: 846512084877312
+word: 475797012054016
+word: 661559952211968
+word: 297432958042112
+word: 388758005415936
+word: 587610240548864
+word: 180834092220416
+word: 32705638203392
+word: 452928416301056
+word: 702106160529408
+word: 459631451537408
+word: 53507588194304
+word: 257870702313472
+word: 120102767951872
+word: 958929078255616
+word: 168880252289024
+word: 951233799651328
+word: 785922087878656
+word: 709041679171584
+word: 131004121022464
+word: 406924712804352
+word: 920458803576832
+word: 21004915900416
+word: 632858316111872
+word: 55609850626048
+word: 491222770712576
+word: 586115595173888
+word: 508160928940032
+word: 583234790064128
+word: 76146433425408
+word: 687149648510976
+word: 401284503240704
+word: 699070383194112
+word: 357010754371584
+word: 323518090870784
+word: 997169422893056
+word: 606058344218624
+word: 358981796364288
+word: 371380404027392
+word: 297455704834048
+word: 231986934677504
+word: 362142736351232
+word: 877992221474816
+word: 203453916807168
+word: 930947083599872
+word: 520814920695808
+word: 59319760420864
+word: 750700758106112
+word: 112960533839872
+word: 132187217821696
+word: 26518639869952
+word: 472784241000448
+word: 400374542368768
+word: 834579486048256
+word: 854155332943872
+word: 187845788205056
+word: 246691899277312
+word: 184930552676352
+word: 959103485001728
+word: 217055551389696
+word: 466260252278784
+word: 84624557473792
+word: 312172417220608
+word: 398056789213184
+word: 16208962256896
+word: 716215795515392
+word: 131450357317632
+word: 376378151108608
+word: 256192281985024
+word: 577626578239488
+word: 984049186144256
+word: 823086462828544
+word: 420403457261568
+word: 99508256243712
+word: 836653223247872
+word: 62504742289408
+word: 262003561365504
+word: 638987716165632
+word: 377663549833216
+word: 187692050776064
+word: 8072471740416
+word: 974311492026368
+word: 130679244619776
+word: 485278544592896
+word: 429758055612416
+word: 121816718114816
+word: 968184763482112
+word: 813062217203712
+word: 223708065988608
+word: 671275315396608
+word: 691418925727744
+word: 257654476767232
+word: 83854826438656
+word: 760123922120704
+word: 187757021478912
+word: 49947489140736
+word: 98559764529152
+word: 640326288801792
+word: 699496904278016
+word: 743569298030592
+word: 464983836196864
+word: 891484554788864
+word: 325768147140608
+word: 639815705034752
+word: 600964506943488
+word: 557569925414912
+word: 731549147496448
+word: 472549935972352
+word: 504532915175424
+word: 603777163853824
+word: 618350220607488
+word: 789923569565696
+word: 874722338766848
+word: 627047610089472
+word: 210889702014976
+word: 284104841658368
+word: 762844141289472
+word: 165801342435328
+word: 322097799053312
+word: 960782078672896
+word: 253292159107072
+word: 843882746740736
+word: 669537347043328
+word: 923895504273408
+word: 81270727704576
+word: 804044406521856
+word: 353934141620224
+word: 371793721065472
+word: 570147538960384
+word: 655290603175936
+word: 916117088305152
+word: 985667094740992
+word: 649950382948352
+word: 146054366298112
+word: 147963266138112
+word: 579167397838848
+word: 409061789663232
+word: 406455729651712
+word: 257815328047104
+word: 406722586673152
+word: 769419930238976
+word: 837938473074688
+word: 24738857713664
+word: 416730330136576
+word: 123147041128448
+word: 213048339890176
+word: 951803494105088
+word: 75689026781184
+word: 586390609199104
+word: 680045126746112
+word: 532208612409344
+word: 162993442586624
+word: 885797952028672
+word: 394938645151744
+word: 520148820197376
+word: 593329245945856
+word: 838826568384512
+word: 765615795634176
+word: 642330882179072
+word: 522662770081792
+word: 162714717487104
+word: 529919460835328
+word: 80748228542464
+word: 826133982216192
+word: 840972877758464
+word: 27900384149504
+word: 135427390111744
+word: 396790236381184
+word: 178236227928064
+word: 350748453453824
+word: 344764874620928
+word: 684164805132288
+word: 383794369757184
+word: 393212849094656
+word: 403050120511488
+word: 469802404216832
+word: 992093767008256
+word: 658360748146688
+word: 139809904164864
+word: 991088792633344
+collect
+local_fact del 526Fac: 64000000 | Result: 788462523416576
+WORLD SIZE: 576 | Time: 4.330000 
