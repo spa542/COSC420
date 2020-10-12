@@ -18,8 +18,12 @@ int main(int argc, char** argv){
     MPI_Comm_rank(world, &myRank);
 
     int testCases[9] = {10, 80, 100, 300, 500, 800, 1000, 5000, 10000};
-
+    int i, w;
+    for(w=0; w<9; w++){
+    
     const int DIMENSION = testCases[7]; // Change the test case matrix dimensions
+    
+
     //These will be used through out all testing
     Matrix A;
     Matrix B;
@@ -129,6 +133,7 @@ int main(int argc, char** argv){
         free(B.data);
     }
 */
+    }
     MPI_Finalize();
     return 0;
 }

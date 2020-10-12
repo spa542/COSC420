@@ -36,7 +36,7 @@ double* transpose(Matrix*);
 // Inner Product of two matrices
 double innerProduct(Matrix*, Matrix*, MPI_Comm*, int, int);
 // Inverse of a matrix (using GuassJordan)
-double* inverse(Matrix*, MPI_Comm*, int, int);
+double* GaussJordan(Matrix*, Matrix*, MPI_Comm*, int, int);
 
 
 #endif // _MATRIX_H_

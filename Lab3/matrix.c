@@ -317,29 +317,52 @@ double innerProduct(Matrix *a, Matrix *b, MPI_Comm *world, int worldSize, int my
 
 //  Gauss-Jordan Inverse algorithm only works for square matriciesies where 
 //  A * A.T = I
-/*double* inverse(Matrix *a, MPI_Comm* world, int worldSize, int myRank){
-    int i;
+double* GaussJordan(Matrix* a, Matrix* b, MPI_Comm* world, int worldSize, int myRank){
     if(myRank == 0){
-        if(a->rows != a->cols){
+        /*if(a->rows != a->cols){
             printf("Can only take inverse of square matricies!");
             return 69;
-        }
+        }i*/
 
-        trans = transpose(&a);
+        /*Matrix trans = transpose(&a);
         for(i=0; i<(a->rows*a->cols); i++){
             if(a->data[i] != trans[i]){
                 printf("A * A.T != I");
                 return 420;
             } 
+        }*/
+    }
+    int k,i,r,c, j;
+    double l[a->rows];  
+
+    for(k=0; k<a->rows; k++){
+        for(i=0; i<a->rows; i++){//compute l[k,i]
+            l[i] = ACCESS(a,i,k)/ACCESS(a,k,k); 
+        }
+        //MPI_Bcast(); TODO
+        for(r=0; r<a->rows && r!=k; r++){
+            for(c=0; c<a->cols; c++){  
+                a->data[INDEX(a,r,c)] = ACCESS(a,r,c) - (l[r] * ACCESS(a,k,c));
+            }
+            for(c=0; c<b->cols){
+                b[INDEX(b,r,c)] = ACCESS(b,r,c) - (l[r] * ACCESS(b,k,c));
+            }
         }
     }
-    int k;
-    
-    for(k=1; k<=n; k++){
-    
-    }      
-
-}*/
+    double ll[a->cols];
+    for(i=0;i<a->rows; i++){
+        for(j=0; j<a->cols; j){
+            if(i==j){
+                ll[i] = ACCESS(a,i,j);   
+            }
+        }
+    }
+    for(i=0; i<a->cols; i++){
+        for(j=0; j<a->cols; j++){
+            a->data[INDEX(a,i,j)] = ACCESS(a,i,j) / ll[i];
+        }
+    }   
+}
 
 
 
