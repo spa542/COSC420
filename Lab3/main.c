@@ -14,7 +14,7 @@ int main(int argc, char** argv) {
     int worldSize, myRank;
     MPI_Comm_size(world, &worldSize); // Get the world size
     MPI_Comm_rank(world, &myRank); // Get the rank of the "current" node
-    printf("myRank %d\n", myRank);
+    //printf("myRank %d\n", myRank);
 
     // Create the matrices
     Matrix a;
@@ -33,13 +33,21 @@ int main(int argc, char** argv) {
     Matrix i;
     // Result for matrix multiplication
     Matrix j;
+    // Matrix test for Gauss Jordan function
+    Matrix gj;
+    // Matrix b for Gauss Jordan function
+    Matrix gjb;
+    // Result matrix for Gauss Jordan function
+    Matrix gjresult;
 
     // The row and column length for matrix a, b, and c
     int rowLength =  2, colLength = 3;
     if (myRank == 0) {
+        puts("Matrix a for addition and subtraction");
         initMatrix(&a, rowLength, colLength); // Initialize it
         printMatrix(&a); // Print the array after initialization
 
+        puts("Matrix b for addition and subtraction");
         initMatrix(&b, rowLength, colLength);
         printMatrix(&b);
     
@@ -66,13 +74,25 @@ int main(int argc, char** argv) {
         printMatrix(&i);
         initMatrix(&j, 4, 4);
         free(j.data); // We change the result of j
+
+        initMatrix(&gj, 3, 3);
+        puts("Matrix a for gauss jordan function");
+        printMatrix(&gj);
+        initMatrix(&gjb, 3, 1);
+        puts("Matrix b for gauss jordan function");
+        printMatrix(&gjb);
+        initMatrix(&gjresult, 3, 1);
+        free(gjresult.data); // We change the result of gjresult
     } else {
+        // So other nodes know the dimensions
         a.rows = b.rows = c.rows = rowLength;
         a.cols = b.cols = c.cols = colLength;
         f.rows = g.rows = 3;
         f.cols = g.cols = 1;
         h.rows = i.rows = j.rows = 4;
         h.cols = i.cols = j.cols = 4;
+        gj.rows = gjresult.rows = gj.cols = 3;
+        gjresult.cols = 1;
     }
    
 
@@ -116,11 +136,19 @@ int main(int argc, char** argv) {
         printMatrix(&j);
     }
 
+    gjresult.data = GaussJordan(&gj, &gjb, &world, worldSize, myRank);
+    if (myRank == 0) {
+        puts("Result of Gauss Jordan Reduction, linear system answer");
+        printMatrix(&gjresult);
+    }
+
     MPI_Finalize(); // Wrap everything up
     // Free the arrays of each matrix
     if (myRank == 0) {
         free(a.data);
         free(b.data); 
+        free(gj.data);
+        free(gjb.data); // gjresult will point to gjb when pointer returned, watch for double free!!!!
     }
     free(c.data);
     free(d.data);
@@ -128,6 +156,7 @@ int main(int argc, char** argv) {
     free(g.data);
     free(h.data);
     free(i.data);
+    free(j.data);
 
     return 0;
 }

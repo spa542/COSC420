@@ -318,8 +318,13 @@ double innerProduct(Matrix *a, Matrix *b, MPI_Comm *world, int worldSize, int my
 //  Gauss-Jordan Inverse algorithm only works for square matriciesies where 
 //  A * A.T = I
 double* GaussJordan(Matrix* a, Matrix* b, MPI_Comm* world, int worldSize, int myRank){
+    // Check to make sure the matrices form a valid linear system
+    if (a->rows != b->rows) {
+        return NULL;
+    }
+    /*
     if(myRank == 0){
-        /*if(a->rows != a->cols){
+        if(a->rows != a->cols){
             printf("Can only take inverse of square matricies!");
             return 69;
         }i*/
@@ -330,44 +335,53 @@ double* GaussJordan(Matrix* a, Matrix* b, MPI_Comm* world, int worldSize, int my
                 printf("A * A.T != I");
                 return 420;
             } 
-        }*/
+        }
     }
+    */
     int k,i,r,c, j;
     double l[a->rows];  
 
     for(k=0; k<a->rows; k++){
+        // Compute the vector scalings Li = Ai,k/Ak,k for all i
         for(i=0; i<a->rows; i++){//compute l[k,i]
             l[i] = ACCESS(a,i,k)/ACCESS(a,k,k); 
         }
+
         //MPI_Bcast(); TODO
-        for(r=0; r<a->rows && r!=k; r++){
-            for(c=0; c<a->cols; c++){  
-                a->data[INDEX(a,r,c)] = ACCESS(a,r,c) - (l[r] * ACCESS(a,k,c));
+        // Perform the following on n nodes
+        for(r=0; r<a->rows; r++){
+            if (r == k) {
+                continue;
             }
-            for(c=0; c<b->cols){
-                b[INDEX(b,r,c)] = ACCESS(b,r,c) - (l[r] * ACCESS(b,k,c));
+            for(c=0; c<a->cols; c++){  
+                ACCESS(a,r,c) = ACCESS(a,r,c) - (l[r] * ACCESS(a,k,c));
+            }
+            for(c=0; c<b->cols; c++){
+                ACCESS(b,r,c) = ACCESS(b,r,c) - (l[r] * ACCESS(b,k,c));
             }
         }
     }
+    // Create the scalar vector that contains the diagonal elements of a
     double ll[a->cols];
     for(i=0;i<a->rows; i++){
-        for(j=0; j<a->cols; j){
+        for(j=0; j<a->cols; j++){
             if(i==j){
                 ll[i] = ACCESS(a,i,j);   
             }
         }
     }
+    // Scale A by the final scalar vector
     for(i=0; i<a->cols; i++){
         for(j=0; j<a->cols; j++){
-            a->data[INDEX(a,i,j)] = ACCESS(a,i,j) / ll[i];
+            ACCESS(a,i,j) = ACCESS(a,i,j) / ll[i];
         }
     }   
+    // Scale b by the final scalar vector
+    for (i = 0; i < a->rows; i++) {
+        ACCESS(b,i,0) = ACCESS(b,i,0) / ll[i];
+    }
+
+    // The matrix b should now be the answer to the linear system of equations
+    // RETURN IT!
+    return b->data;
 }
-
-
-
-
-
-
-
-
