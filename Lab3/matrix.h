@@ -23,6 +23,8 @@ typedef struct matrix Matrix;
 
 // Initializes the Matrix
 void initMatrix(Matrix*, int, int);
+// Deep copy of matrices
+void copyMatrix(Matrix*, Matrix*);
 // Prints the Matrix to the screen
 void printMatrix(Matrix*);
 // Addition of matrices

@@ -22,6 +22,26 @@ void initMatrix(Matrix *a, int rows, int cols) {
     }
 }
 
+// Sets a's meta data and data equal to b' with a deep copy
+// USE ON ONE NODE OR THERE WILL BE OVERLAP
+void copyMatrix(Matrix* a, Matrix* b){
+    printf("b : rows %d x cols %d",b->rows, b->cols);
+  
+    //if(a->rows != 0 || a->cols != 0)
+    //  free(a->data);
+    a->rows = b->rows;
+    a->cols = b->cols;
+
+    a->data = (double*) malloc(b->rows*b->cols*sizeof(double));
+ 
+    int z;
+    for(z=0; z<(b->cols*b->rows); z++){
+        a->data[z] = b->data[z];
+    }
+}
+
+
+
 // Prints the Matrix that is passed to it
 // USE ON ONE NODE OR THERE WILL BE OVERLAP
 void printMatrix(Matrix *a) {
@@ -217,6 +237,16 @@ double* multMatrices(Matrix *a, Matrix *b, MPI_Comm *world, int worldSize, int m
     free(btmp.data);
 
     // Return the result
+    if(myRank == 0){
+        int ree;
+        for(ree = 0; ree<(a->rows*b->cols); ree++){
+            printf("%f ",rtn[ree]);
+        }
+        puts("");
+
+        printMatrix(a);
+        printMatrix(b);
+    }
     return rtn;
 }
 
@@ -313,13 +343,30 @@ double innerProduct(Matrix *a, Matrix *b, MPI_Comm *world, int worldSize, int my
         return rtnResult;
     }
     return -1;
-}
+} 
 
 //  Gauss-Jordan Inverse algorithm only works for square matriciesies where 
 //  A * A.T = I
-double* GaussJordan(Matrix* a, Matrix* b, MPI_Comm* world, int worldSize, int myRank){
+double* GaussJordan(Matrix* at, Matrix* bt, MPI_Comm* world, int worldSize, int myRank){
+    //Setup copies of ta and tb so we don't corrupt them
+    Matrix tmpa;
+    Matrix tmpb;
+    Matrix* a=&tmpa;
+    Matrix* b=&tmpb;
+
+    printf("at : rows %d x cols %d\n", at->rows, at->cols);
+    printf("bt : rows %d x cols %d\n", bt->rows, bt->cols);
+      
+    copyMatrix(a, at);
+    copyMatrix(b, bt);
+     
+
+
+
+  
     // Check to make sure the matrices form a valid linear system
     if (a->rows != b->rows) {
+        printf("Rank: %d got yeeted | a->rows: %d a->cols %d b->rows %d b->cols %d\n", myRank, a->rows, a->cols, b->rows, b->cols);
         return NULL;
     }
     int k,i,r,c,j;
@@ -413,6 +460,7 @@ double* GaussJordan(Matrix* a, Matrix* b, MPI_Comm* world, int worldSize, int my
         puts("Before gather");
         // Gather the rows of A back from each node
         MPI_Gatherv(local_row_mat, Varray[myRank], MPI_DOUBLE, a->data, Varray, disp, MPI_DOUBLE, 0, *world);
+        puts("Between Gathers");
         // Gather the rows of B back from each node
         MPI_Gatherv(local_b_mat, Varray2[myRank], MPI_DOUBLE, b->data, Varray2, disp2, MPI_DOUBLE, 0, *world);
         puts("After gather");
