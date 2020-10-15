@@ -450,13 +450,13 @@ double* GaussJordan(Matrix* at, Matrix* bt, MPI_Comm* world, int worldSize, int 
             }
         }
 
-        if (myRank == 0) {
+        /*if (myRank == 0) {
             // Free the data from each matrix so that new ones can be assigned
             free(a->data);
             free(b->data);
             a->data = (double*)malloc(a->rows*a->cols*sizeof(double));
             b->data = (double*)malloc(b->rows*b->cols*sizeof(double));
-        }
+        }*/
         puts("Before gather");
         // Gather the rows of A back from each node
         MPI_Gatherv(local_row_mat, Varray[myRank], MPI_DOUBLE, a->data, Varray, disp, MPI_DOUBLE, 0, *world);

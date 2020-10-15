@@ -1,0 +1,36 @@
+numofItems: 10 | Time/Node: 0.043000 
+numofItems: 80 | Time/Node: 0.042000 
+numofItems: 100 | Time/Node: 0.042000 
+numofItems: 300 | Time/Node: 0.077000 
+numofItems: 500 | Time/Node: 0.097000 
+
+===================================================================================
+=   BAD TERMINATION OF ONE OF YOUR APPLICATION PROCESSES
+=   PID 15256 RUNNING AT hpcl5-5
+=   EXIT CODE: 9
+=   CLEANING UP REMAINING PROCESSES
+=   YOU CAN IGNORE THE BELOW CLEANUP MESSAGES
+===================================================================================
+[proxy:0:0@hpcl5-2.salisbury.edu] HYD_pmcd_pmip_control_cmd_cb (pm/pmiserv/pmip_cb.c:885): assert (!closed) failed
+[proxy:0:0@hpcl5-2.salisbury.edu] HYDT_dmxu_poll_wait_for_event (tools/demux/demux_poll.c:76): callback returned error status
+[proxy:0:0@hpcl5-2.salisbury.edu] main (pm/pmiserv/pmip.c:206): demux engine error waiting for event
+[proxy:0:2@hpcl5-4.salisbury.edu] HYD_pmcd_pmip_control_cmd_cb (pm/pmiserv/pmip_cb.c:885): assert (!closed) failed
+[proxy:0:2@hpcl5-4.salisbury.edu] HYDT_dmxu_poll_wait_for_event (tools/demux/demux_poll.c:76): callback returned error status
+[proxy:0:2@hpcl5-4.salisbury.edu] main (pm/pmiserv/pmip.c:206): demux engine error waiting for event
+[proxy:0:4@hpcl5-6.salisbury.edu] HYD_pmcd_pmip_control_cmd_cb (pm/pmiserv/pmip_cb.c:885): assert (!closed) failed
+[proxy:0:4@hpcl5-6.salisbury.edu] HYDT_dmxu_poll_wait_for_event (tools/demux/demux_poll.c:76): callback returned error status
+[proxy:0:4@hpcl5-6.salisbury.edu] main (pm/pmiserv/pmip.c:206): demux engine error waiting for event
+[proxy:0:1@hpcl5-3.salisbury.edu] HYD_pmcd_pmip_control_cmd_cb (pm/pmiserv/pmip_cb.c:885): assert (!closed) failed
+[proxy:0:1@hpcl5-3.salisbury.edu] HYDT_dmxu_poll_wait_for_event (tools/demux/demux_poll.c:76): callback returned error status
+[proxy:0:1@hpcl5-3.salisbury.edu] main (pm/pmiserv/pmip.c:206): demux engine error waiting for event
+slurmstepd: error: Detected 1 oom-kill event(s) in step 3000.0 cgroup. Some of your processes may have been killed by the cgroup out-of-memory handler.
+slurmstepd: error: Detected 9 oom-kill event(s) in step 3000.0 cgroup. Some of your processes may have been killed by the cgroup out-of-memory handler.
+slurmstepd: error: Detected 1 oom-kill event(s) in step 3000.0 cgroup. Some of your processes may have been killed by the cgroup out-of-memory handler.
+slurmstepd: error: Detected 1 oom-kill event(s) in step 3000.0 cgroup. Some of your processes may have been killed by the cgroup out-of-memory handler.
+srun: error: hpcl5-5: task 3: Out Of Memory
+srun: error: hpcl5-6: task 4: Exited with exit code 7
+[mpiexec@hpcl5-2.salisbury.edu] HYDT_bscu_wait_for_completion (tools/bootstrap/utils/bscu_wait.c:76): one of the processes terminated badly; aborting
+[mpiexec@hpcl5-2.salisbury.edu] HYDT_bsci_wait_for_completion (tools/bootstrap/src/bsci_wait.c:23): launcher returned error waiting for completion
+[mpiexec@hpcl5-2.salisbury.edu] HYD_pmci_wait_for_completion (pm/pmiserv/pmiserv_pmci.c:218): launcher returned error waiting for completion
+[mpiexec@hpcl5-2.salisbury.edu] main (ui/mpich/mpiexec.c:344): process manager error waiting for completion
+slurmstepd: error: Detected 1 oom-kill event(s) in step 3000.batch cgroup. Some of your processes may have been killed by the cgroup out-of-memory handler.

@@ -17,12 +17,18 @@ int main(int argc, char** argv){
     MPI_Comm_size(world, &worldSize);
     MPI_Comm_rank(world, &myRank);
 
-    int testCases[9] = {10, 80, 100, 300, 500, 800, 1000, 5000, 10000};
-    int i, w;
+    int testcases[9] = {10, 80, 100, 300, 500, 800, 1000, 5000, 10000};
+    int w, ww;
+   
+    double numofTrials = 10.0; 
+        
+    clock_t start;
+    clock_t finish;
     for(w=0; w<9; w++){
-    
-    const int DIMENSION = testCases[7]; // Change the test case matrix dimensions
-    
+
+    start = clock();
+    const int DIMENSION = testcases[w]; // Change the test case matrix dimensions 
+    for(ww=0; ww<numofTrials; ww++){
 
     //These will be used through out all testing
     Matrix A;
@@ -31,7 +37,7 @@ int main(int argc, char** argv){
     Matrix Result;
 
     //Testing addition
-    /*
+    
     int rowLength = DIMENSION;
     int colLength = DIMENSION;
     initMatrix(&A, rowLength, colLength);
@@ -43,7 +49,7 @@ int main(int argc, char** argv){
     for (i = 0; i < 10; i++) {
         Result.data = addMatrices(&A, &B, &world, worldSize, myRank);
         if(myRank == 0){
-            puts("Done");   
+            //puts("Done");   
             free(Result.data);
         }
     }
@@ -51,7 +57,7 @@ int main(int argc, char** argv){
         free(A.data);
         free(B.data);
     }
-   */
+   
     
 
     
@@ -133,6 +139,11 @@ int main(int argc, char** argv){
         free(B.data);
     }
 */
+    }
+    finish = clock();
+    double resultTime= ((double)(finish-start)) / (CLOCKS_PER_SEC*numofTrials);   
+    if(myRank == 0)
+        printf("numofItems: %d | Time/Node: %f \n", testcases[w], resultTime);
     }
     MPI_Finalize();
     return 0;
