@@ -5,6 +5,7 @@
 #include<math.h> // Math functions 
 #include<mpi.h> // MPI library
 
+
 // References the actual index of the 1d array
 #define INDEX(A,i,j) A->cols*i + j
 // Accesses the actual array using the INDEX macro
@@ -13,11 +14,13 @@
 // Matrix struct definition
 struct matrix {
     int rows, cols; // dimensions
-    double* data; // pointer to the data, a 1d array
+    double* data; // pointer to the data, a 1d arr
 };
 
 // Shortcut for creating a matrix
 typedef struct matrix Matrix;
+
+static Matrix default_matrix;
 
 // FUNCTIONS
 

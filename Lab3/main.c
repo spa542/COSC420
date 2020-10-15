@@ -17,30 +17,30 @@ int main(int argc, char** argv) {
     //printf("myRank %d\n", myRank);
 
     // Create the matrices
-    Matrix a;
-    Matrix b;
+    Matrix a = default_matrix;
+    Matrix b = default_matrix;
     // For addition result
-    Matrix c;
+    Matrix c = default_matrix;
     // For subtraction result
-    Matrix d;
+    Matrix d = default_matrix;
     // For transpose
-    Matrix e;
+    Matrix e = default_matrix;
     // For inner product
-    Matrix f;
-    Matrix g;
+    Matrix f = default_matrix;
+    Matrix g = default_matrix;
     // For matrix multiplication
-    Matrix h;
-    Matrix i;
+    Matrix h = default_matrix;
+    Matrix i = default_matrix;
     // Result for matrix multiplication
-    Matrix j;
+    Matrix j = default_matrix;
     // Matrix test for Gauss Jordan function
-    Matrix gj;
+    Matrix gj = default_matrix;
     // Matrix b for Gauss Jordan function
-    Matrix gjb;
+    Matrix gjb = default_matrix;
     // Result matrix for Gauss Jordan function
-    Matrix gjresult;
+    Matrix gjresult = default_matrix;
     //Matrix to check if jkresult is correct
-    Matrix GJtest;
+    Matrix GJtest = default_matrix;
 
 
     // The row and column length for matrix a, b, and c
@@ -122,7 +122,7 @@ int main(int argc, char** argv) {
 
     if (myRank == 0) {
         puts("Transposed Matrix:");
-        Matrix tmp;
+        Matrix tmp=default_matrix;
         initMatrix(&tmp, colLength, rowLength);
         free(tmp.data);
         tmp.data = transpose(&e);

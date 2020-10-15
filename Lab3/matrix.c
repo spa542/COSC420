@@ -1,6 +1,8 @@
 #include"matrix.h"
+
+static Matrix default_matrix = {0,0,0};
 /*
- *Through out thei progrma we used the chase size of the machine
+ *Through out thei progrma we used the cache size of the machine
  *  we worked on to make the code more effiecient
  *Our L1 cashe size was : 32k
  *  Found using cat /sys/devices/system/cpu/cpu0/cache/index1/size
@@ -11,6 +13,9 @@ static int cashe = 32000;
 // MUST have rows and columns initialized or will seg fault
 // USE ON ONE NODE
 void initMatrix(Matrix *a, int rows, int cols) {
+    if(a->data)
+      free(a->data);
+  
     int i, j;
     a->rows = rows;
     a->cols = cols;
@@ -27,16 +32,19 @@ void initMatrix(Matrix *a, int rows, int cols) {
 void copyMatrix(Matrix* a, Matrix* b){
     printf("b : rows %d x cols %d",b->rows, b->cols);
   
-    //if(a->rows != 0 || a->cols != 0)
-    //  free(a->data);
+    if(a->data)
+      free(a->data);
+    
     a->rows = b->rows;
     a->cols = b->cols;
 
-    a->data = (double*) malloc(b->rows*b->cols*sizeof(double));
+    if(b->data){
+        a->data = (double*) malloc(b->rows*b->cols*sizeof(double));
  
-    int z;
-    for(z=0; z<(b->cols*b->rows); z++){
-        a->data[z] = b->data[z];
+        int z;
+        for(z=0; z<(b->cols*b->rows); z++){
+            a->data[z] = b->data[z];
+        }
     }
 }
 
@@ -204,8 +212,8 @@ double* multMatrices(Matrix *a, Matrix *b, MPI_Comm *world, int worldSize, int m
     if (myRank == 0) {
         rtn = (double*)malloc(a->rows*b->cols*sizeof(double));
     }
-    Matrix atmp; // Holds the vector of current row of A
-    Matrix btmp; // Holds the vector of current column of B
+    Matrix atmp = default_matrix; // Holds the vector of current row of A
+    Matrix btmp = default_matrix; // Holds the vector of current column of B
 
     initMatrix(&atmp, 1, a->cols);
     initMatrix(&btmp, b->rows, 1);
@@ -349,8 +357,8 @@ double innerProduct(Matrix *a, Matrix *b, MPI_Comm *world, int worldSize, int my
 //  A * A.T = I
 double* GaussJordan(Matrix* at, Matrix* bt, MPI_Comm* world, int worldSize, int myRank){
     //Setup copies of ta and tb so we don't corrupt them
-    Matrix tmpa;
-    Matrix tmpb;
+    Matrix tmpa = default_matrix;
+    Matrix tmpb = default_matrix;
     Matrix* a=&tmpa;
     Matrix* b=&tmpb;
 
@@ -436,27 +444,31 @@ double* GaussJordan(Matrix* at, Matrix* bt, MPI_Comm* world, int worldSize, int 
         puts("After scatter and broadcast");
 
         // Perform the following on n nodes
-        for(r=0; r<Varray[myRank] / a->cols; r++){
-            if (r == k) {
+        int offsetK = disp[myRank]/a->cols;
+        for(r=0; r<(Varray[myRank] / a->cols); r++){    
+            if (r == offsetK) {
+                offsetK++;
                 continue;
             }
             for(c=0; c<a->cols; c++){  
                 //ACCESS(a,r,c) = ACCESS(a,r,c) - (l[r] * ACCESS(a,k,c));
-                local_row_mat[INDEX(a,r,c)] = local_row_mat[INDEX(a,r,c)] - (l[r] * local_row_mat[INDEX(a,k,c)]);
+                printf("local_row_mat len: %d | r: %d | c: %d | Rank: %d | INDEX(a,r,c): %d | INDEX(a,k,c): %d \n", Varray[myRank],r,c,myRank,INDEX(a,r,c),INDEX(a,k,c));
+                local_row_mat[INDEX(a,r,c)] = local_row_mat[INDEX(a,r,c)] - (l[r+offsetK] * local_row_mat[INDEX(a,offsetK,c)]);
             }
             for(c=0; c<b->cols; c++){
                 //ACCESS(b,r,c) = ACCESS(b,r,c) - (l[r] * ACCESS(b,k,c));
-                local_b_mat[INDEX(b,r,c)] = local_b_mat[INDEX(b,r,c)] - (l[r] * local_b_mat[INDEX(b,k,c)]);
+                local_b_mat[INDEX(b,r,c)] = local_b_mat[INDEX(b,r,c)] - (l[r+offsetK] * local_b_mat[INDEX(b,offsetK,c)]);
             }
+            offsetK++;
         }
 
-        /*if (myRank == 0) {
+        if (myRank == 0) {
             // Free the data from each matrix so that new ones can be assigned
             free(a->data);
             free(b->data);
             a->data = (double*)malloc(a->rows*a->cols*sizeof(double));
             b->data = (double*)malloc(b->rows*b->cols*sizeof(double));
-        }*/
+        }
         puts("Before gather");
         // Gather the rows of A back from each node
         MPI_Gatherv(local_row_mat, Varray[myRank], MPI_DOUBLE, a->data, Varray, disp, MPI_DOUBLE, 0, *world);
