@@ -424,6 +424,10 @@ double* GaussJordan(Matrix* at, Matrix* bt, MPI_Comm* world, int worldSize, int 
 
     // Individual l vector
     double l[a->rows];  
+    // a's Piviot row
+    double ak[a->rows];
+    // b's Piviot row
+    double bk[b->rows];
 
     for(k=0; k<a->rows; k++){
         // Compute the vector scalings Li = Ai,k/Ak,k for all i
@@ -431,6 +435,10 @@ double* GaussJordan(Matrix* at, Matrix* bt, MPI_Comm* world, int worldSize, int 
             for(i=0; i<a->rows; i++){//compute l[k,i]
                 l[i] = ACCESS(a,i,k)/ACCESS(a,k,k); 
             }
+            for(c=0; c<a->cols; c++)
+                ak[c] = ACCESS(a,k,c);
+            for(c=0; c<b->cols; c++)
+                bk[c] = ACCESS(b,k,c);
         }
 
         puts("Before scatter");
@@ -443,23 +451,26 @@ double* GaussJordan(Matrix* at, Matrix* bt, MPI_Comm* world, int worldSize, int 
         MPI_Bcast(&l, a->rows, MPI_DOUBLE, 0, *world);
         puts("After scatter and broadcast");
 
+        //Broadcast the a's kth row
+        MPI_Bcast(&ak, a->rows, MPI_DOUBLE, 0, *world);
+        //Broadcast the b's kth row 
+        MPI_Bcast(&bk, b->rows, MPI_DOUBLE, 0, *world);
+
         // Perform the following on n nodes
         int offsetK = disp[myRank]/a->cols;
         for(r=0; r<(Varray[myRank] / a->cols); r++){    
-            if (r == offsetK) {
-                offsetK++;
+            if (k == r+offsetK) {
                 continue;
             }
             for(c=0; c<a->cols; c++){  
                 //ACCESS(a,r,c) = ACCESS(a,r,c) - (l[r] * ACCESS(a,k,c));
                 printf("local_row_mat len: %d | r: %d | c: %d | Rank: %d | INDEX(a,r,c): %d | INDEX(a,k,c): %d \n", Varray[myRank],r,c,myRank,INDEX(a,r,c),INDEX(a,k,c));
-                local_row_mat[INDEX(a,r,c)] = local_row_mat[INDEX(a,r,c)] - (l[r+offsetK] * local_row_mat[INDEX(a,offsetK,c)]);
+                local_row_mat[INDEX(a,r,c)] = local_row_mat[INDEX(a,r,c)] - (l[r+offsetK] * ak[c]);
             }
             for(c=0; c<b->cols; c++){
                 //ACCESS(b,r,c) = ACCESS(b,r,c) - (l[r] * ACCESS(b,k,c));
-                local_b_mat[INDEX(b,r,c)] = local_b_mat[INDEX(b,r,c)] - (l[r+offsetK] * local_b_mat[INDEX(b,offsetK,c)]);
+                local_b_mat[INDEX(b,r,c)] = local_b_mat[INDEX(b,r,c)] - (l[r+offsetK] * bk[c]);
             }
-            offsetK++;
         }
 
         if (myRank == 0) {
