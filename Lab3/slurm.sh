@@ -1,10 +1,10 @@
 #!/bin/sh
 
-#SBATCH --job-name=GrantProject1Problem160
-#SBATCH --nodes=25
-#SBATCH --ntasks-per-node=24
+#SBATCH --job-name=GrantPro
+#SBATCH --nodes=31
+#SBATCH --ntasks-per-node=1
 ##SBATCH --ntasks=100
-#SBATCH --mem=5gb
+#SBATCH --mem=8gb
 #SBATCH --time=05:05:00
 #SBATCH --output=out/%j.log
 

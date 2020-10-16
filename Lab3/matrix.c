@@ -30,7 +30,7 @@ void initMatrix(Matrix *a, int rows, int cols) {
 // Sets a's meta data and data equal to b' with a deep copy
 // USE ON ONE NODE OR THERE WILL BE OVERLAP
 void copyMatrix(Matrix* a, Matrix* b){
-    printf("b : rows %d x cols %d",b->rows, b->cols);
+    //printf("b : rows %d x cols %d",b->rows, b->cols);
   
     if(a->data)
       free(a->data);
@@ -48,6 +48,25 @@ void copyMatrix(Matrix* a, Matrix* b){
     }
 }
 
+void initMatrixIdentity(Matrix* a, int rows, int cols){
+    if(a->data)
+      free(a->data);
+
+    a->rows = rows;
+    a->cols = cols;
+
+    a->data = (double*) malloc(rows*cols*sizeof(double));
+    int i,j;
+    for(i=0; i<rows;i++){
+        for(j=0;j<cols;j++){
+            if(i==j){
+                a->data[INDEX(a,i,j)] = 1;
+                continue;
+            }
+            a->data[INDEX(a,i,j)] = 0;
+        }
+    }       
+}
 
 
 // Prints the Matrix that is passed to it
@@ -247,13 +266,13 @@ double* multMatrices(Matrix *a, Matrix *b, MPI_Comm *world, int worldSize, int m
     // Return the result
     if(myRank == 0){
         int ree;
-        for(ree = 0; ree<(a->rows*b->cols); ree++){
+        /*for(ree = 0; ree<(a->rows*b->cols); ree++){
             printf("%f ",rtn[ree]);
-        }
+        }*/
         puts("");
 
-        printMatrix(a);
-        printMatrix(b);
+        //printMatrix(a);
+        //printMatrix(b);
     }
     return rtn;
 }
@@ -362,12 +381,18 @@ double* GaussJordan(Matrix* at, Matrix* bt, MPI_Comm* world, int worldSize, int 
     Matrix* a=&tmpa;
     Matrix* b=&tmpb;
 
-    printf("at : rows %d x cols %d\n", at->rows, at->cols);
-    printf("bt : rows %d x cols %d\n", bt->rows, bt->cols);
-      
-    copyMatrix(a, at);
-    copyMatrix(b, bt);
-     
+    //printf("at : rows %d x cols %d\n", at->rows, at->cols);
+    //printf("bt : rows %d x cols %d\n", bt->rows, bt->cols);
+    //if(myRank == 0){  
+        copyMatrix(a, at);
+        copyMatrix(b, bt);
+    /*}else{
+        a->cols = at->cols;
+        a->rows = at->rows;
+        b->cols = bt->cols;
+        b->rows = bt->rows;
+    }*/
+
 
 
 
@@ -403,12 +428,15 @@ double* GaussJordan(Matrix* at, Matrix* bt, MPI_Comm* world, int worldSize, int 
     }
     // Set up Varray and displacement for scattering of rows to scale (B matrix)
     for (i = 0; i < worldSize; i++) {
-        Varray2[i] = a->rows / worldSize;
+        //printf("bRows: %d | bCols: %d | worldSize: %d | calc: %d\n", b->rows, b->cols, worldSize, ((b->rows/worldSize)*b->cols));
+        Varray2[i] = (b->rows / worldSize) * b->cols;
+       // printf("Varray2[i]: %d\n",Varray2[i] ); 
     }
-    for (i = 0; i < (a->rows % worldSize); i++) {
-        Varray2[i] += 1;
+    for (i = 0; i < (b->rows % worldSize); i++) {
+        Varray2[i] += b->cols;
     }
     nextLength = 0;
+    //printf("CCCCCCCCCCCCCCC=========Varray2[i]: %d\n",Varray2[myRank] ); 
     for (i = 0; i < worldSize; i++) {
         if (i == 0){
             disp2[i] = 0;
@@ -418,6 +446,8 @@ double* GaussJordan(Matrix* at, Matrix* bt, MPI_Comm* world, int worldSize, int 
         disp2[i] = disp2[i - 1] + nextLength;
         nextLength = Varray2[i];
     }
+    
+    //printf("BBBBBBBBBBBBBBBBBB=========Varray2[i]: %d\n",Varray2[myRank] ); 
     // Recv buffer for elements of rows that each node will compute with
     double* local_row_mat = (double*)malloc(Varray[myRank]*sizeof(double));
     double* local_b_mat = (double*)malloc(Varray2[myRank]*sizeof(double));
@@ -430,6 +460,7 @@ double* GaussJordan(Matrix* at, Matrix* bt, MPI_Comm* world, int worldSize, int 
     double bk[b->rows];
 
     for(k=0; k<a->rows; k++){
+        //printf("AAAAAAAAAAAAAAA=========Varray2[i]: %d\n",Varray2[myRank] ); 
         // Compute the vector scalings Li = Ai,k/Ak,k for all i
         if (myRank == 0) {
             for(i=0; i<a->rows; i++){//compute l[k,i]
@@ -440,16 +471,17 @@ double* GaussJordan(Matrix* at, Matrix* bt, MPI_Comm* world, int worldSize, int 
             for(c=0; c<b->cols; c++)
                 bk[c] = ACCESS(b,k,c);
         }
-
-        puts("Before scatter");
+        MPI_Barrier(*world);
+        //puts("Before scatter");
         // Scatter the rows of A that each node will apply l vector to
         MPI_Scatterv(a->data, Varray, disp, MPI_DOUBLE, local_row_mat, Varray[myRank], MPI_DOUBLE, 0, *world);
         // Scatter the rows of B that each node will apply l vector to
+        //printf("After sctter 1 | Rank: %d\n", myRank);
         MPI_Scatterv(b->data, Varray2, disp2, MPI_DOUBLE, local_b_mat, Varray2[myRank], MPI_DOUBLE, 0, *world);
-
+        //printf("After sctter 2 | Rank: %d\n", myRank);
         // Scatter the value of the l vector
         MPI_Bcast(&l, a->rows, MPI_DOUBLE, 0, *world);
-        puts("After scatter and broadcast");
+        //printf("After Bcast | Rank: %d\n", myRank);
 
         //Broadcast the a's kth row
         MPI_Bcast(&ak, a->rows, MPI_DOUBLE, 0, *world);
@@ -457,6 +489,8 @@ double* GaussJordan(Matrix* at, Matrix* bt, MPI_Comm* world, int worldSize, int 
         MPI_Bcast(&bk, b->rows, MPI_DOUBLE, 0, *world);
 
         // Perform the following on n nodes
+
+        //printf("=========Varray2[i]: %d\n",Varray2[myRank] ); 
         int offsetK = disp[myRank]/a->cols;
         for(r=0; r<(Varray[myRank] / a->cols); r++){    
             if (k == r+offsetK) {
@@ -464,7 +498,7 @@ double* GaussJordan(Matrix* at, Matrix* bt, MPI_Comm* world, int worldSize, int 
             }
             for(c=0; c<a->cols; c++){  
                 //ACCESS(a,r,c) = ACCESS(a,r,c) - (l[r] * ACCESS(a,k,c));
-                printf("local_row_mat len: %d | r: %d | c: %d | Rank: %d | INDEX(a,r,c): %d | INDEX(a,k,c): %d \n", Varray[myRank],r,c,myRank,INDEX(a,r,c),INDEX(a,k,c));
+         //       printf("local_row_mat len: %d | r: %d | c: %d | Rank: %d | INDEX(a,r,c): %d | INDEX(a,k,c): %d \n", Varray[myRank],r,c,myRank,INDEX(a,r,c),INDEX(a,k,c));
                 local_row_mat[INDEX(a,r,c)] = local_row_mat[INDEX(a,r,c)] - (l[r+offsetK] * ak[c]);
             }
             for(c=0; c<b->cols; c++){
@@ -473,20 +507,27 @@ double* GaussJordan(Matrix* at, Matrix* bt, MPI_Comm* world, int worldSize, int 
             }
         }
 
-        if (myRank == 0) {
+        
             // Free the data from each matrix so that new ones can be assigned
+        if(myRank == 0){
             free(a->data);
             free(b->data);
             a->data = (double*)malloc(a->rows*a->cols*sizeof(double));
             b->data = (double*)malloc(b->rows*b->cols*sizeof(double));
         }
-        puts("Before gather");
+       // printf("Varray: %d | disp %d | Rank: %d\n", Varray[myRank], disp[myRank], myRank);
+       // printf("Varray2: %d | disp2 %d | Rank: %d\n", Varray2[myRank], disp2[myRank], myRank);
+
+
+        //printf("Before gather | Rank %d\n", myRank);
         // Gather the rows of A back from each node
         MPI_Gatherv(local_row_mat, Varray[myRank], MPI_DOUBLE, a->data, Varray, disp, MPI_DOUBLE, 0, *world);
-        puts("Between Gathers");
+        MPI_Barrier(*world);
+        //printf("Between gather | Rank %d\n", myRank);
         // Gather the rows of B back from each node
         MPI_Gatherv(local_b_mat, Varray2[myRank], MPI_DOUBLE, b->data, Varray2, disp2, MPI_DOUBLE, 0, *world);
-        puts("After gather");
+        //printf("After gather | Rank %d\n", myRank);
+        MPI_Barrier(*world);
     }
     if (myRank == 0) {
         // Create the scalar vector that contains the diagonal elements of a
@@ -499,21 +540,31 @@ double* GaussJordan(Matrix* at, Matrix* bt, MPI_Comm* world, int worldSize, int 
             }
         }
         // Scale A by the final scalar vector
-        for(i=0; i<a->cols; i++){
+        for(i=0; i<a->rows; i++){
             for(j=0; j<a->cols; j++){
                 ACCESS(a,i,j) = ACCESS(a,i,j) / ll[i];
             }
         }   
         // Scale b by the final scalar vector
-        for (i = 0; i < a->rows; i++) {
+        /*for (i = 0; i < a->rows; i++) {
             ACCESS(b,i,0) = ACCESS(b,i,0) / ll[i];
-        }
+        }*/
+        for(i=0; i<b->rows; i++){
+            for(j=0; j<b->cols; j++){
+                ACCESS(b,i,j) = ACCESS(b,i,j) / ll[i];
+            }
+        }   
     }
 
+    free(a->data);
     // Free the local row matrix
+
     free(local_row_mat);
     free(local_b_mat);
     // The matrix b should now be the answer to the linear system of equations
     // RETURN IT!
-    return b->data;
+    if(myRank == 0){
+        return b->data;
+    }
+    return NULL;
 }

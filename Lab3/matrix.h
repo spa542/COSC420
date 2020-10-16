@@ -26,6 +26,8 @@ static Matrix default_matrix;
 
 // Initializes the Matrix
 void initMatrix(Matrix*, int, int);
+// Initialized the Matrix with a Identity matrix
+void initMatrixIdentity(Matrix*, int, int);
 // Deep copy of matrices
 void copyMatrix(Matrix*, Matrix*);
 // Prints the Matrix to the screen

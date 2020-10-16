@@ -155,6 +155,45 @@ int main(int argc, char** argv) {
        printMatrix(&GJtest);
    } 
 
+
+   //puts("REEEEEEEEEEEEEEEEEEEEEEE NEW JAWN");
+
+ 
+   Matrix aa = default_matrix;
+   Matrix bb = default_matrix;
+   Matrix rr = default_matrix;
+   Matrix rrtest = default_matrix;
+   if(myRank == 0){
+       initMatrix(&aa, 4, 4);
+       initMatrixIdentity(&bb, 4, 4); 
+       initMatrix(&rr, 4, 4);
+       initMatrix(&rrtest, 4, 4);
+       free(rr.data);
+       free(rrtest.data);
+
+   }else{
+       rr.rows = rr.cols = aa.rows = aa.cols = bb.rows = bb.cols = 4;          
+   }
+   if(myRank == 0){
+       puts("aa: ");
+       printMatrix(&aa);
+       puts("bb: ");
+       printMatrix(&bb);
+   }
+
+   rr.data = GaussJordan(&aa, &bb, &world, worldSize, myRank);
+   
+   if(myRank == 0){
+      puts("Result: ");
+      printMatrix(&rr);
+   }
+   rrtest.data = multMatrices(&aa, &rr, &world, worldSize, myRank);
+   
+   if(myRank == 0){
+      puts("test result: ");
+      printMatrix(&rrtest);
+    }
+
     MPI_Finalize(); // Wrap everything up
     // Free the arrays of each matrix
     if (myRank == 0) {
@@ -163,15 +202,18 @@ int main(int argc, char** argv) {
         free(gj.data);
         free(gjb.data); // gjresult will point to gjb when pointer returned, watch for double free!!!!
         free(GJtest.data);
+        free(aa.data);
+        free(bb.data);
+        free(rr.data);
+        free(rrtest.data);
     }
-    //free(gjresult);
+    free(gjresult.data);
     free(c.data);
     free(d.data);
     free(f.data);
     free(g.data);
     free(h.data);
     free(i.data);
-    free(j.data);
-
+    free(j.data); 
     return 0;
 }

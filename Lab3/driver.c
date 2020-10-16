@@ -17,14 +17,14 @@ int main(int argc, char** argv){
     MPI_Comm_size(world, &worldSize);
     MPI_Comm_rank(world, &myRank);
 
-    int testcases[9] = {10, 80, 100, 300, 500, 800, 1000, 5000, 10000};
+    int testcases[8] = {10, 80, 100, 300, 500, 800, 1000, 5000};
     int w, ww;
    
     double numofTrials = 10.0; 
         
     clock_t start;
     clock_t finish;
-    for(w=0; w<9; w++){
+    for(w=0; w<8; w++){
 
     start = clock();
     const int DIMENSION = testcases[w]; // Change the test case matrix dimensions 
