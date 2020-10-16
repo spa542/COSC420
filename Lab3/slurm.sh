@@ -4,7 +4,7 @@
 #SBATCH --nodes=25
 #SBATCH --ntasks-per-node=24
 ##SBATCH --ntasks=100
-#SBATCH --mem=2gb
+#SBATCH --mem=5gb
 #SBATCH --time=05:05:00
 #SBATCH --output=out/%j.log
 

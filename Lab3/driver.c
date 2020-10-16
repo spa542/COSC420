@@ -31,10 +31,10 @@ int main(int argc, char** argv){
     for(ww=0; ww<numofTrials; ww++){
 
     //These will be used through out all testing
-    Matrix A;
-    Matrix B;
+    Matrix A=default_matrix;
+    Matrix B=default_matrix;
     
-    Matrix Result;
+    Matrix Result=default_matrix;
 
     //Testing addition
     
@@ -51,6 +51,7 @@ int main(int argc, char** argv){
         if(myRank == 0){
             //puts("Done");   
             free(Result.data);
+            Result = default_matrix;
         }
     }
     if (myRank == 0) {

@@ -1,0 +1,111 @@
+srun: Warning: can't honor --ntasks-per-node set to 24 which doesn't match the requested tasks 25 with the number of requested nodes 25. Ignoring --ntasks-per-node.
+numofItems: 10 | Time/Node: 0.042000 
+numofItems: 80 | Time/Node: 0.125000 
+numofItems: 100 | Time/Node: 0.122000 
+numofItems: 300 | Time/Node: 0.133000 
+numofItems: 500 | Time/Node: 0.187000 
+
+===================================================================================
+=   BAD TERMINATION OF ONE OF YOUR APPLICATION PROCESSES
+=   PID 8648 RUNNING AT hpcl6-2
+=   EXIT CODE: 9
+=   CLEANING UP REMAINING PROCESSES
+=   YOU CAN IGNORE THE BELOW CLEANUP MESSAGES
+===================================================================================
+slurmstepd: error: Detected 4 oom-kill event(s) in step 3001.0 cgroup. Some of your processes may have been killed by the cgroup out-of-memory handler.
+slurmstepd: error: Detected 10 oom-kill event(s) in step 3001.0 cgroup. Some of your processes may have been killed by the cgroup out-of-memory handler.
+[proxy:0:0@hpcl1-1.salisbury.edu] HYD_pmcd_pmip_control_cmd_cb (pm/pmiserv/pmip_cb.c:885): assert (!closed) failed
+[proxy:0:0@hpcl1-1.salisbury.edu] HYDT_dmxu_poll_wait_for_event (tools/demux/demux_poll.c:76): callback returned error status
+[proxy:0:0@hpcl1-1.salisbury.edu] main (pm/pmiserv/pmip.c:206): demux engine error waiting for event
+[proxy:0:4@hpcl1-5.salisbury.edu] HYD_pmcd_pmip_control_cmd_cb (pm/pmiserv/pmip_cb.c:885): assert (!closed) failed
+[proxy:0:4@hpcl1-5.salisbury.edu] HYDT_dmxu_poll_wait_for_event (tools/demux/demux_poll.c:76): callback returned error status
+[proxy:0:4@hpcl1-5.salisbury.edu] main (pm/pmiserv/pmip.c:206): demux engine error waiting for event
+[proxy:0:3@hpcl1-4.salisbury.edu] HYD_pmcd_pmip_control_cmd_cb (pm/pmiserv/pmip_cb.c:885): assert (!closed) failed
+[proxy:0:3@hpcl1-4.salisbury.edu] HYDT_dmxu_poll_wait_for_event (tools/demux/demux_poll.c:76): callback returned error status
+[proxy:0:3@hpcl1-4.salisbury.edu] main (pm/pmiserv/pmip.c:206): demux engine error waiting for event
+[proxy:0:1@hpcl1-2.salisbury.edu] HYD_pmcd_pmip_control_cmd_cb (pm/pmiserv/pmip_cb.c:885): assert (!closed) failed
+[proxy:0:1@hpcl1-2.salisbury.edu] HYDT_dmxu_poll_wait_for_event (tools/demux/demux_poll.c:76): callback returned error status
+[proxy:0:1@hpcl1-2.salisbury.edu] main (pm/pmiserv/pmip.c:206): demux engine error waiting for event
+[proxy:0:9@hpcl2-5.salisbury.edu] HYD_pmcd_pmip_control_cmd_cb (pm/pmiserv/pmip_cb.c:885): assert (!closed) failed
+[proxy:0:9@hpcl2-5.salisbury.edu] HYDT_dmxu_poll_wait_for_event (tools/demux/demux_poll.c:76): callback returned error status
+[proxy:0:9@hpcl2-5.salisbury.edu] main (pm/pmiserv/pmip.c:206): demux engine error waiting for event
+[proxy:0:11@hpcl3-1.salisbury.edu] HYD_pmcd_pmip_control_cmd_cb (pm/pmiserv/pmip_cb.c:885): assert (!closed) failed
+[proxy:0:11@hpcl3-1.salisbury.edu] HYDT_dmxu_poll_wait_for_event (tools/demux/demux_poll.c:76): callback returned error status
+[proxy:0:11@hpcl3-1.salisbury.edu] main (pm/pmiserv/pmip.c:206): demux engine error waiting for event
+[proxy:0:14@hpcl3-4.salisbury.edu] HYD_pmcd_pmip_control_cmd_cb (pm/pmiserv/pmip_cb.c:885): assert (!closed) failed
+[proxy:0:14@hpcl3-4.salisbury.edu] HYDT_dmxu_poll_wait_for_event (tools/demux/demux_poll.c:76): callback returned error status
+[proxy:0:14@hpcl3-4.salisbury.edu] main (pm/pmiserv/pmip.c:206): demux engine error waiting for event
+[proxy:0:6@hpcl2-2.salisbury.edu] HYD_pmcd_pmip_control_cmd_cb (pm/pmiserv/pmip_cb.c:885): assert (!closed) failed
+[proxy:0:6@hpcl2-2.salisbury.edu] HYDT_dmxu_poll_wait_for_event (tools/demux/demux_poll.c:76): callback returned error status
+[proxy:0:6@hpcl2-2.salisbury.edu] main (pm/pmiserv/pmip.c:206): demux engine error waiting for event
+[proxy:0:10@hpcl2-6.salisbury.edu] HYD_pmcd_pmip_control_cmd_cb (pm/pmiserv/pmip_cb.c:885): assert (!closed) failed
+[proxy:0:10@hpcl2-6.salisbury.edu] HYDT_dmxu_poll_wait_for_event (tools/demux/demux_poll.c:76): callback returned error status
+[proxy:0:10@hpcl2-6.salisbury.edu] main (pm/pmiserv/pmip.c:206): demux engine error waiting for event
+[proxy:0:19@hpcl4-3.salisbury.edu] HYD_pmcd_pmip_control_cmd_cb (pm/pmiserv/pmip_cb.c:885): assert (!closed) failed
+[proxy:0:19@hpcl4-3.salisbury.edu] HYDT_dmxu_poll_wait_for_event (tools/demux/demux_poll.c:76): callback returned error status
+[proxy:0:19@hpcl4-3.salisbury.edu] main (pm/pmiserv/pmip.c:206): demux engine error waiting for event
+[proxy:0:21@hpcl4-5.salisbury.edu] HYD_pmcd_pmip_control_cmd_cb (pm/pmiserv/pmip_cb.c:885): assert (!closed) failed
+[proxy:0:21@hpcl4-5.salisbury.edu] HYDT_dmxu_poll_wait_for_event (tools/demux/demux_poll.c:76): callback returned error status
+[proxy:0:21@hpcl4-5.salisbury.edu] main (pm/pmiserv/pmip.c:206): demux engine error waiting for event
+[proxy:0:24@hpcl6-3.salisbury.edu] HYD_pmcd_pmip_control_cmd_cb (pm/pmiserv/pmip_cb.c:885): assert (!closed) failed
+[proxy:0:24@hpcl6-3.salisbury.edu] HYDT_dmxu_poll_wait_for_event (tools/demux/demux_poll.c:76): callback returned error status
+[proxy:0:24@hpcl6-3.salisbury.edu] main (pm/pmiserv/pmip.c:206): demux engine error waiting for event
+[proxy:0:7@hpcl2-3.salisbury.edu] HYD_pmcd_pmip_control_cmd_cb (pm/pmiserv/pmip_cb.c:885): assert (!closed) failed
+[proxy:0:7@hpcl2-3.salisbury.edu] HYDT_dmxu_poll_wait_for_event (tools/demux/demux_poll.c:76): callback returned error status
+[proxy:0:7@hpcl2-3.salisbury.edu] main (pm/pmiserv/pmip.c:206): demux engine error waiting for event
+[proxy:0:20@hpcl4-4.salisbury.edu] HYD_pmcd_pmip_control_cmd_cb (pm/pmiserv/pmip_cb.c:885): assert (!closed) failed
+[proxy:0:20@hpcl4-4.salisbury.edu] HYDT_dmxu_poll_wait_for_event (tools/demux/demux_poll.c:76): callback returned error status
+[proxy:0:20@hpcl4-4.salisbury.edu] main (pm/pmiserv/pmip.c:206): demux engine error waiting for event
+[proxy:0:8@hpcl2-4.salisbury.edu] HYD_pmcd_pmip_control_cmd_cb (pm/pmiserv/pmip_cb.c:885): assert (!closed) failed
+[proxy:0:8@hpcl2-4.salisbury.edu] HYDT_dmxu_poll_wait_for_event (tools/demux/demux_poll.c:76): callback returned error status
+[proxy:0:8@hpcl2-4.salisbury.edu] main (pm/pmiserv/pmip.c:206): demux engine error waiting for event
+[proxy:0:15@hpcl3-5.salisbury.edu] HYD_pmcd_pmip_control_cmd_cb (pm/pmiserv/pmip_cb.c:885): assert (!closed) failed
+[proxy:0:15@hpcl3-5.salisbury.edu] HYDT_dmxu_poll_wait_for_event (tools/demux/demux_poll.c:76): callback returned error status
+[proxy:0:15@hpcl3-5.salisbury.edu] main (pm/pmiserv/pmip.c:206): demux engine error waiting for event
+[proxy:0:22@hpcl4-6.salisbury.edu] HYD_pmcd_pmip_control_cmd_cb (pm/pmiserv/pmip_cb.c:885): assert (!closed) failed
+[proxy:0:22@hpcl4-6.salisbury.edu] HYDT_dmxu_poll_wait_for_event (tools/demux/demux_poll.c:76): callback returned error status
+[proxy:0:22@hpcl4-6.salisbury.edu] main (pm/pmiserv/pmip.c:206): demux engine error waiting for event
+[proxy:0:16@hpcl3-6.salisbury.edu] HYD_pmcd_pmip_control_cmd_cb (pm/pmiserv/pmip_cb.c:885): assert (!closed) failed
+[proxy:0:16@hpcl3-6.salisbury.edu] HYDT_dmxu_poll_wait_for_event (tools/demux/demux_poll.c:76): callback returned error status
+[proxy:0:16@hpcl3-6.salisbury.edu] main (pm/pmiserv/pmip.c:206): demux engine error waiting for event
+[proxy:0:18@hpcl4-2.salisbury.edu] HYD_pmcd_pmip_control_cmd_cb (pm/pmiserv/pmip_cb.c:885): assert (!closed) failed
+[proxy:0:18@hpcl4-2.salisbury.edu] HYDT_dmxu_poll_wait_for_event (tools/demux/demux_poll.c:76): callback returned error status
+[proxy:0:18@hpcl4-2.salisbury.edu] main (pm/pmiserv/pmip.c:206): demux engine error waiting for event
+[proxy:0:13@hpcl3-3.salisbury.edu] HYD_pmcd_pmip_control_cmd_cb (pm/pmiserv/pmip_cb.c:885): assert (!closed) failed
+[proxy:0:13@hpcl3-3.salisbury.edu] HYDT_dmxu_poll_wait_for_event (tools/demux/demux_poll.c:76): callback returned error status
+[proxy:0:13@hpcl3-3.salisbury.edu] main (pm/pmiserv/pmip.c:206): demux engine error waiting for event
+[proxy:0:17@hpcl4-1.salisbury.edu] HYD_pmcd_pmip_control_cmd_cb (pm/pmiserv/pmip_cb.c:885): assert (!closed) failed
+[proxy:0:17@hpcl4-1.salisbury.edu] HYDT_dmxu_poll_wait_for_event (tools/demux/demux_poll.c:76): callback returned error status
+[proxy:0:17@hpcl4-1.salisbury.edu] main (pm/pmiserv/pmip.c:206): demux engine error waiting for event
+[proxy:0:2@hpcl1-3.salisbury.edu] HYD_pmcd_pmip_control_cmd_cb (pm/pmiserv/pmip_cb.c:885): assert (!closed) failed
+[proxy:0:2@hpcl1-3.salisbury.edu] HYDT_dmxu_poll_wait_for_event (tools/demux/demux_poll.c:76): callback returned error status
+[proxy:0:2@hpcl1-3.salisbury.edu] main (pm/pmiserv/pmip.c:206): demux engine error waiting for event
+slurmstepd: error: Detected 2 oom-kill event(s) in step 3001.0 cgroup. Some of your processes may have been killed by the cgroup out-of-memory handler.
+slurmstepd: error: Detected 1 oom-kill event(s) in step 3001.0 cgroup. Some of your processes may have been killed by the cgroup out-of-memory handler.
+slurmstepd: error: Detected 67 oom-kill event(s) in step 3001.0 cgroup. Some of your processes may have been killed by the cgroup out-of-memory handler.
+slurmstepd: error: Detected 2 oom-kill event(s) in step 3001.0 cgroup. Some of your processes may have been killed by the cgroup out-of-memory handler.
+slurmstepd: error: Detected 5 oom-kill event(s) in step 3001.0 cgroup. Some of your processes may have been killed by the cgroup out-of-memory handler.
+slurmstepd: error: Detected 2 oom-kill event(s) in step 3001.0 cgroup. Some of your processes may have been killed by the cgroup out-of-memory handler.
+slurmstepd: error: Detected 73 oom-kill event(s) in step 3001.0 cgroup. Some of your processes may have been killed by the cgroup out-of-memory handler.
+slurmstepd: error: Detected 48 oom-kill event(s) in step 3001.0 cgroup. Some of your processes may have been killed by the cgroup out-of-memory handler.
+slurmstepd: error: Detected 186 oom-kill event(s) in step 3001.0 cgroup. Some of your processes may have been killed by the cgroup out-of-memory handler.
+slurmstepd: error: Detected 1 oom-kill event(s) in step 3001.0 cgroup. Some of your processes may have been killed by the cgroup out-of-memory handler.
+slurmstepd: error: Detected 157 oom-kill event(s) in step 3001.0 cgroup. Some of your processes may have been killed by the cgroup out-of-memory handler.
+slurmstepd: error: Detected 1 oom-kill event(s) in step 3001.0 cgroup. Some of your processes may have been killed by the cgroup out-of-memory handler.
+slurmstepd: error: Detected 3 oom-kill event(s) in step 3001.0 cgroup. Some of your processes may have been killed by the cgroup out-of-memory handler.
+slurmstepd: error: Detected 29 oom-kill event(s) in step 3001.0 cgroup. Some of your processes may have been killed by the cgroup out-of-memory handler.
+slurmstepd: error: Detected 3 oom-kill event(s) in step 3001.0 cgroup. Some of your processes may have been killed by the cgroup out-of-memory handler.
+slurmstepd: error: Detected 1 oom-kill event(s) in step 3001.0 cgroup. Some of your processes may have been killed by the cgroup out-of-memory handler.
+slurmstepd: error: Detected 3 oom-kill event(s) in step 3001.0 cgroup. Some of your processes may have been killed by the cgroup out-of-memory handler.
+slurmstepd: error: Detected 95 oom-kill event(s) in step 3001.0 cgroup. Some of your processes may have been killed by the cgroup out-of-memory handler.
+slurmstepd: error: Detected 1 oom-kill event(s) in step 3001.0 cgroup. Some of your processes may have been killed by the cgroup out-of-memory handler.
+slurmstepd: error: Detected 3 oom-kill event(s) in step 3001.0 cgroup. Some of your processes may have been killed by the cgroup out-of-memory handler.
+slurmstepd: error: Detected 59 oom-kill event(s) in step 3001.0 cgroup. Some of your processes may have been killed by the cgroup out-of-memory handler.
+slurmstepd: error: Detected 120 oom-kill event(s) in step 3001.0 cgroup. Some of your processes may have been killed by the cgroup out-of-memory handler.
+slurmstepd: error: Detected 4 oom-kill event(s) in step 3001.0 cgroup. Some of your processes may have been killed by the cgroup out-of-memory handler.
+srun: error: hpcl2-1: task 5: Out Of Memory
+[mpiexec@hpcl1-1.salisbury.edu] HYDT_bscu_wait_for_completion (tools/bootstrap/utils/bscu_wait.c:76): one of the processes terminated badly; aborting
+[mpiexec@hpcl1-1.salisbury.edu] HYDT_bsci_wait_for_completion (tools/bootstrap/src/bsci_wait.c:23): launcher returned error waiting for completion
+[mpiexec@hpcl1-1.salisbury.edu] HYD_pmci_wait_for_completion (pm/pmiserv/pmiserv_pmci.c:218): launcher returned error waiting for completion
+[mpiexec@hpcl1-1.salisbury.edu] main (ui/mpich/mpiexec.c:344): process manager error waiting for completion
+slurmstepd: error: Detected 1 oom-kill event(s) in step 3001.batch cgroup. Some of your processes may have been killed by the cgroup out-of-memory handler.
