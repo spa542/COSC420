@@ -22,130 +22,216 @@ int main(int argc, char** argv){
    
     double numofTrials = 10.0; 
         
-    clock_t start;
-    clock_t finish;
-    for(w=0; w<8; w++){
-
-    start = clock();
-    const int DIMENSION = testcases[w]; // Change the test case matrix dimensions 
-    for(ww=0; ww<numofTrials; ww++){
-
-    //These will be used through out all testing
+    double startAdd, finishAdd;
+    //double startSub, finishSub;
+    //double startMul, finishMul;
+    //double startInn, finishInn;
+    
+    int rowLength;
+    int colLength;
+        
     Matrix A=default_matrix;
     Matrix B=default_matrix;
-    
+        
     Matrix Result=default_matrix;
 
-    //Testing addition
+    int DIMENSION; // Change the test case matrix dimensions 
     
-    int rowLength = DIMENSION;
-    int colLength = DIMENSION;
-    initMatrix(&A, rowLength, colLength);
-    initMatrix(&B, rowLength, colLength);
-    initMatrix(&Result, rowLength, colLength);
-    free(Result.data);
+    for(w=0; w<8; w++){
+        DIMENSION = testcases[w]; // Change the test case matrix dimensions 
+        
+        //Testing addition
+        
+        rowLength = DIMENSION;
+        colLength = DIMENSION;
+        
+        //start timing
+        startAdd = MPI_Wtime();
 
-    int i;
-    for (i = 0; i < 10; i++) {
-        Result.data = addMatrices(&A, &B, &world, worldSize, myRank);
-        if(myRank == 0){
-            //puts("Done");   
-            free(Result.data);
-            Result = default_matrix;
+        for(ww=0; ww<numofTrials; ww++){
+            if(myRank == 0){
+                initMatrix(&A, rowLength, colLength);
+                initMatrix(&B, rowLength, colLength);
+            }else{
+                A.rows = A.cols = rowLength;
+                B.rows = B.cols = rowLength;
+            }
+            Result.rows = rowLength;
+            Result.cols = colLength;
+        
+            Result.data = addMatrices(&A, &B, &world, worldSize, myRank);
+            if(myRank == 0){
+                //puts("Done");   
+                free(Result.data);
+                Result = default_matrix;
+            }
+            if (myRank == 0) {
+                free(A.data);
+                free(B.data);
+                A = default_matrix;
+                B = default_matrix; 
+            }
         }
-    }
-    if (myRank == 0) {
-        free(A.data);
-        free(B.data);
-    }
+    
+        finishAdd = MPI_Wtime();
+        if(myRank == 0)
+            printf("ADD -- numofItems: %d | Time/Node: %f \n", testcases[w], finishAdd - startAdd);
+        fflush(stdout);
+    } 
+    
+    
+    
+        
+    //Testing subtract
+        
+    for(w=0; w<8; w++){
+        
+        DIMENSION = testcases[w]; // Change the test case matrix dimensions 
+      
+        rowLength = DIMENSION;
+        colLength = DIMENSION;
+        
+        //start timing
+        startAdd = MPI_Wtime();
+
+        for(ww=0; ww<numofTrials; ww++){
+            if(myRank == 0){
+                initMatrix(&A, rowLength, colLength);
+                initMatrix(&B, rowLength, colLength);
+            }else{
+                A.rows = A.cols = rowLength;
+                B.rows = B.cols = rowLength;
+            }
+            Result.rows = rowLength;
+            Result.cols = colLength;
+        
+            Result.data = subtractMatrices(&A, &B, &world, worldSize, myRank);
+            if(myRank == 0){
+                //puts("Done");   
+                free(Result.data);
+                Result = default_matrix;
+            }
+            if (myRank == 0) {
+                free(A.data);
+                free(B.data);
+                A = default_matrix;
+                B = default_matrix; 
+            }
+        }
+    
+        finishAdd = MPI_Wtime();
+        if(myRank == 0)
+            printf("SUBTRACT -- numofItems: %d | Time/Node: %f \n", testcases[w], finishAdd - startAdd);
+        fflush(stdout);
+    } 
+    
+    
    
-    
 
-    
-    //Testing subtraction
-    /*
-    int rowLength = DIMENSION;
-    int colLength = DIMENSION;
-    initMatrix(&A, rowLength, colLength);
-    initMatrix(&B, rowLength, colLength);
-    initMatrix(&Result, rowLength, colLength);
-    free(Result.data);
 
-    int i;
-    for (i = 0; i < 10; i++) {
-        Result.data = subtractMatrices(&A, &B, &world, worldSize, myRank);
-        if(myRank == 0){
-            puts("Done");    
-            free(Result.data);
+
+
+
+
+    //Testing inner product
+        
+    for(w=0; w<8; w++){
+        
+        DIMENSION = testcases[w]; // Change the test case matrix dimensions 
+      
+        rowLength = DIMENSION;
+        colLength = 1;
+        
+        //start timing
+        startAdd = MPI_Wtime();
+
+        for(ww=0; ww<numofTrials; ww++){
+            if(myRank == 0){
+                initMatrix(&A, rowLength, colLength);
+                initMatrix(&B, rowLength, colLength);
+            }else{
+                A.rows = B.rows = rowLength;
+                A.cols = B.cols = colLength;
+            }
+            Result.rows = rowLength;
+            Result.cols = colLength;
+        
+            double answer = innerProduct(&A, &B, &world, worldSize, myRank);
+            if(myRank == 0){
+                //puts("Done");   
+                free(Result.data);
+                Result = default_matrix;
+            }
+            if (myRank == 0) {
+                free(A.data);
+                free(B.data);
+                A = default_matrix;
+                B = default_matrix; 
+            }
         }
-    }
-    if (myRank == 0) {
-        free(A.data);
-        free(B.data);
-    }
-    */ 
     
+        finishAdd = MPI_Wtime();
+        if(myRank == 0)
+            printf("INNERPROD -- numofItems: %d | Time/Node: %f \n", testcases[w], finishAdd - startAdd);
+        fflush(stdout);
+    }
 
 
 
-    //Testing Inner Product
-    /*
-    int ArowLength = 1;
-    int AcolLength = DIMENSION;
-    int BrowLength = DIMENSION;
-    int BcolLength = 1; 
-    initMatrix(&A, ArowLength, AcolLength);
-    initMatrix(&B, BrowLength, BcolLength);
-    initMatrix(&Result, ArowLength, BcolLength);
-    free(Result.data);
 
-    int i;
-    double resultNum = 0;
-    for (i = 0; i < 10; i++) {
-        resultNum = innerProduct(&A, &B, &world, worldSize, myRank);
-        if(myRank == 0){
-            puts("Done");    
+
+
+
+
+
+
+
+
+
+
+    //Testing multiply
+        
+    for(w=0; w<8; w++){
+        
+        DIMENSION = testcases[w]; // Change the test case matrix dimensions 
+      
+        rowLength = DIMENSION;
+        colLength = DIMENSION;
+        
+        //start timing
+        startAdd = MPI_Wtime();
+
+        for(ww=0; ww<numofTrials; ww++){
+            if(myRank == 0){
+                initMatrix(&A, rowLength, colLength);
+                initMatrix(&B, rowLength, colLength);
+            }else{
+                A.rows = A.cols = rowLength;
+                B.rows = B.cols = rowLength;
+            }
+            Result.rows = rowLength;
+            Result.cols = colLength;
+        
+            Result.data = multMatrices(&A, &B, &world, worldSize, myRank);
+            if(myRank == 0){
+                //puts("Done");   
+                free(Result.data);
+                Result = default_matrix;
+            }
+            if (myRank == 0) {
+                free(A.data);
+                free(B.data);
+                A = default_matrix;
+                B = default_matrix; 
+            }
         }
-    }
-    if (myRank == 0) {
-        free(A.data);
-        free(B.data);
-    }
-    */ 
-
-
-
-    //Testing Multiply
-    /*
-    int ArowLength = DIMENSION;
-    int AcolLength = DIMENSION;
-    int BrowLength = DIMENSION;
-    int BcolLength = DIMENSION;    
-    initMatrix(&A, ArowLength, AcolLength);
-    initMatrix(&B, BrowLength, BcolLength);
-    initMatrix(&Result, ArowLength, BcolLength);
-    free(Result.data);
-
-    int i;
-    for (i = 0; i < 10; i++) {
-        Result.data = multMatrices(&A, &B, &world, worldSize, myRank);
-        if(myRank == 0){
-            puts("Done");    
-        }
-        free(Result.data);
-    }
-     
-    if (myRank == 0) {
-        free(A.data);
-        free(B.data);
-    }
-*/
-    }
-    finish = clock();
-    double resultTime= ((double)(finish-start)) / (CLOCKS_PER_SEC*numofTrials);   
-    if(myRank == 0)
-        printf("numofItems: %d | Time/Node: %f \n", testcases[w], resultTime);
+    
+        finishAdd = MPI_Wtime();
+        if(myRank == 0)
+            printf("MULTIPLY -- numofItems: %d | Time/Node: %f \n", testcases[w], finishAdd - startAdd);
+        fflush(stdout);    
     }
     MPI_Finalize();
     return 0;
+    
 }

@@ -265,11 +265,11 @@ double* multMatrices(Matrix *a, Matrix *b, MPI_Comm *world, int worldSize, int m
 
     // Return the result
     if(myRank == 0){
-        int ree;
+        //int ree;
         /*for(ree = 0; ree<(a->rows*b->cols); ree++){
             printf("%f ",rtn[ree]);
         }*/
-        puts("");
+       
 
         //printMatrix(a);
         //printMatrix(b);
