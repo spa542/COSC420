@@ -471,7 +471,7 @@ double* GaussJordan(Matrix* at, Matrix* bt, MPI_Comm* world, int worldSize, int 
             for(c=0; c<b->cols; c++)
                 bk[c] = ACCESS(b,k,c);
         }
-        MPI_Barrier(*world);
+        //MPI_Barrier(*world);
         //puts("Before scatter");
         // Scatter the rows of A that each node will apply l vector to
         MPI_Scatterv(a->data, Varray, disp, MPI_DOUBLE, local_row_mat, Varray[myRank], MPI_DOUBLE, 0, *world);
@@ -522,12 +522,12 @@ double* GaussJordan(Matrix* at, Matrix* bt, MPI_Comm* world, int worldSize, int 
         //printf("Before gather | Rank %d\n", myRank);
         // Gather the rows of A back from each node
         MPI_Gatherv(local_row_mat, Varray[myRank], MPI_DOUBLE, a->data, Varray, disp, MPI_DOUBLE, 0, *world);
-        MPI_Barrier(*world);
+        //MPI_Barrier(*world);
         //printf("Between gather | Rank %d\n", myRank);
         // Gather the rows of B back from each node
         MPI_Gatherv(local_b_mat, Varray2[myRank], MPI_DOUBLE, b->data, Varray2, disp2, MPI_DOUBLE, 0, *world);
         //printf("After gather | Rank %d\n", myRank);
-        MPI_Barrier(*world);
+        //MPI_Barrier(*world);
     }
     if (myRank == 0) {
         // Create the scalar vector that contains the diagonal elements of a

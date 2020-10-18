@@ -100,18 +100,82 @@ int main(int argc, char** argv) {
         gj.rows = gjb.rows = gjresult.rows = GJtest.rows = gj.cols = 3;
         gjresult.cols = gjb.cols = GJtest.cols = 1;
     }
+
+    // Test file operations
+
+    MPI_File fh;
+
+    MPI_File_open(world, "outfile", MPI_MODE_CREATE | MPI_MODE_WRONLY,
+            MPI_INFO_NULL, &fh);
+
+
    
     //Testing opperations
     
     //The root must pass the actual data while the workers do not care 
     //so they are seperated
     c.data = addMatrices(&a, &b, &world, worldSize, myRank);
+    // For writing to file
+    if (myRank != 0) {
+        c.data = (double*)malloc(c.rows*c.cols*sizeof(double));
+    }
+    int Varray[worldSize];
+    int disp[worldSize];
+    int z;
+    for (z = 0; z < worldSize; z++) {
+        Varray[z] = (c.rows*c.cols) / worldSize;
+    }
+    for (z = 0; z < (c.rows*c.cols) % worldSize; z++) {
+        Varray[z] += 1;
+    }
+    int nextLength = 0;
+    for (z = 0; z < worldSize; z++) {
+        disp[z] = nextLength;
+        nextLength += Varray[myRank];
+    }
+    double local_mat[Varray[myRank]];
+    MPI_Scatterv(c.data, Varray, disp, MPI_DOUBLE, local_mat, Varray[myRank], MPI_DOUBLE, 0, world);
+
+    MPI_Offset offset = Varray[myRank] * myRank * sizeof(double);
+
+    MPI_File_write_at(fh, offset, local_mat, Varray[myRank], MPI_DOUBLE, MPI_STATUS_IGNORE);
+    // End writing to file for addition result
     if(myRank == 0) {
         puts("Result Matrix: a + b"); 
         printMatrix(&c);
     }
 
     d.data = subtractMatrices(&a, &b, &world, worldSize, myRank);
+    if (myRank != 0) {
+        d.data = (double*)malloc(d.rows*d.cols*sizeof(double));
+    }
+    // For writing to file
+    if (myRank != 0) {
+        d.data = (double*)malloc(d.rows*d.cols*sizeof(double));
+    }
+    for (z = 0; z < worldSize; z++) {
+        Varray[z] = (d.rows*d.cols) / worldSize;
+    }
+    for (z = 0; z < (d.rows*d.cols) % worldSize; z++) {
+        Varray[z] += 1;
+    }
+    nextLength = 0;
+    for (z = 0; z < worldSize; z++) {
+        disp[z] = nextLength;
+        nextLength += Varray[myRank];
+    }
+    if (myRank == 0) {
+        for (z = 0; z < worldSize; z++) {
+            printf("%d ", Varray[z]);
+        }
+    }
+    double local_mat1[Varray[myRank]];
+    MPI_Scatterv(d.data, Varray, disp, MPI_DOUBLE, local_mat1, Varray[myRank], MPI_DOUBLE, 0, world);
+
+    offset = Varray[myRank] * myRank * sizeof(double);
+
+    MPI_File_write_at(fh, offset, local_mat1, Varray[myRank], MPI_DOUBLE, MPI_STATUS_IGNORE);
+    // End writing to file for subtraction result
     if(myRank == 0){
       puts("Result Matrix: a - b");
       printMatrix(&d);
@@ -188,6 +252,7 @@ int main(int argc, char** argv) {
       printMatrix(&rrtest);
     }
 
+    MPI_File_close(&fh);
     MPI_Finalize(); // Wrap everything up
     // Free the arrays of each matrix
     if (myRank == 0) {
