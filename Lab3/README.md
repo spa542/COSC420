@@ -63,27 +63,44 @@ the physical limiation of the machine running the tests. The tests are being run
 ## Questions:
 
 #### (a) What is the theoretical time complexity of your algorithms (best and worst case), in terms of the input size?
-        For the addition and subtraction, our algorithms are approximately O(N/P). N being the total amount of elements in the
-        array and P being the amount of processors in use. This leads to a best case of O(1), where every processor has one 
-        element and a worst case of O(N) where we have only one processor that must do all of the work itself. For the inner product,
-        it is O(2N/P). For this, the best case is again O(1) because we have N multiplications with N-1 additions and a reduced addition
-        based off the amount of processors we have. The worst case is O(2N) because one processor will have to do all of the additions
-        and all of the multiplications by itself. Transpose is O(N). The best case is if we have a one element matrix which is
-        O(1), and worst case is O(N). Lastly, for matrix multiplication is O((2N)^3 + (N/P)^2). This is because we have 2 copies 
-        of arrays N^3 times and the inner product is called N^2 times. This gives us a best case of O(N^3 + 1). This is if we only
-        need to do the copies and we have enough processors for one node per processor. The worst case is O((2N)^3 + N^2). This is
-        if one processor has to do all of the work. 
+        N being the total amount of elements in the array and P being the amount of processors in use.
+        
+        For the addition and subtraction, our algorithms are approximately O(N/P). This leads to a 
+        best case of O(1), where every processor has one element and a worst case of O(N) where we
+        have only one processor that must  do all of the work itself. 
+        
+        For the inner product, it is O(2N/P). For this, the best case is again O(1) because we 
+        have N multiplications with N-1 additions and a reduced addition based off the amount of
+        processors we have. The worst case is O(2N) because one processor will have to do all of 
+        the additions and all of the multiplications by itself.
+        
+        For transpose is O(N). The best case is if we have a one element matrix which is O(1), and
+        worst case is O(N). 
+        
+        For matrix multiplication is O((2N)^3 + (N/P)^2). This is because we have 2 copies
+        of arrays N^3 times and the inner product is called N^2 times. This gives us a best case of
+        O(N^3 + 1). This is if we only need to do the copies and we have enough processors for one
+        node per processor. The worst case is O((2N)^3 + N^2). This is  if one processor has to do
+        all of the work. 
+        
+        Finally for Gauss Jordan, the O(N*(N/p)^). This is because we iuterate on ever row of 'a' matrix.
+        That is the 'k' loop where we scatter that pivviot row, b's piviot row, and the computation done
+        using the kth row. Then we scatter all of a and all of b to their choosen nodes. Then O(N^2)
+        proccess would be don on those if we only had one node but since we have p, it is reduced to O((N/p)^2)
 #### (b) According to the data, does adding more nodes perfectly divide the time taken by the program?
 
 
 
 #### (c) What are some real-world software examples that would need the above routines? Why? Would they benefit greatly from using your distributed code?
-        This library would be usefull for anyone conducting any largre matrix operations and linear algerbra. Some specific exsamples would be video games and literally
-        any feild that uses linear algerbra. Although our code will really show it's usefullness in high rementions it will work in every dimenssion. Some econmics will use 
-        linear algerbra one exsample being the Leontief input-output model.
+        This library would be usefull for anyone conducting any largre matrix operations and linear algerbra.
+        Some specific exsamples would be video games and literally any feild that uses linear algerbra. 
+        Although our code will really show it's usefullness in high rementions it will work in every dimenssion. 
+        Some econmics will use linear algerbra one exsample being the Leontief input-output model.
 #### (d) How could the code be improved in terms of usability, efficiency, and robustness?
-        One major edge case we took into consideration was the nunmber of nodes won't evenly split our data. Or we have to many nodes. But the way we constructed our code 
-        if you give it too many nodes it will simply ignore the extra ones. This makes it easier for an end user to not have to read every line of our code to see how many 
-        nodes to give. In the moment we don't see any more improvements but I am sure when we look bakc on this program with more experience we will find plenty of improvements.
+        One major edge case we took into consideration was the nunmber of nodes won't evenly split our data.
+        Or we have to many nodes. But the way we constructed our code if you give it too many nodes it will
+        simply ignore the extra ones. This makes it easier for an end user to not have to read every line of
+        our code to see how many nodes to give. In the moment we don't see any more improvements but I am 
+        sure when we look bakc on this program with more experience we will find plenty of improvements.
         
         
