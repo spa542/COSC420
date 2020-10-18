@@ -1,0 +1,44 @@
+End of porgram! | World Size: 25
+ADD -- numofItems: 100 | Time/Node: 0.574121 
+ADD -- numofItems: 250 | Time/Node: 0.615918 
+ADD -- numofItems: 500 | Time/Node: 2.840203 
+ADD -- numofItems: 750 | Time/Node: 3.714930 
+ADD -- numofItems: 1000 | Time/Node: 10.576990 
+ADD -- numofItems: 1500 | Time/Node: 23.908050 
+ADD -- numofItems: 2000 | Time/Node: 52.376044 
+ADD -- numofItems: 2500 | Time/Node: 115.667783 
+ADD -- numofItems: 3000 | Time/Node: 182.348137 
+ADD -- numofItems: 3500 | Time/Node: 307.483874 
+ADD -- numofItems: 4000 | Time/Node: 420.268255 
+ADD -- numofItems: 4500 | Time/Node: 509.404187 
+ADD -- numofItems: 5000 | Time/Node: 603.084354 
+SUBTRACT -- numofItems: 100 | Time/Node: 0.565730 
+SUBTRACT -- numofItems: 250 | Time/Node: 0.623995 
+SUBTRACT -- numofItems: 500 | Time/Node: 2.571883 
+SUBTRACT -- numofItems: 750 | Time/Node: 3.447899 
+SUBTRACT -- numofItems: 1000 | Time/Node: 10.994743 
+SUBTRACT -- numofItems: 1500 | Time/Node: 22.163940 
+SUBTRACT -- numofItems: 2000 | Time/Node: 54.353596 
+SUBTRACT -- numofItems: 2500 | Time/Node: 110.443889 
+SUBTRACT -- numofItems: 3000 | Time/Node: 184.548054 
+SUBTRACT -- numofItems: 3500 | Time/Node: 278.748108 
+SUBTRACT -- numofItems: 4000 | Time/Node: 419.079115 
+SUBTRACT -- numofItems: 4500 | Time/Node: 534.273098 
+SUBTRACT -- numofItems: 5000 | Time/Node: 662.248248 
+INNERPROD -- numofItems: 100 | Time/Node: 1.350089 
+INNERPROD -- numofItems: 250 | Time/Node: 1.347985 
+INNERPROD -- numofItems: 500 | Time/Node: 1.107993 
+INNERPROD -- numofItems: 750 | Time/Node: 1.355990 
+INNERPROD -- numofItems: 1000 | Time/Node: 1.351992 
+INNERPROD -- numofItems: 1500 | Time/Node: 1.507992 
+INNERPROD -- numofItems: 2000 | Time/Node: 1.403993 
+INNERPROD -- numofItems: 2500 | Time/Node: 1.355992 
+INNERPROD -- numofItems: 3000 | Time/Node: 1.147994 
+INNERPROD -- numofItems: 3500 | Time/Node: 1.039993 
+INNERPROD -- numofItems: 4000 | Time/Node: 1.163989 
+INNERPROD -- numofItems: 4500 | Time/Node: 1.499991 
+INNERPROD -- numofItems: 5000 | Time/Node: 1.387992 
+MULTIPLY -- numofItems: 100 | Time/Node: 13678.991994 
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+slurmstepd: error: *** JOB 3021 ON hpcl6-3 CANCELLED AT 2020-10-18T01:27:08 DUE TO TIME LIMIT ***
+slurmstepd: error: *** STEP 3021.0 ON hpcl6-3 CANCELLED AT 2020-10-18T01:27:08 DUE TO TIME LIMIT ***

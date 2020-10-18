@@ -17,9 +17,14 @@ int main(int argc, char** argv){
     MPI_Comm_size(world, &worldSize);
     MPI_Comm_rank(world, &myRank);
 
-    int testcases[8] = {10, 80, 100, 300, 500, 800, 1000, 5000};
-    int w, ww;
+    if(myRank == 0)
+        printf("End of porgram! | World Size: %d\n", worldSize);    
+    
+    int testcases[13] = {100, 250, 500, 750, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000};
+    int w, ww, dimnum;
    
+    dimnum = 13;
+
     double numofTrials = 10.0; 
         
     double startAdd, finishAdd;
@@ -37,7 +42,7 @@ int main(int argc, char** argv){
 
     int DIMENSION; // Change the test case matrix dimensions 
     
-    for(w=0; w<8; w++){
+    for(w=0; w<dimnum; w++){
         DIMENSION = testcases[w]; // Change the test case matrix dimensions 
         
         //Testing addition
@@ -84,7 +89,7 @@ int main(int argc, char** argv){
         
     //Testing subtract
         
-    for(w=0; w<8; w++){
+    for(w=0; w<dimnum; w++){
         
         DIMENSION = testcases[w]; // Change the test case matrix dimensions 
       
@@ -135,7 +140,7 @@ int main(int argc, char** argv){
 
     //Testing inner product
         
-    for(w=0; w<8; w++){
+    for(w=0; w<dimnum; w++){
         
         DIMENSION = testcases[w]; // Change the test case matrix dimensions 
       
@@ -191,7 +196,7 @@ int main(int argc, char** argv){
 
     //Testing multiply
         
-    for(w=0; w<8; w++){
+    for(w=0; w<dimnum; w++){
         
         DIMENSION = testcases[w]; // Change the test case matrix dimensions 
       
@@ -231,6 +236,79 @@ int main(int argc, char** argv){
             printf("MULTIPLY -- numofItems: %d | Time/Node: %f \n", testcases[w], finishAdd - startAdd);
         fflush(stdout);    
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    //Testing GuassJordan
+        
+    for(w=0; w<dimnum; w++){
+        
+        DIMENSION = testcases[w]; // Change the test case matrix dimensions 
+      
+        rowLength = DIMENSION;
+        colLength = DIMENSION;
+        
+        //start timing
+        startAdd = MPI_Wtime();
+
+        for(ww=0; ww<numofTrials; ww++){
+            if(myRank == 0){
+                initMatrix(&A, rowLength, colLength);
+                initMatrix(&B, rowLength, 1);
+            }else{
+                A.rows = A.cols = rowLength;
+                B.rows = rowLength;
+                B.cols = 1;
+            }
+            Result.rows = rowLength;
+            Result.cols = 1;
+        
+            Result.data = GaussJordan(&A, &B, &world, worldSize, myRank);
+            if(myRank == 0){
+                //puts("Done");   
+                free(Result.data);
+                Result = default_matrix;
+            }
+            if (myRank == 0) {
+                free(A.data);
+                free(B.data);
+                A = default_matrix;
+                B = default_matrix; 
+            }
+        }
+    
+        finishAdd = MPI_Wtime();
+        if(myRank == 0)
+            printf("GAUSSJORDAN -- numofItems: %d | Time/Node: %f \n", testcases[w], finishAdd - startAdd);
+        fflush(stdout);    
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    if(myRank == 0)
+        printf("End of porgram! | World Size: %d\n", worldSize);    
     MPI_Finalize();
     return 0;
     
