@@ -45,6 +45,20 @@ each program can be run as such, (mpiexec -n (# of nodes) ./(output file)
 
 ## Results: 
 
+The results were pulled from running the driver on numtiple world sizes/multiple number of nodes. 
+The code was run and times 10 times and then the average was taken of those 10 times to get a "accurate"
+time for a single run on a large matrix. It was very interesting to note that the times for one and two 
+nodes were better than the five and ten on the smaller cases and as the cases got bigger it was better with more nodes.
+This makes sense because the more node you have the larger the setup time for not that much more payout weith the extra computing time 
+because then there is more cleaning up to do. 
+
+Another interesting event that was noticed was there were some spikes in times. We aren't too sure where these came from other than 
+the physical limiation of the machine running the tests. The tests are being run all at the same time on one PC. 
+
+
+![Addtion Time](https://github.com/spa542/COSC420/blob/master/Lab3/Img/Addition.png)
+![Subtraction Time](https://github.com/spa542/COSC420/blob/master/Lab3/Img/Subtraction.png)
+![Inner Product Time](https://github.com/spa542/COSC420/blob/master/Lab3/Img/Inner%20Product.png)
 
 ## Questions:
 
@@ -68,6 +82,8 @@ each program can be run as such, (mpiexec -n (# of nodes) ./(output file)
         any feild that uses linear algerbra. Although our code will really show it's usefullness in high rementions it will work in every dimenssion. Some econmics will use 
         linear algerbra one exsample being the Leontief input-output model.
 #### (d) How could the code be improved in terms of usability, efficiency, and robustness?
-        One major edge case we took into consideration was the nunmber of nodes won;t evenly split our data. Or we have to many nodes. But the way we constructed our code 
+        One major edge case we took into consideration was the nunmber of nodes won't evenly split our data. Or we have to many nodes. But the way we constructed our code 
         if you give it too many nodes it will simply ignore the extra ones. This makes it easier for an end user to not have to read every line of our code to see how many 
         nodes to give. In the moment we don't see any more improvements but I am sure when we look bakc on this program with more experience we will find plenty of improvements.
+        
+        
