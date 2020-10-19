@@ -55,14 +55,19 @@ because then there is more cleaning up to do.
 Another interesting event that was noticed was there were some spikes in times. We aren't too sure where these came from other than 
 the physical limiation of the machine running the tests. The tests are being run all at the same time on one PC. 
 
+NOTE: that the Gauss Jordan also did not finish for the 1 node case. THis took over 24 hours to get what we had and due dates requested the graph as is. 
+
 
 ![Addtion Time](https://github.com/spa542/COSC420/blob/master/Lab3/Img/Addition.png)
 ![Subtraction Time](https://github.com/spa542/COSC420/blob/master/Lab3/Img/Subtraction.png)
 ![Inner Product Time](https://github.com/spa542/COSC420/blob/master/Lab3/Img/Inner%20Product.png)
+![Multiplication Time](https://github.com/spa542/COSC420/blob/master/Lab3/Img/Multiplication.png)
+![Gauss Jordan Time](https://github.com/spa542/COSC420/blob/master/Lab3/Img/GaussJordan.png)
 
 ## Questions:
 
 #### (a) What is the theoretical time complexity of your algorithms (best and worst case), in terms of the input size?
+        
         N being the total amount of elements in the array and P being the amount of processors in use.
         
         For the addition and subtraction, our algorithms are approximately O(N/P). This leads to a 
@@ -87,16 +92,31 @@ the physical limiation of the machine running the tests. The tests are being run
         That is the 'k' loop where we scatter that pivviot row, b's piviot row, and the computation done
         using the kth row. Then we scatter all of a and all of b to their choosen nodes. Then O(N^2)
         proccess would be don on those if we only had one node but since we have p, it is reduced to O((N/p)^2)
+
 #### (b) According to the data, does adding more nodes perfectly divide the time taken by the program?
 
-
+        The program starts to go faster and faster. The timing is not perfectly divided by the amount
+        of nodes that are being used purely because there is a lot of overhead that goes along with
+        having a lot of nodes. Through the big O analysis, the best and worst cases show that there
+        is a difference and the change over time is closely related with P. I believe that all of the
+        functions see a natural P times faster based off the amount of nodes except for matrix multiplication
+        and Gauss Jordan. This is because we implemented the function in such a way that only allows the
+        processors to speed up certain parts of the function. Overall, the general consensus is that the
+        more processors you  have, the faster the program will be. But the whole algorithm will not benifit
+        from the increase of porcessing power. For exsample Gauss Jordan will still have to do the base 
+        for loop where it labels a row as the kth pivot row. The inner two loops will be split up evenly but
+        that outter loop can't be spead up with more proccessors all of it will still have to happen on all 
+        the processors. 
 
 #### (c) What are some real-world software examples that would need the above routines? Why? Would they benefit greatly from using your distributed code?
+        
         This library would be usefull for anyone conducting any largre matrix operations and linear algerbra.
         Some specific exsamples would be video games and literally any feild that uses linear algerbra. 
         Although our code will really show it's usefullness in high rementions it will work in every dimenssion. 
         Some econmics will use linear algerbra one exsample being the Leontief input-output model.
+        
 #### (d) How could the code be improved in terms of usability, efficiency, and robustness?
+        
         One major edge case we took into consideration was the nunmber of nodes won't evenly split our data.
         Or we have to many nodes. But the way we constructed our code if you give it too many nodes it will
         simply ignore the extra ones. This makes it easier for an end user to not have to read every line of
