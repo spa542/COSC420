@@ -33,6 +33,10 @@ Makefile - File that allows the user to compile without having to input specific
         - This command compiles the driver.c file. While using the time shell function, this 
         file outputs the amount of time that each matrix function will take on various test cases
 
+3. make filetest
+        - This command compiles the filtest.c file. This gives an example of file writing and reading
+        using the given infile and outfile
+
 3. make
         - This will compile all files, allowing you to run at your leisure
 
