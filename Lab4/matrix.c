@@ -570,7 +570,7 @@ double* GaussJordan(Matrix* at, Matrix* bt, MPI_Comm* world, int worldSize, int 
 }
 
 
-double L2Norm(Matrix* a, MPI_Comm* world, int myRank, int worldSize){
+double L2Norm(Matrix* a, MPI_Comm* world, int worldSize, int myRank){
     if(a->rows > 1 && a->cols != 1){
         printf("Given matrix must be a vector");
         return -1;
@@ -587,12 +587,33 @@ double L2Norm(Matrix* a, MPI_Comm* world, int myRank, int worldSize){
     }
     
     int i;
-    double sum=0;
-    for(i=0; i<a->rows; i++){
-        sum += pow(ACCESS(a,i,0), 2);
+    double TotalSum = 0;
+    double local_sum = 0;
+    int sendCount[worldSize];
+    int disp[worldSize];
+    for(i=0; i<worldSize; i++){
+        sendCount[i] = (a->cols*a->rows)/worldSize;
+    }
+    for(i=0; i<(a->cols*a->rows)%worldSize; i++){
+        sendCount[i] += 1;
+    }
+    int sum = 0;
+    for(i=0; i<worldSize; i++){
+        disp[i] = sum;
+        sum += sendCount[i];
     }
 
-    return sqrt(sum);
+    double buffer[sendCount[myRank]];
+    
+    MPI_Scatterv(a->data, sendCount, disp, MPI_DOUBLE, buffer, sendCount[myRank], MPI_DOUBLE, 0, *world);
+    
+    for(i=0; i<sendCount[myRank]; i++){
+        local_sum += pow(buffer[i], 2);
+    }
+
+    MPI_Reduce(&local_sum, &TotalSum, 1, MPI_DOUBLE, MPI_SUM, 0, *world);
+
+    return sqrt(TotalSum);
 }
 
 
@@ -624,7 +645,7 @@ double* EigenVector(Matrix* a, MPI_Comm* world, int worldSize, int myRank){
     double length;
     double* difference;
     double errorTolerance = 0.0000000000000001;//pow(10,-16);
-    int done = 0;
+    int done = 0; 
 
     while(count<10000 && done==0){
        // printf("%d\n",count);
@@ -633,8 +654,13 @@ double* EigenVector(Matrix* a, MPI_Comm* world, int worldSize, int myRank){
         x.data = multMatrices(a, &x, world, worldSize, myRank);
          
         //if(myRank == 0)
+        
+        
         length = L2Norm(&x, world, worldSize, myRank);
-        /*int sendCount[worldSize];
+         
+        MPI_Bcast(&length, 1, MPI_DOUBLE, 0, *world);
+        
+        int sendCount[worldSize];
         int disp[worldSize];
         for(i=0; i<worldSize; i++){
             sendCount[i] = (x.cols*x.rows)/worldSize;
@@ -648,16 +674,18 @@ double* EigenVector(Matrix* a, MPI_Comm* world, int worldSize, int myRank){
             sum += sendCount[i];
         }
 
+        double buffer[sendCount[myRank]];
+
         //BCAST L2NORM
-        MPI_Bcast(length, 1, MPI_DOUBLE, 0, *world);
                 
-        MPI_Scatter(x.data, );
-        */
+        MPI_Scatterv(x.data, sendCount, disp, MPI_DOUBLE, buffer, sendCount[myRank], MPI_DOUBLE, 0, *world);
         
-        for(i=0; i<x.cols*x.rows; i++){
-            x.data[i] /= length;      
+        
+        for(i=0; i<sendCount[myRank]; i++){
+            buffer[i] /= length;      
         }
 
+        MPI_Gatherv(buffer, sendCount[myRank], MPI_DOUBLE, x.data, sendCount, disp, MPI_DOUBLE, 0, *world);
         
         difference = subtractMatrices(&x, &oldx, world, worldSize, myRank);
         //printf("Error Tolerance: %e\n", errorTolerance);
@@ -678,6 +706,8 @@ double* EigenVector(Matrix* a, MPI_Comm* world, int worldSize, int myRank){
         //printf("done: %d\n", done);
     }
     printf("%d\n",count);
+    if(myRank == 0)
+        free(oldx.data);
     return x.data;
 }
 
