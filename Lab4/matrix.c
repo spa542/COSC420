@@ -727,6 +727,7 @@ double* EigenVector(Matrix* a, MPI_Comm* world, int worldSize, int myRank){
         
         int sendCount[worldSize];
         int disp[worldSize];
+
         for(i=0; i<worldSize; i++){
             sendCount[i] = (x.cols*x.rows)/worldSize;
         }
@@ -740,8 +741,6 @@ double* EigenVector(Matrix* a, MPI_Comm* world, int worldSize, int myRank){
         }
 
         double buffer[sendCount[myRank]];
-
-        //BCAST L2NORM
                 
         MPI_Scatterv(x.data, sendCount, disp, MPI_DOUBLE, buffer, sendCount[myRank], MPI_DOUBLE, 0, *world);
         
@@ -752,28 +751,39 @@ double* EigenVector(Matrix* a, MPI_Comm* world, int worldSize, int myRank){
 
         MPI_Gatherv(buffer, sendCount[myRank], MPI_DOUBLE, x.data, sendCount, disp, MPI_DOUBLE, 0, *world);
         
+  
+        
         difference = subtractMatrices(&x, &oldx, world, worldSize, myRank);
-        //printf("Error Tolerance: %e\n", errorTolerance);
-        //puts("Difference:");
-        //for(i=0; i<x.cols*x.rows; i++)
-        //    printf("%e ",difference[i]);
-        //puts("");
-        done = 1;
-        for(i=0; i<x.cols*x.rows; i++){
-            //printf("abs(diff): ");
-            if((difference[i]>0 ? difference[i] : difference[i]*-1) > errorTolerance){
-                done = 0;
-                break;
+        
+        if(myRank == 0){
+            /*printf("Error Tolerance: %e\n", errorTolerance);
+            puts("Difference:");
+            for(i=0; i<x.cols*x.rows; i++)
+                printf("%e ",difference[i]);
+            puts("");*/
+            done = 1;
+            for(i=0; i<x.cols*x.rows; i++){
+                //printf("abs(diff): ");
+                if((difference[i]>0 ? difference[i] : difference[i]*-1) > errorTolerance){
+                    done = 0;
+                    break;
+                }
             }
         }
+        if(myRank==0)
+            free(difference);
+        
+        MPI_Bcast(&done, 1, MPI_DOUBLE, 0, *world);
 
         count++;
         //printf("done: %d\n", done);
     }
-    printf("%d\n",count);
-    if(myRank == 0)
+    if(myRank == 0){
+        printf("Ending count: %d\n\n",count);
         free(oldx.data);
-    return x.data;
+        return x.data;
+    }
+    return NULL;
 }
 
 // EigenVectorFile Function:
