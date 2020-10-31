@@ -237,23 +237,34 @@ int main(int argc, char** argv) {
     
     // Eigen Vector File Testing
     // Generating a matrix for the file
-    //puts("Starting EigenVectorFile Function");
-    //EigVec.data = EigenVectorFile(4, &world, worldSize, myRank);
+    puts("Starting EigenVectorFile Function");
+    EigVec.data = EigenVectorFile(4, &world, worldSize, myRank);
     /*
     if (myRank == 0) {
         printf("Eigen Vector: \n");
         printMatrix(&EigVec);
 
-        printf("Length of Eig Vector: %f\n", L2Norm(&EigVec, &world, worldSize, myRank));
+        //printf("Length of Eig Vector: %f\n", L2Norm(&EigVec, &world, worldSize, myRank));
+    }
+    if (myRank == 0) {
+        MPI_File fh;
+        MPI_File_open(world, "evmatrix", MPI_MODE_RDONLY, MPI_INFO_NULL, &fh);
+        MPI_File_read(fh, Eig.data, Eig.rows*Eig.cols, MPI_DOUBLE, MPI_STATUS_IGNORE);
+        MPI_File_close(&fh);
     }
     EigVecTest.data = multMatrices(&Eig, &EigVec, &world, worldSize, myRank);
 
-    puts("Eig * EigVec = ");
-    printMatrix(&EigVecTest);
-    for(w=0; w<EigVec.cols*EigVec.rows; w++){
-         printf("Ax = x*(Eigen Value) | Eigen Value: %f\n", EigVecTest.data[w]/EigVec.data[w]);
+    if (myRank == 0) {
+        puts("Eig * EigVec = ");
+        printMatrix(&EigVecTest);
+
+        int w;
+
+        for(w=0; w<EigVec.cols*EigVec.rows; w++){
+             printf("Ax = x*(Eigen Value) | Eigen Value: %f\n", EigVecTest.data[w]/EigVec.data[w]);
+        }
     }
-*/
+    */
     MPI_Finalize(); // Wrap everything up
     // Free the arrays of each matrix
     if (myRank == 0) {

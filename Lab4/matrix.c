@@ -225,19 +225,14 @@ double* subtractMatricesSerial(Matrix* a, Matrix* b) {
         puts("Wrong dimensions");
         return NULL;
     }
-    printf("a rows: %d a cols: %d\n", a->rows, a->cols);
-    printf("b rows: %d b cols: %d\n", b->rows, b->cols);
+    //printf("a rows: %d a cols: %d\n", a->rows, a->cols);
+    //printf("b rows: %d b cols: %d\n", b->rows, b->cols);
 
-
-    puts("hello");
     double* rtnMe = (double*)malloc(a->rows*a->cols*sizeof(double));
     int i;
-    puts("hello2");
     for (i = 0; i < a->rows*a->cols; i++) {
         rtnMe[i] = a->data[i] - b->data[i];
-        puts("after each iteration");
     }
-    puts("gonna return");
     return rtnMe;
 }
 
@@ -823,6 +818,7 @@ double* EigenVectorFile(int dims, MPI_Comm* world, int worldSize, int myRank) {
     for (i = 0; i < (dims % worldSize); i++) {
         Varray[i] += dims;
     }
+    /*
     int nextLength = 0;
     for (i = 0; i < worldSize; i++) {
         if (i == 0){
@@ -833,6 +829,7 @@ double* EigenVectorFile(int dims, MPI_Comm* world, int worldSize, int myRank) {
         disp[i] = disp[i - 1] + nextLength;
         nextLength = Varray[i];
     }
+    */
     // Local array buffer to read in individual "chunk of a"
     double *local_a = (double*)malloc(Varray[myRank]*sizeof(double));
     MPI_Offset off = myRank*Varray[myRank]*sizeof(double);
@@ -857,29 +854,69 @@ double* EigenVectorFile(int dims, MPI_Comm* world, int worldSize, int myRank) {
     printMatrix(&a);
     puts("x");
     printMatrix(&x);
+    MPI_Barrier(*world);
     while(count<10000 && done==0){
         free(oldx.data);
         oldx.data = x.data;
         x.data = multMatricesSerial(&a, &x); // Mult matrices can't be done in parallel here
-        puts("after mult");
-        printMatrix(&x);
+        x.rows = Varray[myRank] / dims;
+        /*
+        if (myRank == 0) {
+            printMatrix(&x);
+        }
+        MPI_Barrier(*world);
+        if (myRank == 1) {
+            printMatrix(&x);
+        }
+        MPI_Barrier(*world);
+        */
          
         length = L2NormSerial(&x); // L2Norm can't be done in parallel here
-        puts("After l2norm");
-        printf("length %f\n", length);
+        /*
+        if (myRank == 0) {
+            printf("length %f\n", length);
+        }
+        MPI_Barrier(*world);
+        if (myRank == 1) {
+            printf("length %f\n", length);
+        }
+        MPI_Barrier(*world);
+        */
 
-        for (i = 0; i < Varray[myRank]; i++) {
+        for (i = 0; i < Varray[myRank] / dims; i++) {
             x.data[i] /= length;
         }
-        puts("After normalization");
-        printMatrix(&x);
-
-        puts("Before garbage");
-        difference = subtractMatricesSerial(&x, &oldx);
-        puts("After matrix subtraction");
-        for (i = 0; i < a.rows; i++) {
-            printf("Difference i = %f\n", difference[i]);
+        /*
+        //printMatrix(&x);
+        if (myRank == 0) {
+            printMatrix(&x);
         }
+        MPI_Barrier(*world);
+        if (myRank == 1) {
+            printMatrix(&x);
+        }
+        MPI_Barrier(*world);
+        */
+        oldx.rows = Varray[myRank] / dims;
+        difference = subtractMatricesSerial(&x, &oldx);
+        oldx.rows = dims;
+
+        /*
+        if (myRank == 0) {
+            puts("After subtraction");
+            for(i = 0; i < x.rows; i++) {
+                printf("element %d = %f\n", i, difference[i]);
+            }
+        }
+        MPI_Barrier(*world);
+        if (myRank == 1) {
+            puts("After subtraction");
+            for(i = 0; i < x.rows; i++) {
+                printf("element %d = %f\n", i, difference[i]);
+            }
+        }
+        MPI_Barrier(*world);
+        */
         done = 1;
         for(i=0; i<x.cols*x.rows; i++){
             //printf("abs(diff): ");
@@ -888,11 +925,48 @@ double* EigenVectorFile(int dims, MPI_Comm* world, int worldSize, int myRank) {
                 break;
             }
         }
-        puts("After matrix subtraction");
+        MPI_Barrier(*world);
+        //puts("After matrix subtraction");
+        MPI_File_open(*world, "outputvector", MPI_MODE_CREATE | MPI_MODE_WRONLY,
+                MPI_INFO_NULL, &fh);
+        off = myRank*(Varray[myRank]/dims)*sizeof(double);
+        MPI_File_write_at(fh, off, x.data, Varray[myRank]/dims, MPI_DOUBLE, MPI_STATUS_IGNORE);
+        MPI_File_close(&fh);
+        MPI_File_open(*world, "outputvector", MPI_MODE_RDONLY, MPI_INFO_NULL, &fh);
+        free(x.data);
+        // Flip back
+        x.rows = dims;
+        x.data = (double*)malloc(x.rows*x.cols*sizeof(double));
+        MPI_File_read(fh, x.data, dims, MPI_DOUBLE, MPI_STATUS_IGNORE);
+        MPI_File_close(&fh);
+        MPI_Barrier(*world);
+        /*
+        if (myRank == 0) {
+            printMatrix(&x);
+        }
+        MPI_Barrier(*world);
+        if (myRank == 1) {
+            printMatrix(&x);
+        }
+        MPI_Barrier(*world);
+        */
 
+        free(difference);
 
         count++;
     }
+    puts("outside loop");
+    if (myRank == 0) {
+        puts("Node 1");
+        printMatrix(&x);
+    }
+    MPI_Barrier(*world);
+    if (myRank == 1) {
+        puts("Node 2");
+        printMatrix(&x); 
+    }
+    MPI_Barrier(*world);
+    return NULL;
     /*
     // Write each nodes chunks to a file
     MPI_File_open(*world, "outputvector", MPI_MODE_CREATE | MPI_MODE_WRONLY,
@@ -909,6 +983,7 @@ double* EigenVectorFile(int dims, MPI_Comm* world, int worldSize, int myRank) {
         MPI_File_close(&fh);
     }
 */
+    puts("eigenvector:");
     printMatrix(&x);
     return x.data;
     /*
