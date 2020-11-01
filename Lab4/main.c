@@ -207,12 +207,22 @@ int main(int argc, char** argv) {
    
     //Eigen Vector testing
 
+    /*
     if(myRank == 0){
         printf("Matrix that we are finding the eigen vector for: \n");
         printMatrix(&Eig);
     }
-    
-    EigVec.data = EigenVector(&Eig, &world, worldSize, myRank);
+    */
+    MPI_File fh;
+    MPI_File_open(world, "evmatrix", MPI_MODE_RDONLY, MPI_INFO_NULL, &fh);
+    if (myRank == 0) {
+        free(Eig.data);
+        MPI_File_read(fh, Eig.data, Eig.rows*Eig.cols, MPI_DOUBLE, MPI_STATUS_IGNORE);
+        printf("Matrix that we are finding the eigen vector for: \n");
+        printMatrix(&Eig);
+    }
+    MPI_File_close(&fh);
+    EigVec.data = EigenVector("evmatrix", 4, &world, worldSize, myRank);
     
     if(myRank == 0){
         printf("Eigen Vector: \n");
@@ -237,9 +247,9 @@ int main(int argc, char** argv) {
     
     // Eigen Vector File Testing
     // Generating a matrix for the file
+    /*
     puts("Starting EigenVectorFile Function");
     EigVec.data = EigenVectorFile(4, &world, worldSize, myRank);
-    /*
     if (myRank == 0) {
         printf("Eigen Vector: \n");
         printMatrix(&EigVec);
@@ -277,7 +287,7 @@ int main(int argc, char** argv) {
         free(bb.data);
         free(rr.data);
         free(rrtest.data);
-        free(Eig.data);
+        //free(Eig.data);
     }
     free(EigVec.data);
     free(EigVecTest.data);

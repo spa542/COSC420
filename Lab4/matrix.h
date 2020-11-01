@@ -52,7 +52,7 @@ double* GaussJordan(Matrix*, Matrix*, MPI_Comm*, int, int);
 double L2Norm(Matrix*, MPI_Comm*, int, int);
 // L2 Normalizes the given matrix in serial
 // Calculates the eigenvectors of a given matrix using regular mpi functions
-double* EigenVector(Matrix*, MPI_Comm*, int, int);
+double* EigenVector(char*, int, MPI_Comm*, int, int);
 // Calculates the eigenvectors of a given matrix using file operations
 double* EigenVectorFile(int, MPI_Comm*, int, int);
 
