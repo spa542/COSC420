@@ -288,7 +288,7 @@ int main(int argc, char** argv) {
         free(bb.data);
         free(rr.data);
         free(rrtest.data);
-        //free(Eig.data);
+        free(Eig.data);
     }
     free(EigVec.data);
     free(EigVecTest.data);
