@@ -217,6 +217,7 @@ int main(int argc, char** argv) {
     MPI_File_open(world, "evmatrix", MPI_MODE_RDONLY, MPI_INFO_NULL, &fh);
     if (myRank == 0) {
         free(Eig.data);
+        Eig.data = (double*)malloc(Eig.rows * Eig.cols * sizeof(double));
         MPI_File_read(fh, Eig.data, Eig.rows*Eig.cols, MPI_DOUBLE, MPI_STATUS_IGNORE);
         printf("Matrix that we are finding the eigen vector for: \n");
         printMatrix(&Eig);
