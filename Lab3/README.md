@@ -2,7 +2,7 @@
 COSC 420-001
 10/17/20
 
-# Lab-3: Matrices Optomization and Gauss Jordan
+# Lab-3: Matrix Optomization and Gauss Jordan
 In this lab you will focus on the following objectives:
 1. Develop familiarity with C programming language
 2. Develop familiarity with parallel computing tools MPICH and OpenMPI
@@ -11,15 +11,15 @@ In this lab you will focus on the following objectives:
  
 
 ## Lab Description:
-This lab demonstrates parallel matrix functions. We implemented every basic
-matrix operation such as addition, subtraction, multiplication, and inner 
-product with the help of parallel computing. These functions go beyond
-basic functionality by using MPICH to divide up our matrices during 
-computation in order to make our functions faster.
+This lab demonstrates parallel Gauss Jordan elimination to find both the 
+answer to a system of linear equations and the inverse of a matrix. Both 
+methods are tested and timed and compared to one another. Also, the previous
+basic matrix operations are optimized using cache coherence methods as well
+as temporal and spatial locality.
 
 ## Files to pay attention to:
 
-driver, main - Output files that are run when the programs are executed
+driver, main, filetest - Output files that are run when the programs are executed
 
 Makefile - File that allows the user to compile without having to input specific commands
 
