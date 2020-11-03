@@ -54,6 +54,6 @@ double L2Norm(Matrix*, MPI_Comm*, int, int);
 // Calculates the eigenvectors of a given matrix using regular mpi functions
 double* EigenVector(char*, int, MPI_Comm*, int, int);
 // Calculates the eigenvectors of a given matrix using file operations
-double* EigenVectorFile(int, MPI_Comm*, int, int);
+double* EigenVectorFile(char*, char*, int, MPI_Comm*, int, int);
 
 #endif // _MATRIX_H_
