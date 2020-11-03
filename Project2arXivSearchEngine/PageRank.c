@@ -58,7 +58,7 @@ double* pageRank(Matrix* ai, MPI_Comm* world, int worldSize, int myRank){
         free(oldP->data);
         oldP->data = p->data;
         //TODO DO PAGE RANK JAWN
-          
+         
 
 
 
@@ -93,26 +93,29 @@ double* pageRank(Matrix* ai, MPI_Comm* world, int worldSize, int myRank){
 
         //splits up job for error Tolerance
         for(i=0; i<worldSize; i++){
-            sendCount[i] = (dim)/worldSize;
+            sendCount[i] = (p->rows*p->cols)/worldSize;
         }
-        for(i=0; i<(dim)%worldSize; i++){
+        for(i=0; i<(p->rows*p->cols)%worldSize; i++){
             sendCount[i] += 1;
         }
         int sum = 0;
         for(i=0; i<worldSize; i++){
             disp[i] = sum;
             sum += sendCount[i];
-        }       
+        }
+        double buffer2[sendCount[myRank]];
+
+        MPI_Scatterv(difference, sendCount, disp, MPI_DOUBLE, buffer2, sendCount[myRank], MPI_DOUBLE, 0, *world);
         done = 0;
-        for(i=disp[myRank]; i<disp[myRank]+sendCount[i]; i++){
-            if(difference[i]>0 ? difference[i] : difference[i]*-1 > errorTolerance){
+        for(i=o; i<sendCount[i]; i++){
+            if(buffer2[i]>0 ? buffer2[i] : buffer2[i]*-1 > errorTolerance){
                 done = 1;
                 break;
             }
         }
-        free(difference);
         
         MPI_Reduce(&done, &done, 1, MPI_DOUBLE, MPI_SUM, 0, *world);
+        free(difference);
         counter++;
     }
     if(myRank == 0){

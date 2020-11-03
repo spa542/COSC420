@@ -126,6 +126,17 @@ int main(int argc, char** argv) {
         printMatrix(&c);
     }
 
+    
+    Matrix constA = default_matrix;
+    constA.rows = a.rows;
+    constA.cols = a.cols;
+    constA.data = multMatrixConst(&c, 2, &world, worldSize, myRank);
+    if(myRank == 0){
+        puts("2(a+b)");
+        printMatrix(&constA); 
+        free(constA.data);
+    }
+
     d.data = subtractMatrices(&a, &b, &world, worldSize, myRank);
     if(myRank == 0){
       puts("Result Matrix: a - b");

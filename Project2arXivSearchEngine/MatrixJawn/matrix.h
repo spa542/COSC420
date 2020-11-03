@@ -40,6 +40,8 @@ double* subtractMatrices(Matrix*, Matrix*, MPI_Comm*, int, int);
 double* subractMatrices(Matrix*, Matrix*);
 // Multiplication of matrices in parallel
 double* multMatrices(Matrix*, Matrix*, MPI_Comm*, int, int);
+// Multiplication of a matrix and a constant
+double* multMatrixConst(Matrix*, double, MPI_Comm*, int, int);
 // Multiplication of matrices in serial
 double* multMatricesSerial(Matrix*, Matrix*);
 // Transpose of matrix

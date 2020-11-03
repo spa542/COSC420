@@ -335,6 +335,43 @@ double* transpose(Matrix* a) {
     return rtn;
 }
 
+double* multMatrixConst(Matrix* a, double b, MPI_Comm *world, int worldSize, int myRank){ 
+        
+    int sendCount[worldSize];
+    int disp[worldSize];
+    int i;
+    
+    double* rtn = NULL;
+    if(myRank == 0)
+        rtn = (double*)malloc(a->cols* a->rows * sizeof(double));
+
+    for(i=0; i<worldSize; i++){
+        sendCount[i] = (a->cols*a->rows)/worldSize;
+    }
+    for(i=0; i<(a->cols*a->rows)%worldSize; i++){
+        sendCount[i] += 1;
+    }
+    int sum = 0;
+    for(i=0; i<worldSize; i++){
+        disp[i] = sum;
+        sum += sendCount[i];
+    }
+
+    double buffer[sendCount[myRank]];
+                
+    MPI_Scatterv(a->data, sendCount, disp, MPI_DOUBLE, buffer, sendCount[myRank], MPI_DOUBLE, 0, *world);
+       
+        
+    for(i=0; i<sendCount[myRank]; i++){
+        buffer[i] = buffer[i]*b;      
+    }
+
+    MPI_Gatherv(buffer, sendCount[myRank], MPI_DOUBLE, rtn, sendCount, disp, MPI_DOUBLE, 0, *world);
+    if(myRank == 0)
+        return rtn;
+    return NULL;
+}
+
 // Calculates the inner product of two matrices
 // MUST ENTER COLUMN VECTORS!!!!
 double innerProduct(Matrix *a, Matrix *b, MPI_Comm *world, int worldSize, int myRank) {
@@ -419,17 +456,8 @@ double* GaussJordan(Matrix* at, Matrix* bt, MPI_Comm* world, int worldSize, int 
     Matrix* a=&tmpa;
     Matrix* b=&tmpb;
 
-    //printf("at : rows %d x cols %d\n", at->rows, at->cols);
-    //printf("bt : rows %d x cols %d\n", bt->rows, bt->cols);
-    //if(myRank == 0){  
-        copyMatrix(a, at);
-        copyMatrix(b, bt);
-    /*}else{
-        a->cols = at->cols;
-        a->rows = at->rows;
-        b->cols = bt->cols;
-        b->rows = bt->rows;
-    }*/
+    copyMatrix(a, at);
+    copyMatrix(b, bt);
 
 
 
@@ -466,15 +494,12 @@ double* GaussJordan(Matrix* at, Matrix* bt, MPI_Comm* world, int worldSize, int 
     }
     // Set up Varray and displacement for scattering of rows to scale (B matrix)
     for (i = 0; i < worldSize; i++) {
-        //printf("bRows: %d | bCols: %d | worldSize: %d | calc: %d\n", b->rows, b->cols, worldSize, ((b->rows/worldSize)*b->cols));
         Varray2[i] = (b->rows / worldSize) * b->cols;
-       // printf("Varray2[i]: %d\n",Varray2[i] ); 
     }
     for (i = 0; i < (b->rows % worldSize); i++) {
         Varray2[i] += b->cols;
     }
     nextLength = 0;
-    //printf("CCCCCCCCCCCCCCC=========Varray2[i]: %d\n",Varray2[myRank] ); 
     for (i = 0; i < worldSize; i++) {
         if (i == 0){
             disp2[i] = 0;
@@ -485,7 +510,6 @@ double* GaussJordan(Matrix* at, Matrix* bt, MPI_Comm* world, int worldSize, int 
         nextLength = Varray2[i];
     }
     
-    //printf("BBBBBBBBBBBBBBBBBB=========Varray2[i]: %d\n",Varray2[myRank] ); 
     // Recv buffer for elements of rows that each node will compute with
     double* local_row_mat = (double*)malloc(Varray[myRank]*sizeof(double));
     double* local_b_mat = (double*)malloc(Varray2[myRank]*sizeof(double));
@@ -498,7 +522,6 @@ double* GaussJordan(Matrix* at, Matrix* bt, MPI_Comm* world, int worldSize, int 
     double bk[b->rows];
 
     for(k=0; k<a->rows; k++){
-        //printf("AAAAAAAAAAAAAAA=========Varray2[i]: %d\n",Varray2[myRank] ); 
         // Compute the vector scalings Li = Ai,k/Ak,k for all i
         if (myRank == 0) {
             for(i=0; i<a->rows; i++){//compute l[k,i]
@@ -509,18 +532,12 @@ double* GaussJordan(Matrix* at, Matrix* bt, MPI_Comm* world, int worldSize, int 
             for(c=0; c<b->cols; c++)
                 bk[c] = ACCESS(b,k,c);
         }
-        //MPI_Barrier(*world);
-        //puts("Before scatter");
         // Scatter the rows of A that each node will apply l vector to
         MPI_Scatterv(a->data, Varray, disp, MPI_DOUBLE, local_row_mat, Varray[myRank], MPI_DOUBLE, 0, *world);
         // Scatter the rows of B that each node will apply l vector to
-        //printf("After sctter 1 | Rank: %d\n", myRank);
         MPI_Scatterv(b->data, Varray2, disp2, MPI_DOUBLE, local_b_mat, Varray2[myRank], MPI_DOUBLE, 0, *world);
-        //printf("After sctter 2 | Rank: %d\n", myRank);
         // Scatter the value of the l vector
         MPI_Bcast(&l, a->rows, MPI_DOUBLE, 0, *world);
-        //printf("After Bcast | Rank: %d\n", myRank);
-
         //Broadcast the a's kth row
         MPI_Bcast(&ak, a->rows, MPI_DOUBLE, 0, *world);
         //Broadcast the b's kth row 
@@ -528,19 +545,15 @@ double* GaussJordan(Matrix* at, Matrix* bt, MPI_Comm* world, int worldSize, int 
 
         // Perform the following on n nodes
 
-        //printf("=========Varray2[i]: %d\n",Varray2[myRank] ); 
         int offsetK = disp[myRank]/a->cols;
         for(r=0; r<(Varray[myRank] / a->cols); r++){    
             if (k == r+offsetK) {
                 continue;
             }
             for(c=0; c<a->cols; c++){  
-                //ACCESS(a,r,c) = ACCESS(a,r,c) - (l[r] * ACCESS(a,k,c));
-         //       printf("local_row_mat len: %d | r: %d | c: %d | Rank: %d | INDEX(a,r,c): %d | INDEX(a,k,c): %d \n", Varray[myRank],r,c,myRank,INDEX(a,r,c),INDEX(a,k,c));
                 local_row_mat[INDEX(a,r,c)] = local_row_mat[INDEX(a,r,c)] - (l[r+offsetK] * ak[c]);
             }
             for(c=0; c<b->cols; c++){
-                //ACCESS(b,r,c) = ACCESS(b,r,c) - (l[r] * ACCESS(b,k,c));
                 local_b_mat[INDEX(b,r,c)] = local_b_mat[INDEX(b,r,c)] - (l[r+offsetK] * bk[c]);
             }
         }
@@ -553,19 +566,12 @@ double* GaussJordan(Matrix* at, Matrix* bt, MPI_Comm* world, int worldSize, int 
             a->data = (double*)malloc(a->rows*a->cols*sizeof(double));
             b->data = (double*)malloc(b->rows*b->cols*sizeof(double));
         }
-       // printf("Varray: %d | disp %d | Rank: %d\n", Varray[myRank], disp[myRank], myRank);
-       // printf("Varray2: %d | disp2 %d | Rank: %d\n", Varray2[myRank], disp2[myRank], myRank);
 
 
-        //printf("Before gather | Rank %d\n", myRank);
         // Gather the rows of A back from each node
         MPI_Gatherv(local_row_mat, Varray[myRank], MPI_DOUBLE, a->data, Varray, disp, MPI_DOUBLE, 0, *world);
-        //MPI_Barrier(*world);
-        //printf("Between gather | Rank %d\n", myRank);
         // Gather the rows of B back from each node
         MPI_Gatherv(local_b_mat, Varray2[myRank], MPI_DOUBLE, b->data, Varray2, disp2, MPI_DOUBLE, 0, *world);
-        //printf("After gather | Rank %d\n", myRank);
-        //MPI_Barrier(*world);
     }
     if (myRank == 0) {
         // Create the scalar vector that contains the diagonal elements of a
@@ -584,9 +590,6 @@ double* GaussJordan(Matrix* at, Matrix* bt, MPI_Comm* world, int worldSize, int 
             }
         }   
         // Scale b by the final scalar vector
-        /*for (i = 0; i < a->rows; i++) {
-            ACCESS(b,i,0) = ACCESS(b,i,0) / ll[i];
-        }*/
         for(i=0; i<b->rows; i++){
             for(j=0; j<b->cols; j++){
                 ACCESS(b,i,j) = ACCESS(b,i,j) / ll[i];
@@ -599,8 +602,6 @@ double* GaussJordan(Matrix* at, Matrix* bt, MPI_Comm* world, int worldSize, int 
 
     free(local_row_mat);
     free(local_b_mat);
-    // The matrix b should now be the answer to the linear system of equations
-    // RETURN IT!
     if(myRank == 0){
         return b->data;
     }
@@ -722,7 +723,6 @@ double* EigenVector(char* filename, int dims, MPI_Comm* world, int worldSize, in
     double errorTolerance = 0.0000000000000001;//pow(10,-16);
     int done = 0; 
 
-    puts("CAN I MAKE IT TO HERE?");
     while(count<10000 && done==0){
        // printf("%d\n",count);
         free(oldx.data);
