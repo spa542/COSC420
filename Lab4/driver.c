@@ -4,6 +4,39 @@
 #include<time.h> // Time functions
 #include"matrix.h" // Matrix Library
 
+// Script to write test matrices to a file
+void writeTestFile(int dims, MPI_Comm* world, int worldSize, int myRank) {
+    Matrix test = default_matrix;
+
+    test.rows = test.cols = dims;
+    int Varray[worldSize];
+    int i;
+    for (i = 0; i < worldSize; i++) {
+        Varray[i] = (dims*dims) / worldSize;
+    }
+    for (i = 0; i < (dims*dims) % worldSize; i++) {
+        Varray[i] += 1;
+    }
+    test.data = (double*)malloc(Varray[myRank]*sizeof(double));
+    for (i = 0; i < Varray[myRank]; i++) {
+        test.data[i] = 1 + rand() % 10;
+    }
+    MPI_File fh;
+    MPI_File_open(*world, "scripttest", MPI_MODE_CREATE | MPI_MODE_WRONLY,
+            MPI_INFO_NULL, &fh);
+    MPI_Offset off = myRank*Varray[myRank]*sizeof(double);
+    MPI_File_write_at(fh, off, test.data, Varray[myRank], MPI_DOUBLE, MPI_STATUS_IGNORE);
+    MPI_File_close(&fh);
+    free(test.data);
+}
+
+void deleteFileTest() {
+    if (remove("scripttest") == 0) {
+        puts("Deleted scripttest file successfully");
+    } else {
+        puts("Error in deleting scripttest file");
+    }
+}
 
 int main(int argc, char** argv){
     srand(time(NULL));
@@ -16,7 +49,7 @@ int main(int argc, char** argv){
 
     MPI_Comm_size(world, &worldSize);
     MPI_Comm_rank(world, &myRank);
-
+    
     if(myRank == 0)
         printf("End of porgram! | World Size: %d\n", worldSize);    
     
