@@ -250,27 +250,17 @@ int main(int argc, char** argv) {
     // Generating a matrix for the file
     if (myRank == 0)
         puts("Starting EigenVectorFile Function");
-    /*
-    if (myRank == 0) {
-        free(EigVec.data);
-        EigVec.data = (double*)malloc(EigVec.rows*EigVec.cols*sizeof(double));
-    }
-    */
-    EigVec.data = EigenVectorFile("evmatrix", "evvector", 4, &world, worldSize, myRank);
+    free(EigVec.data);
+
+    EigVec.data = EigenVectorFile("evmatrix", 4, &world, worldSize, myRank);
     if (myRank == 0) {
         printf("Eigen Vector: \n");
         printMatrix(&EigVec);
 
         //printf("Length of Eig Vector: %f\n", L2Norm(&EigVec, &world, worldSize, myRank));
     }
-    /*
-    if (myRank == 0) {
-        MPI_File fh;
-        MPI_File_open(world, "evmatrix", MPI_MODE_RDONLY, MPI_INFO_NULL, &fh);
-        MPI_File_read(fh, Eig.data, Eig.rows*Eig.cols, MPI_DOUBLE, MPI_STATUS_IGNORE);
-        MPI_File_close(&fh);
-    }
-    */
+    free(EigVecTest.data);
+    
     EigVecTest.data = multMatrices(&Eig, &EigVec, &world, worldSize, myRank);
 
     if (myRank == 0) {
