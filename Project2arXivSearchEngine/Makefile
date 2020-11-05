@@ -1,4 +1,4 @@
-main: main.o matrix.o PageRank
+main: main.o matrix.o PageRank.o
 	mpicc -o main main.o matrix.o PageRank.o -g -lm
 main.o: main.c matrix.o -lm
 	mpicc -c main.c -g -lm	
@@ -8,4 +8,4 @@ PageRank.o: PageRank.c PageRank.h
 	mpicc -c PageRank.c -g -lm
 
 clean:
-	rm -f *.o main driver filetest
+	rm -f *.o main
