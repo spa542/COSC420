@@ -20,7 +20,7 @@ void writeTestFile(int dims, MPI_Comm* world, int worldSize, int myRank) {
     }
     test.data = (double*)malloc(Varray[myRank]*sizeof(double));
     for (i = 0; i < Varray[myRank]; i++) {
-        test.data[i] = 1 + rand() % 10;
+        test.data[i] = 1 + rand() % 1000;
     }
     int nextLength = 0;
     for (i = 0; i < worldSize; i++) {
@@ -44,9 +44,11 @@ void writeTestFile(int dims, MPI_Comm* world, int worldSize, int myRank) {
 
 void deleteFileTest() {
     if (remove("scripttest") == 0) {
-        puts("Deleted scripttest file successfully");
+        //puts("Deleted scripttest file successfully");
+        return;
     } else {
-        puts("Error in deleting scripttest file");
+        //puts("Error in deleting scripttest file");
+        return;
     }
 }
 
@@ -68,7 +70,7 @@ int main(int argc, char** argv){
     int testcases[13] = {100, 250, 500, 750, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000};
     int w, ww, dimnum;
    
-    dimnum = 13;
+    dimnum = 1;
 
     double numofTrials = 10.0; 
         
@@ -83,7 +85,29 @@ int main(int argc, char** argv){
     Matrix Result=default_matrix;
 
     int DIMENSION; // Change the test case matrix dimensions 
-    
+
+    if(myRank == 0){   
+        puts("");
+        puts("The next 5 matricies is to prove that the code is new matrix eveerytime");
+        puts("");
+    }
+
+    for(w=0; w<5; w++){
+        DIMENSION = 5;
+
+        rowLength = DIMENSION;
+
+        Result.rows = rowLength;
+        Result.cols = 1;
+        writeTestFile(DIMENSION, &world, worldSize, myRank);
+        Result.data = EigenVector("scripttest", DIMENSION, &world, worldSize, myRank);
+    }
+    if(myRank == 0){
+        puts("");
+        puts("ACTUAL TESTING START HERE");
+        puts("");
+    }
+
     for(w=0; w<dimnum; w++){
         DIMENSION = testcases[w]; // Change the test case matrix dimensions 
         
@@ -154,7 +178,7 @@ int main(int argc, char** argv){
     
     
      
-    
+   
     if(myRank == 0)
         printf("End of porgram! | World Size: %d\n", worldSize);    
     MPI_Finalize();

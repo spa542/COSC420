@@ -789,7 +789,7 @@ double* EigenVector(char* filename, int dims, MPI_Comm* world, int worldSize, in
         //printf("done: %d\n", done);
     }
     if(myRank == 0){
-        printf("Ending count: %d\n\n",count);
+        //printf("Ending count: %d\n\n",count);
         free(oldx.data);
         free(a->data);
         return x.data;
@@ -925,7 +925,7 @@ double* EigenVectorFile(char* filenamemat, int dims, MPI_Comm* world, int worldS
     free(a.data);
     free(oldx.data);
     if(myRank == 0) {
-        printf("Ending count: %d\n\n",count);
+        //printf("Ending count: %d\n\n",count);
         return x.data;
     } else {
         free(x.data);
