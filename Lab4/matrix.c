@@ -694,8 +694,8 @@ double* EigenVector(char* filename, int dims, MPI_Comm* world, int worldSize, in
     }
     MPI_File_close(&fh);
     if (myRank == 0) {
-        puts("Matrix in file");
-        printMatrix(a);     
+        //puts("Matrix in file");
+        //printMatrix(a);     
     }
     
     Matrix x = default_matrix;
