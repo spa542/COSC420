@@ -10,6 +10,7 @@ void writeTestFile(int dims, MPI_Comm* world, int worldSize, int myRank) {
 
     test.rows = test.cols = dims;
     int Varray[worldSize];
+    int disp[worldSize];
     int i;
     for (i = 0; i < worldSize; i++) {
         Varray[i] = (dims*dims) / worldSize;
@@ -21,10 +22,20 @@ void writeTestFile(int dims, MPI_Comm* world, int worldSize, int myRank) {
     for (i = 0; i < Varray[myRank]; i++) {
         test.data[i] = 1 + rand() % 10;
     }
+    int nextLength = 0;
+    for (i = 0; i < worldSize; i++) {
+        if (i == 0) {
+            disp[i] = 0;
+            nextLength = Varray[i];
+            continue;
+        }
+        disp[i] = disp[i - 1] + nextLength;
+        nextLength = Varray[i];
+    }
     MPI_File fh;
     MPI_File_open(*world, "scripttest", MPI_MODE_CREATE | MPI_MODE_WRONLY,
             MPI_INFO_NULL, &fh);
-    MPI_Offset off = myRank*Varray[myRank]*sizeof(double);
+    MPI_Offset off = disp[myRank]*sizeof(double);
     MPI_File_write_at(fh, off, test.data, Varray[myRank], MPI_DOUBLE, MPI_STATUS_IGNORE);
     MPI_File_close(&fh);
     free(test.data);
@@ -88,8 +99,11 @@ int main(int argc, char** argv){
             Result.rows = rowLength;
             Result.cols = 1;
             writeTestFile(DIMENSION, &world, worldSize, myRank);
-            Result.data = EigenVector("sceipttest", DIMENSION, &world, worldSize, myRank);
-            deleteFileTest();
+            MPI_Barrier(world);
+            Result.data = EigenVector("scripttest", DIMENSION, &world, worldSize, myRank);
+            if (myRank == 0) {
+                deleteFileTest();
+            }
             if(myRank == 0){
                 //puts("Done");   
                 free(Result.data);
@@ -120,8 +134,11 @@ int main(int argc, char** argv){
             Result.rows = rowLength;
             Result.cols = 1;
             writeTestFile(DIMENSION, &world, worldSize, myRank);
-            Result.data = EigenVectorFile("sceipttest", DIMENSION, &world, worldSize, myRank);
-            deleteFileTest();
+            MPI_Barrier(world);
+            Result.data = EigenVectorFile("scripttest", DIMENSION, &world, worldSize, myRank);
+            if (myRank == 0) {
+                deleteFileTest();
+            }
             if(myRank == 0){
                 //puts("Done");   
                 free(Result.data);
