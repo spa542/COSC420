@@ -47,14 +47,45 @@ each program can be run as such, (mpiexec -n (# of nodes) ./(output file)
 *You must have a working library of openmpi3 or mpich that is already in your PATH
 
 
+***Note*** - There is a small issue that does not affect the code integrity. But Valgrind says there is a
+               conditional jump at the beginning of the driver program. We have done extensive testing and
+               analysis of this problem, and we determined that the issue is not ours and that MPI is at 
+               fault. We have had issues like this before with MPI, and this only happens on one node 
+               (no matter worldSize) and in the same spot. The code still runs and still performs its 
+               operation. So we don't see this as a problem in the end.
+
 ## Results: 
 
+#### Eigen Vector:
 
-![Addition Time](https://github.com/spa542/COSC420/blob/master/Lab3/Img/Addition.png)
-![Subtraction Time](https://github.com/spa542/COSC420/blob/master/Lab3/Img/Subtraction.png)
-![Inner Product Time](https://github.com/spa542/COSC420/blob/master/Lab3/Img/Inner%20Product.png)
-![Multiplication Time](https://github.com/spa542/COSC420/blob/master/Lab3/Img/Multiplication.png)
-![Gauss Jordan Time](https://github.com/spa542/COSC420/blob/master/Lab3/Img/GaussJordan.png)
+This graph makes sense in that as the matrix sizes increase, the amount of time
+is increasing. However, if you look closer, you will notice that the number of
+nodes line is jumping over one another and is spiking. This can be explained 
+because the matrices are generated randomly, leading to issues where some 
+matrices will not have eigenvectors and will take 10,000 iterations. Also, that
+specific matrix size could have had hard to acceptable/matrices with no 
+eigenvectors. 
+
+![Eigen Vector](https://github.com/spa542/COSC420/blob/master/Lab4/Img/Eigen%20Vector.png)
+
+#### Eigen Vector File:
+Some explanation behind the strange looking graph below. One of the big notes
+is that there is a lot of overhead that is introduced with the functions because
+of files dirty business that we had to perform for the lab requirements.
+There was a process of writing a matrix to a file, reading ti, and then writing
+that output to a file to read into the main. This can be extremely 
+annoying and takes a lot of fo time. The next issue that will arise is that 
+the randomly generated matrix would not have an eigenvector. That would mean 
+that the while loop would run the 10,000 times that we hardcoded in the 
+function. But if you look closer, you will notice that it seems like the 
+number of nodes line are jumping over one another and is spiking. This can
+be explained because the matrices are generated randomly, and that leads to
+issues where some matrices won't have eigenvectors and will take the 10,000 
+iterations. Also, that specific matrix size could have had matrices that had
+hard to acceptable/matrices with no eigenvectors. 
+
+![Eigen Vector File](https://github.com/spa542/COSC420/blob/master/Lab4/Img/Eigen%20Vector%20File.png)
+
 
 ## Questions:
 
