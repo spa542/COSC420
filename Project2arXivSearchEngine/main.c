@@ -38,6 +38,7 @@ int main(int argc, char** argv) {
     
     Result.data = pageRank(&a, &world, worldSize, myRank);
     if(myRank == 0){
+        free(a.data);
         puts("After test");
         printMatrix(&Result);
     }
