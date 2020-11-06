@@ -7,7 +7,7 @@
 
 double* pageRank(Matrix* ai, MPI_Comm* world, int worldSize, int myRank){
     int dim = ai->rows;
-    double alpha = .875;//Chance of teleporting between .85 and .9
+    double alpha = .88;//Chance of teleporting between .85 and .9
     if(dim == 1)
         dim = ai->cols;
     int i;
@@ -76,23 +76,78 @@ double* pageRank(Matrix* ai, MPI_Comm* world, int worldSize, int myRank){
     Mp.cols = dim;
     Mp.rows = 1;
 
+    double* tmp;
+
+    //TODO 'a' needs to be unit lenght in the where the out going links come from .
+    //so if the rows rep the out going inks from page i then the rows need
+    //to be unit length 
+
+    //tmp = transpose(a);
+    //free(a->data);
+    int j;
+    int SuM = 0;
+    //puts("unit Length A");
+    if(myRank == 0){
+        for(i=0; i<a->rows*a->cols; i+=a->cols){     
+            SuM = 0;
+            for(j=0; j<a->cols; j++){
+                printf("%f ", a->data[i+j]);
+            }
+            puts("");
+            for(j=0; j<a->cols; j++){
+                printf("SuM: %d\n", SuM);
+                SuM += a->data[i+j];
+            }
+            if(SuM == 0)
+                SuM = 1;
+            for(j=0; j<a->cols; j++){
+                a->data[i+j] /= SuM;
+            }
+            printMatrix(a);
+        }   
+        puts("WHile loop");
+    }
     while(done>=1 && counter<10000){
         free(oldP->data);
         oldP->data = p->data;
         //TODO DO PAGE RANK JAWN
-        
+       
+        puts("oldP:");
+        printMatrix(oldP);
+
+
         if(myRank == 0)
             free(Mp.data);  
         Mp.data = multMatrices(a, p, world, worldSize, myRank);
 
-        if(myRank == 0)
-            free(p->data);
+        puts("Mp: ");
+        printMatrix(&Mp);
+
         p->data = multMatrixConst(&Mp, alpha, world, worldSize, myRank);
 
+        puts("p->data after mult:");
+        printMatrix(p);
 
-        length = L2Norm(p, world, worldSize, myRank);
+
+        tmp = subtractMatrices(p, ones, world, worldSize, myRank);
+        if(myRank == 0){
+            free(p->data);
+        }
+        p->data = tmp;
+        
+        puts("p->data after subtract One:");
+        printMatrix(p);
+
+
+
+        if(myRank == 0)
+            length = L2Norm(p, world, worldSize, myRank);
         MPI_Bcast(&length, 1, MPI_DOUBLE, 0, *world);
-        printf("Length ");
+        
+        
+        printf("Length p:%f\n", length);
+        
+        
         for(i=0; i<worldSize; i++){
             sendCount[i] = (p->rows * p->cols)/worldSize;
         }
@@ -118,6 +173,10 @@ double* pageRank(Matrix* ai, MPI_Comm* world, int worldSize, int myRank){
 
         difference = subtractMatrices(p, oldP, world, worldSize, myRank);
 
+        puts("difference");
+        for(i=0; i<4; i++){
+            printf("%f \n", difference[i]);
+        }
 
         //splits up job for error Tolerance
         for(i=0; i<worldSize; i++){
@@ -132,22 +191,23 @@ double* pageRank(Matrix* ai, MPI_Comm* world, int worldSize, int myRank){
             sum += sendCount[i];
         }
         double buffer2[sendCount[myRank]];
-
+        int local_done;
         MPI_Scatterv(difference, sendCount, disp, MPI_DOUBLE, buffer2, sendCount[myRank], MPI_DOUBLE, 0, *world);
-        done = 0;
-        for(i=0; i<sendCount[i]; i++){
+        local_done = 0;
+        for(i=0; i<sendCount[myRank]; i++){
             if(buffer2[i]>0 ? buffer2[i] : buffer2[i]*-1 > errorTolerance){
-                done = 1;
+                local_done = 1;
                 break;
             }
         }
         
-        MPI_Reduce(&done, &done, 1, MPI_DOUBLE, MPI_SUM, 0, *world);
+        MPI_Reduce(&local_done, &done, 1, MPI_INT, MPI_SUM, 0, *world);
         free(difference);
         counter++;
     }
     if(myRank == 0){
-        free(oldP->data);
+        printf("count %d\n", counter);
+        //ree(oldP->data);
         free(ones->data);
         free(a->data);
         return p->data;

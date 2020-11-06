@@ -620,13 +620,13 @@ double L2Norm(Matrix* a, MPI_Comm* world, int worldSize, int myRank){
     }
      
     if(a->rows ==1 ){
-        puts("Transpose a->rows");
+        //puts("Transpose a->rows");
         double* tmp = transpose(a);
         free(a->data);
         a->data = tmp;
     }
-    puts("a:");
-    int w, t;
+    //printf("a: | a.cols: %d | a.rows: %d\n", a->cols, a->rows);
+    /*int w, t;
     for(w=0; w<a->rows; w++){
         for(t=0; t<a->cols; t++){
             printf("%f ", ACCESS(a,w, t));
@@ -634,7 +634,7 @@ double L2Norm(Matrix* a, MPI_Comm* world, int worldSize, int myRank){
         puts("");
     }
     puts("");
-    
+    */
     int i;
     double TotalSum = 0;
     double local_sum = 0;
@@ -654,19 +654,22 @@ double L2Norm(Matrix* a, MPI_Comm* world, int worldSize, int myRank){
 
     double buffer[sendCount[myRank]];
     local_sum = 0; 
-    printf("Rank: %d | local_sum: %f\n", myRank, local_sum);
+    //printf("Rank: %d | local_sum: %f\n", myRank, local_sum);
     MPI_Scatterv(a->data, sendCount, disp, MPI_DOUBLE, buffer, sendCount[myRank], MPI_DOUBLE, 0, *world);
     
-    printf("Rank: %d | local_sum: %f\n", myRank, local_sum);
+    //printf("Rank: %d | local_sum: %f\n", myRank, local_sum);
     for(i=0; i<sendCount[myRank]; i++){
-        printf("Rank: %d | local_sum: %f | buffer: %f\n", myRank, local_sum, buffer[i]);
+        //printf("Rank: %d | local_sum: %f | buffer: %f\n", myRank, local_sum, buffer[i]);
         local_sum += pow(buffer[i], 2);
-        printf("Rank: %d | local_sum: %f\n", myRank, local_sum);
+        //printf("Rank: %d | local_sum: %f\n", myRank, local_sum);
     }
 
     printf("Rank: %d | local_sum: %f\n", myRank, local_sum);
 
     MPI_Reduce(&local_sum, &TotalSum, 1, MPI_DOUBLE, MPI_SUM, 0, *world);
+    
+    if(TotalSum==0)
+        return 1.0;
 
     return sqrt(TotalSum);
 }

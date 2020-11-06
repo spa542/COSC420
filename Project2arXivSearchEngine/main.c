@@ -37,10 +37,10 @@ int main(int argc, char** argv) {
     }
     
     Result.data = pageRank(&a, &world, worldSize, myRank);
-
-    if(myRank == 0)
+    if(myRank == 0){
+        puts("After test");
         printMatrix(&Result);
-
+    }
 
     
 
