@@ -684,19 +684,21 @@ double* EigenVector(char* filename, int dims, MPI_Comm* world, int worldSize, in
     Matrix test = default_matrix;
     a = &test;
     a->rows = a->cols = dims;
+    a->data = NULL;
     if (myRank == 0) {
         a->data = (double*)malloc(dims*dims*sizeof(double)); // make sure to free
     }
 
     MPI_File_open(*world, filename, MPI_MODE_RDONLY, MPI_INFO_NULL, &fh);
     if (myRank == 0) {
-        MPI_File_read(fh, test.data, dims*dims, MPI_DOUBLE, MPI_STATUS_IGNORE);
+        MPI_File_read(fh, a->data, dims*dims, MPI_DOUBLE, MPI_STATUS_IGNORE);
     }
     MPI_File_close(&fh);
-    if (myRank == 0) {
+    MPI_Barrier(*world);
+    //if (myRank == 0) {
         //puts("Matrix in file");
         //printMatrix(a);     
-    }
+    //}
     
     Matrix x = default_matrix;
     Matrix oldx = default_matrix;
@@ -721,11 +723,12 @@ double* EigenVector(char* filename, int dims, MPI_Comm* world, int worldSize, in
     double* difference;
     double errorTolerance = 0.0000000000000001;//pow(10,-16);
     int done = 0; 
-
     while(count<10000 && done==0){
        // printf("%d\n",count);
         free(oldx.data);
         oldx.data = x.data;
+        
+
         x.data = multMatrices(a, &x, world, worldSize, myRank);
          
         //if(myRank == 0)
@@ -788,10 +791,10 @@ double* EigenVector(char* filename, int dims, MPI_Comm* world, int worldSize, in
         count++;
         //printf("done: %d\n", done);
     }
+    free(a->data);
+    free(oldx.data);
     if(myRank == 0){
         //printf("Ending count: %d\n\n",count);
-        free(oldx.data);
-        free(a->data);
         return x.data;
     }
     return NULL;
