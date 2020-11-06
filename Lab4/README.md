@@ -59,16 +59,48 @@ each program can be run as such, (mpiexec -n (# of nodes) ./(output file)
 ## Questions:
 
 #### (a) What is the theoretical time complexity of your algorithms (best and worst case), in terms of the input size?
-     
+For the non file version of eigenvalue, the time complexity is O(c*2n^3 + (n/p)^2 + 2(n/p)). There 
+is a matrix multiplication up to 10000 times making the first part 
+10000*O(2n^3 + (n/p)^2). There is a normalization which takes O(n/p) and then a 
+norm calculation which takes O(n/p).
+For the file version of eigenvalue, the time complexity is O((n/p)^3 + 2*p*n + 4*(n/p)).
+This is because we have each node doing serial versions of each calculation. There is a
+n/p elements being multiplied using the serial multiplication function. Each node has
+n/p rows, meaning that they will each compute a fraction of the l2norm in serial, so there
+are n elements being multiplied p times. Lastly, there is the normalization in serial which
+is n/p. 
+Overall, both functions are unique. The mpi file eigenvector function is a lot slower 
+despite the big O being a little bit better. This is because of all of the overhead. The main
+loop can write up to 10000 times. Since there are no collectives, we have the added 
+overhead of opening up a file to write all of the values to it and then open up the file
+again to read all of the files to it. When looking at large test cases, this can be 
+extremely costly. The version that uses collectives has a little larger big O, but cleans
+up with much less overhead because there are only collective communications that need to 
+be taken into account. Overall, they both have their uses, but a function with variety 
+of both could beat the functions that stick strictly to one type of method.
 
 
 #### (b) According to the data, does adding more nodes perfectly divide the time taken by the program?
+No. Generally, there is a lot of overhead that comes with using MPI. The nodes communication creates a 
+uncontrolled overhead. Along with this, the entire functions that are written can't be parallelized. There
+are operations that are being used that are parallelized but the function running altogether leaves 
+other processors unused. Also, with the version that uses files, the overhead is even greater because there are
+multiple opening, closing, reading, and writing of files on every iteration. This is a lot of moving parts that 
+can cause different possibilities when running. The timing varies from function to function and from different amount
+of processors. Overall, the time can vary depening on those parameters.
+
+#### (c) What are some real-world software examples that would need the above routines? Why? Would they benefit greatly from using your distributed code?  
+The real world software examples that use these functions are algorithms like pagerank and the hits algorithm. They use these algorithms
+to perform some linear algebra manipulations of the matrices that they give it in order to extract specific data that can be used to their
+benefit. Just about any company that uses matrices to store data, any search engine such as yahoo, google, or bing need to have some way to decide
+what they are going to give people when they search things up. These functions can be used to aid that process.
 
 
-#### (c) What are some real-world software examples that would need the above routines? Why? Would they benefit greatly from using your distributed code?
-        
-        
 #### (d) How could the code be improved in terms of usability, efficiency, and robustness?
-        
-        
-        
+For both functions, the best way to combine these functions would be to use collectives and 
+file reading and writing. This could be done by using collectives to pass data around (to reduce overhead),
+and then let the matrices and vectors be read into from files from the start. This would allow us to get data
+fast while reducing overhead when communicating. Another way to increase efficiency would be to find a way to 
+split the rows of the matrix A like in the file eigen vector function, but run the multiplication of matrices and the l2norm 
+in parallel as well. There would have to be a careful organization of nodes because as of right now, only one or the other method
+is used in each function. Combining this in some way would create the best optimizations for these functions.
