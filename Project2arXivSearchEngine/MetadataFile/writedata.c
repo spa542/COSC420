@@ -27,13 +27,17 @@ int main() {
     long int is = 0;
     int i;
     int count = 1;
-    int cap = FILE_LINES / 5;
-    printf("# of papers: %d\n", cap);
+    long int cap = FILE_LINES / 5;
+    printf("# of papers: %ld\n", cap);
     puts("BEFORE mnode");
-    //mnode *arr = malloc(cap*sizeof(mnode));
-    mdnode arr[cap];
+    printf("%ld\n", cap/16);
+    mdnode *arr = (mdnode*)malloc((cap/16)*sizeof(mdnode));
+    if (!arr) {
+        puts("Broken");
+    }
+    //mdnode arr[20];
     puts("After mnode");
-    memset(arr, 0, cap*sizeof(mdnode));
+    memset(arr, 0, (cap/16)*sizeof(mdnode));
     char tmp[10];
     puts("BEFORE LOOP");
     while (is < 1) {
