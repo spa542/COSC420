@@ -76,7 +76,7 @@ double* pageRank(Matrix* ai, MPI_Comm* world, int worldSize, int myRank){
     Mp.cols = dim;
     Mp.rows = 1;
 
-    double* tmp;
+    double* tmp=NULL;
 
     //TODO 'a' needs to be unit lenght in the where the out going links come from .
     //so if the rows rep the out going inks from page i then the rows need
@@ -111,32 +111,36 @@ double* pageRank(Matrix* ai, MPI_Comm* world, int worldSize, int myRank){
         free(oldP->data);
         oldP->data = p->data;
         //TODO DO PAGE RANK JAWN
-       
-        puts("oldP:");
-        printMatrix(oldP);
-
-
-        free(Mp.data);  
+        
+        if(myRank == 0){
+            puts("oldP:");
+            printMatrix(oldP);
+        }
         Mp.data = multMatrices(a, p, world, worldSize, myRank);
 
-        puts("Mp: ");
-        printMatrix(&Mp);
+        if(myRank == 0){
+            puts("Mp: ");
+            printMatrix(&Mp);
+        }
 
         p->data = multMatrixConst(&Mp, alpha, world, worldSize, myRank);
 
-        puts("p->data after mult:");
-        printMatrix(p);
-
-
+        if(myRank == 0){
+            free(Mp.data);
+            puts("p->data after mult:");
+            printMatrix(p);
+        }
+        
         tmp = addMatrices(p, ones, world, worldSize, myRank);
         if(myRank == 0){
             free(p->data);
         }
         p->data = tmp;
         
-        puts("p->data after subtract One:");
-        printMatrix(p);
-
+        if(myRank == 0){
+            puts("p->data after subtract One:");
+            printMatrix(p);
+        }
 
 
         if(myRank == 0){
@@ -149,8 +153,8 @@ double* pageRank(Matrix* ai, MPI_Comm* world, int worldSize, int myRank){
         
         MPI_Bcast(&length, 1, MPI_DOUBLE, 0, *world);
         
-        
-        printf("Length p:%f\n", length);
+        if(myRank == 0)
+            printf("Length p:%f\n", length);
         
         
         for(i=0; i<worldSize; i++){
@@ -176,16 +180,19 @@ double* pageRank(Matrix* ai, MPI_Comm* world, int worldSize, int myRank){
         //Gatherv
         MPI_Gatherv(buffer, sendCount[myRank], MPI_DOUBLE, p->data, sendCount, disp, MPI_DOUBLE, 0, *world);
 
-        puts("p after scatter: ");
-        printMatrix(p);
+        if(myRank == 0){
+            puts("p after scatter: ");
+            printMatrix(p);
+        }
         
         difference = subtractMatrices(p, oldP, world, worldSize, myRank);
-
-        puts("difference");
-        for(i=0; i<4; i++){
-            printf("%f \n", difference[i]);
+    
+        if(myRank == 0){
+            puts("difference");
+            for(i=0; i<4; i++){
+                printf("%f \n", difference[i]);
+            }
         }
-
         //splits up job for error Tolerance
         for(i=0; i<worldSize; i++){
             sendCount[i] = (p->rows*p->cols)/worldSize;
@@ -211,11 +218,12 @@ double* pageRank(Matrix* ai, MPI_Comm* world, int worldSize, int myRank){
         
         MPI_Reduce(&local_done, &done, 1, MPI_INT, MPI_SUM, 0, *world);
         free(difference);
+        MPI_Bcast(&done, 1, MPI_INT, 0,  *world);
         counter++;
     }
     if(myRank == 0){
         printf("count %d\n", counter);
-        //ree(oldP->data);
+        free(oldP->data);
         free(ones->data);
         free(a->data);
         return p->data;

@@ -41,11 +41,12 @@ int main(int argc, char** argv) {
         free(a.data);
         puts("After test");
         printMatrix(&Result);
+        free(Result.data);
     }
 
     
 
-   
+
     MPI_Finalize(); // Wrap everything up
     return 0;
 }
