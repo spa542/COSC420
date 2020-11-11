@@ -75,7 +75,7 @@ int main() {
         }
         memset(arr, 0, chunkSize*sizeof(mdnode));
         memset(yont, 0, chunkSize*sizeof(inode));
-        while (is < chunkSize) { // TODO
+        while (is < chunkSize) {
             // Create a temp node
             mdnode newNode;
             // Create a index node
