@@ -114,21 +114,21 @@ double* pageRank(Matrix* ai, MPI_Comm* world, int worldSize, int myRank){
         
         if(myRank == 0){
             puts("oldP:");
-            printMatrix(oldP);
+            printMatrix(p);
         }
         Mp.data = multMatrices(a, p, world, worldSize, myRank);
 
         if(myRank == 0){
-            puts("Mp: ");
-            printMatrix(&Mp);
+            //puts("Mp: ");
+            //printMatrix(&Mp);
         }
 
         p->data = multMatrixConst(&Mp, alpha, world, worldSize, myRank);
 
         if(myRank == 0){
             free(Mp.data);
-            puts("p->data after mult:");
-            printMatrix(p);
+            //puts("p->data after mult:");
+            //printMatrix(p);
         }
         
         tmp = addMatrices(p, ones, world, worldSize, myRank);
@@ -138,8 +138,8 @@ double* pageRank(Matrix* ai, MPI_Comm* world, int worldSize, int myRank){
         p->data = tmp;
         
         if(myRank == 0){
-            puts("p->data after subtract One:");
-            printMatrix(p);
+            //puts("p->data after subtract One:");
+            //printMatrix(p);
         }
 
 
@@ -154,7 +154,7 @@ double* pageRank(Matrix* ai, MPI_Comm* world, int worldSize, int myRank){
         MPI_Bcast(&length, 1, MPI_DOUBLE, 0, *world);
         
         if(myRank == 0)
-            printf("Length p:%f\n", length);
+           printf("Length p:%f\n", length);
         
         
         for(i=0; i<worldSize; i++){
@@ -168,7 +168,11 @@ double* pageRank(Matrix* ai, MPI_Comm* world, int worldSize, int myRank){
             disp[i] = sum;
             sum += sendCount[i];
         }
-
+        if(myRank == 0){
+            printf("P");
+            printMatrix(p);
+            printf("SendCount[0]: %d | SendCount[1]: %d", sendCount[0], sendCount[1]);
+        }
         //Scatterv
         double buffer[sendCount[myRank]];
         MPI_Scatterv(p->data, sendCount, disp, MPI_DOUBLE, buffer, sendCount[myRank], MPI_DOUBLE, 0, *world);
@@ -181,17 +185,17 @@ double* pageRank(Matrix* ai, MPI_Comm* world, int worldSize, int myRank){
         MPI_Gatherv(buffer, sendCount[myRank], MPI_DOUBLE, p->data, sendCount, disp, MPI_DOUBLE, 0, *world);
 
         if(myRank == 0){
-            puts("p after scatter: ");
-            printMatrix(p);
+            //puts("p after scatter: ");
+            //printMatrix(p);
         }
         
         difference = subtractMatrices(p, oldP, world, worldSize, myRank);
     
         if(myRank == 0){
-            puts("difference");
+            /*puts("difference");
             for(i=0; i<4; i++){
                 printf("%f \n", difference[i]);
-            }
+            }*/
         }
         //splits up job for error Tolerance
         for(i=0; i<worldSize; i++){
@@ -233,5 +237,139 @@ double* pageRank(Matrix* ai, MPI_Comm* world, int worldSize, int myRank){
 
 
 }
+
+
+
+
+
+
+
+//hubOrNo means if you want a score hub to be returned or the  score
+double* HITS(Matrix* ta, int HubOrAuth, MPI_Comm* world, int worldSize, int myRank){
+    int i;
+
+    Matrix a_ = default_matrix;
+    copyMatrix(&a_, ta);
+    Matrix* a = &a_;
+
+    Matrix at_ = default_matrix;
+    Matrix* aT = &at_;
+    aT->rows = a->rows;
+    aT->cols = a->cols;
+    if(myRank == 0)
+        aT->data = transpose(a);
+
+    Matrix use_ = default_matrix;
+    Matrix* use = &use_;
+    use->rows = ta->rows;
+    use->cols = ta->cols;
+
+
+    if(HubOrAuth <= 0){
+        use->data = multMatrices(a, aT, world, worldSize, myRank);
+    }else{
+        use->data = multMatrices(aT, a, world, worldSize, myRank);
+    }
+
+
+    Matrix x_ = default_matrix;
+    Matrix old_ = default_matrix;
+
+    Matrix* x = &x_;
+    Matrix* old = &old_;
+    x->rows = old->rows = a->rows;
+    x->cols = old->cols = 1;
+
+    x->data = NULL;
+    old->data = NULL;
+
+    if(myRank == 0){
+        x->data = (double*)malloc(x->rows*x->cols*sizeof(double));
+        old->data = (double*)malloc(old->rows*old->cols*sizeof(double));
+        for(i=0; i<x->cols*x->rows; i++){
+            x->data[i] = old->data[i] = 1;
+        }
+    }
+
+
+    int count = 0;
+    double length;
+    double* difference;
+    double errorTol = 0.0000000000000001; //~10^-16
+    int done = 0;
+
+    while(count<10000 && done == 0){
+        free(old->data);
+        old->data = x->data;
+        x->data = multMatrices(use, x, world, worldSize, myRank); 
+        
+        length = L2Norm(x, world, worldSize, myRank);
+        MPI_Bcast(&length, 1, MPI_DOUBLE, 0, *world);
+
+        int sendCount[worldSize];
+        int disp[worldSize];
+
+        for(i=0; i<worldSize; i++){
+            sendCount[i] = (x->rows*x->cols)/worldSize;
+        }
+        for(i=0; i<(x->cols*x->rows)%worldSize; i++){
+            sendCount[i] += 1;
+        }
+        int sum = 0;
+        for(i=0; i<worldSize; i++){
+            disp[i] = sum;
+            sum += sendCount[i];
+        }
+
+        double buffer[sendCount[myRank]];
+
+        MPI_Scatterv(x->data, sendCount, disp, MPI_DOUBLE, buffer, sendCount[myRank], MPI_DOUBLE, 0, *world);
+
+
+        for(i=0; i<sendCount[myRank]; i++){
+            buffer[i] /= length;
+        }
+
+ 
+        MPI_Gatherv(buffer, sendCount[myRank], MPI_DOUBLE, x->data, sendCount, disp, MPI_DOUBLE, 0, *world);
+
+        difference = subtractMatrices(x, old, world, worldSize, myRank);
+
+        if(myRank == 0){
+            done = 1;
+            for(i=0; i<x->cols*x->rows; i++){
+                if((difference[i]>0 ? difference[i] : difference[i]*-1) > errorTol){
+                    done = 1;
+                    break;
+                }
+            }
+        }
+        free(difference);
+        MPI_Bcast(&done, 1, MPI_DOUBLE, 0, *world);
+        count++;
+    }
+  
+    if(myRank == 0){
+        free(old->data);
+        free(use->data);
+        free(aT->data);
+        free(a->data);    
+    }
+    return NULL;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

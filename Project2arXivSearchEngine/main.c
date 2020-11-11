@@ -5,6 +5,43 @@
 #include"MatrixJawn/matrix.h" // File with matrix definitions and operations
 #include"PageRank.h"
 
+
+
+
+
+
+
+
+double* AdjMatrix(int size){
+    double* rtn = (double*)malloc(size*size*sizeof(double));
+    int i, j;
+    for(i=0; i<size*size; i++){
+        rtn[i] = rand() % 2;
+    }
+    for(i=0; i<size; i++){
+        for(j=0; j<size; j++){
+            if(j == i)
+              rtn[size*i + j] = 0;
+        }
+    }
+    return rtn;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 int main(int argc, char** argv) {
     srand(time(NULL)); // Seed the random generator
 
@@ -23,8 +60,9 @@ int main(int argc, char** argv) {
    
 
     int i;
-    a.cols = a.rows = 4;
-    Result.cols = 4;
+    int DIM = 10;
+    a.cols = a.rows = DIM;
+    Result.cols = DIM;
     Result.rows = 1;
 
     if(myRank == 0){
@@ -36,10 +74,21 @@ int main(int argc, char** argv) {
         printMatrix(&a);
     }
     
-    Result.data = pageRank(&a, &world, worldSize, myRank);
+    Result.data = HITS(&a, 0, &world, worldSize, myRank);
     if(myRank == 0){
         free(a.data);
         puts("After test");
+        printMatrix(&Result);
+        free(Result.data);
+        a.data = AdjMatrix(DIM);
+    }
+
+
+    Result.data = HITS(&a, 0, &world, worldSize, myRank);
+
+    if(myRank == 0){
+        free(a.data);
+        puts("After test 2");
         printMatrix(&Result);
         free(Result.data);
     }
