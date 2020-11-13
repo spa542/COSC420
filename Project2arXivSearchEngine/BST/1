@@ -7,9 +7,9 @@ typedef struct MetaNode {
     char title[384];
     char author[36664];
     char abstract[6093];
-    int authority;//TODO make doubles
-    int hub;//TODO
-    int pageRank;//TODO
+    int authority;
+    int hub;
+    int pageRank;
 
     struct MetaNode *right; // right child
     struct MetaNode *left; // left child

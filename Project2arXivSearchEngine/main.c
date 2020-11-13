@@ -60,7 +60,7 @@ int main(int argc, char** argv) {
    
 
     int i;
-    int DIM = 10;
+    int DIM = 4;
     a.cols = a.rows = DIM;
     Result.cols = DIM;
     Result.rows = 1;
@@ -74,7 +74,7 @@ int main(int argc, char** argv) {
         printMatrix(&a);
     }
     
-    Result.data = HITS(&a, 0, &world, worldSize, myRank);
+    Result.data = HITS(&a, 2, &world, worldSize, myRank);
     if(myRank == 0){
         free(a.data);
         puts("After test");
@@ -84,9 +84,11 @@ int main(int argc, char** argv) {
     }
 
 
-    Result.data = HITS(&a, 0, &world, worldSize, myRank);
+    Result.data = HITS(&a, 2, &world, worldSize, myRank);
 
     if(myRank == 0){
+        puts("a");
+        printMatrix(&a);
         free(a.data);
         puts("After test 2");
         printMatrix(&Result);
