@@ -23,16 +23,15 @@ int main() {
     // Read the index file to work with the matrix array
     readIndex = fopen("matrixfileindex", "r");
     // Open the file to write the matrix into
-    writeMat = fopen("matrixfile", "w");
+    //writeMat = fopen("matrixfile", "w");
     // Open the file to write the indices of the matrix
-    //writeMatIndex = fopen("matrixfileindex", "w");
+    writeMatIndex = fopen("matrixfileindex", "w");
 
-    if (!readCitations || !writeMat || !readIndex) { // If changed back, then fix this TODO
+    if (!readCitations || !writeMatIndex || !readIndex) { // If changed back, then fix this TODO
         puts("One of the three files broke :(");
         return 0;
     }
 
-    /*
     // THIS IS FOR CREATING THE INDEX FILE BASED OFF OF THE CITATION DOCUMENT
     // Index for the indexnode struct and array counter
     long int index = 0;
@@ -46,7 +45,9 @@ int main() {
     // Must create the new index first
     while (index < num_papers) {
         // TESTING
-        fgets(tmp, 18, readCitations);
+        if (!fgets(tmp, 18, readCitations)) {
+            break;
+        }
         inode newNode;
         // Copy the id into the index node
         strcpy(newNode.id, tmp);
@@ -69,11 +70,12 @@ int main() {
         count++;
     }
     // Write the array to the specified file
-    fwrite(writeIndex, sizeof(inode), num_papers, writeMatIndex);
+    //fwrite(writeIndex, sizeof(inode), num_papers, writeMatIndex);
     printf("Count of papers read in %ld vs. known %ld\n", count, num_papers);
     free(writeIndex);
     fclose(writeMatIndex);
 
+    /*
     // TESTING writeMatIndex file
     FILE* readTest = NULL;
     readTest = fopen("matrixfileindex", "r");
@@ -91,8 +93,23 @@ int main() {
     free(testarr);
     */
 
+    /*
+    FILE* readit = NULL;
+    readit = fopen("matrixfileindex", "r");
+    inode* check = (inode*)malloc(num_papers*sizeof(inode));
+    memset(check, 0, num_papers*sizeof(inode));
+    fread(check, sizeof(inode), num_papers, readit);
+    int i;
+    for (i = 0; i < num_papers; i++) {
+        printf("id = %s\n", check[i].id);
+    }
+    free(check);
+    fclose(readit);
+    */
 
 
+
+    /*
     // Create the pointer to hold each row of the matrix
     double* row = NULL;
     // Create the index array to keep track of each index and read it in
@@ -135,7 +152,6 @@ int main() {
         }
         // Write the row to the file after the matrix row has been filled
         fwrite(row, sizeof(double), num_papers, writeMat);
-        /*
         // Test Print
         if (shouldPrint) {
             // Test
@@ -147,7 +163,6 @@ int main() {
             }
         }
         shouldPrint = false;
-        */
         count++;
         free(row);
     }
@@ -158,7 +173,6 @@ int main() {
     fclose(readCitations);
     fclose(writeMat);
 
-    /*
     // TEST matrix write file
     puts("STARTING TEST OF WRITE FILE");
     FILE* yeet = NULL;
