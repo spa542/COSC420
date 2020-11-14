@@ -2,6 +2,7 @@
 #include<stdlib.h>
 #include<string.h>
 #include<stdbool.h>
+#include"citetree.h"
 
 typedef struct IndexNode {
     char id[18];
@@ -109,15 +110,71 @@ int main() {
     */
 
 
+    // Create the citetree head
+    cnode* head = NULL;
+    // Read arxiv file into bst
+    long int length = 0;
+    long int byteNum;
+    char insertMe[18];
+    while(length < file_length) {
+        byteNum = ftell(readCitations);
+        fgets(insertMe, 18, readCitations);
+        insertMe[strlen(insertMe) - 1] = '\0';
+        insert(&head, insertMe, byteNum);
+        length++;
+        while(fgets(insertMe, 18, readCitations)) {
+            length++;
+            if (insertMe[0] == '+' && insertMe[1] == '+') {
+                break;
+            }
+        }
+    }
+    puts("Finished reading arXiv file...");
+    /*
+     * TESTS FOR TREE BEFORE ALGORITHM
+    // Print the tree
+    print(head);
+    char test[] = {'p','l','a','s','m','-','p','h','/','9','5','1','2','0','0','2','\0'};
+    printf("Searching for %s\n", test);
+    long int rtn = search(&head, test);
+    printf("Got this: %ld\n", rtn);
+    puts("Testing seek based off the bytecode returned");
+    fseek(readCitations, rtn, SEEK_SET);
+    fgets(insertMe, 18, readCitations);
+    printf("String should match above %s\n", insertMe);
+    clearTree(&head);
+
+    fclose(readCitations);
+    fclose(writeMat);
+    fclose(readIndex);
+    return 0;
+    */
+
     // Timing
     time_t first, second;
     // Create the pointer to hold each row of the matrix
     double* row = NULL;
     // Create the index array to keep track of each index and read it in
+    // Then add it to the tree that holds the metadata
     inode* indices = (inode*)malloc(num_papers*sizeof(inode));
     memset(indices, 0, num_papers*sizeof(inode));
     fread(indices, sizeof(inode), num_papers, readIndex);
     fclose(readIndex);
+    long int p;
+    snode* head2 = NULL;
+    for (p = 0; p < num_papers; p++) {
+        printf("Hi %ld\n", p);
+        inserts(&head2, indices[p].id, indices[p].index);
+    }
+    // Testing the second tree
+    //prints(head2);
+    clearTree(&head);
+    clearTrees(&head2);
+    free(indices);
+    fclose(readCitations);
+    fclose(writeMat);
+    return 0;
+    puts("Finished reading in indices array...");
     // Done reading the index structs in
     // Count the amount of papers to make sure it matches
     long int count = 0;
@@ -125,6 +182,8 @@ int main() {
     char tmp[18];
     // Counter
     long int i;
+    // Byte search variable
+    long int byteSearch = 0;
     // Test bool
     bool allZeros = false;
     bool shouldPrint = false;
@@ -132,17 +191,34 @@ int main() {
     long int benchmark = 200;
     // Start the loop
     first = time(NULL);
-    while (count < num_papers) {
+    while (count < 100) {
+        // We have a tree of where to find every paper in the file
+        // SO LETS USE IT BABY
+        byteSearch = search(&head, indices[count].id);
+        row = (double*)malloc(num_papers*sizeof(double));
+        memset(row, 0, sizeof(double));
+        // Initialize the row
+        for (i = 0; i < num_papers; i++) {
+            row[i] = 0;
+        }
+        if (byteSearch == -1) {
+            fwrite(row, sizeof(double), num_papers, writeMat);
+            fseek(readCitations, 0, SEEK_SET);
+            shouldPrint = false;
+            count++;
+            free(row);
+            continue;
+        }
+        fseek(readCitations, byteSearch, SEEK_SET);
+        /*
         // Need to iterate over the amount of papers in the indexfile
         // and find the right paper id that matches in the arxiv file
         while (fgets(tmp, 18, readCitations)) {
             // Kill the endline so somparisons work
             tmp[strlen(tmp) - 1] = '\0';
             if (strcmp(indices[count].id, tmp) == 0) {
-                /*
                 puts("Found it!!!!!");
                 printf("struct id: %s\nfound id: %s\n", indices[count].id, tmp);
-                */
                 break;
             }
             // Skip all of the other elements until we get to the "next" paper for 
@@ -154,15 +230,11 @@ int main() {
             }
             // If we reach the end of the file, the loops will hit NULL and skip!!!!
         }
+        */
         // We know the structure and the order already
-        // Will be a minus row next... skip it!!!!
+        // Will be the paper we know and a minus row next... skip it!!!!
+        fgets(tmp, 18, readCitations);
         fgets(tmp, 18, readCitations); 
-        row = (double*)malloc(num_papers*sizeof(double));
-        memset(row, 0, sizeof(double));
-        // Initialize the row
-        for (i = 0; i < num_papers; i++) {
-            row[i] = 0;
-        }
         // If we couldnt find the string, just put an all zero row in its place
         // Read all of the citations in and fill the row vector until we read the
         // dividing line
@@ -206,6 +278,7 @@ int main() {
     printf("Count of papers read in %ld vs. known %ld\n", count, num_papers);
     printf("Time in seconds to complete: %ld\n", second - first);
     free(indices);
+    clearTree(&head);
 
     // Close the files
     fclose(readCitations);
@@ -219,7 +292,7 @@ int main() {
     double* readme = NULL;
     long int j;
     int sumcheck = 0;
-    for (i = 0; i < 200; i++) {
+    for (i = 0; i < 100; i++) {
         readme = (double*)malloc(num_papers*sizeof(double));
         memset(readme, 0, num_papers*sizeof(double));
         fread(readme, sizeof(double), num_papers, yeet);
