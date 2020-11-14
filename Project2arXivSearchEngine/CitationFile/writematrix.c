@@ -9,6 +9,7 @@ typedef struct IndexNode {
 } inode;
 
 #define num_papers 1628188
+#define file_length 10913892
 
 int main() {
 
@@ -21,17 +22,18 @@ int main() {
     // Open the file to read the citation files in
     readCitations = fopen("arxiv-citations.txt", "r");
     // Read the index file to work with the matrix array
-    readIndex = fopen("matrixfileindex", "r");
+    readIndex = fopen("indexfile", "r");
     // Open the file to write the matrix into
-    //writeMat = fopen("matrixfile", "w");
+    writeMat = fopen("matrixfile", "w");
     // Open the file to write the indices of the matrix
-    writeMatIndex = fopen("matrixfileindex", "w");
+    //writeMatIndex = fopen("matrixfileindex", "w");
 
-    if (!readCitations || !writeMatIndex || !readIndex) { // If changed back, then fix this TODO
+    if (!readCitations || !writeMat || !readIndex) { // If changed back, then fix this TODO
         puts("One of the three files broke :(");
         return 0;
     }
 
+    /*
     // THIS IS FOR CREATING THE INDEX FILE BASED OFF OF THE CITATION DOCUMENT
     // Index for the indexnode struct and array counter
     long int index = 0;
@@ -75,7 +77,6 @@ int main() {
     free(writeIndex);
     fclose(writeMatIndex);
 
-    /*
     // TESTING writeMatIndex file
     FILE* readTest = NULL;
     readTest = fopen("matrixfileindex", "r");
@@ -108,8 +109,8 @@ int main() {
     */
 
 
-
-    /*
+    // Timing
+    time_t first, second;
     // Create the pointer to hold each row of the matrix
     double* row = NULL;
     // Create the index array to keep track of each index and read it in
@@ -125,19 +126,46 @@ int main() {
     // Counter
     long int i;
     // Test bool
-    //bool shouldPrint = false;
+    bool allZeros = false;
+    bool shouldPrint = false;
+    // Benchmark number
+    long int benchmark = 200;
     // Start the loop
+    first = time(NULL);
     while (count < num_papers) {
+        // Need to iterate over the amount of papers in the indexfile
+        // and find the right paper id that matches in the arxiv file
+        while (fgets(tmp, 18, readCitations)) {
+            // Kill the endline so somparisons work
+            tmp[strlen(tmp) - 1] = '\0';
+            if (strcmp(indices[count].id, tmp) == 0) {
+                /*
+                puts("Found it!!!!!");
+                printf("struct id: %s\nfound id: %s\n", indices[count].id, tmp);
+                */
+                break;
+            }
+            // Skip all of the other elements until we get to the "next" paper for 
+            // citation checking
+            while(fgets(tmp, 18, readCitations)) {
+                if (tmp[0] == '+' && tmp[1] == '+') {
+                    break;
+                }
+            }
+            // If we reach the end of the file, the loops will hit NULL and skip!!!!
+        }
         // We know the structure and the order already
-        // Just skip the first two lines of each section (id of paper and - block)
-        fgets(tmp, 18, readCitations); 
+        // Will be a minus row next... skip it!!!!
         fgets(tmp, 18, readCitations); 
         row = (double*)malloc(num_papers*sizeof(double));
         memset(row, 0, sizeof(double));
-        // Initialize
+        // Initialize the row
         for (i = 0; i < num_papers; i++) {
             row[i] = 0;
         }
+        // If we couldnt find the string, just put an all zero row in its place
+        // Read all of the citations in and fill the row vector until we read the
+        // dividing line
         while(fgets(tmp, 18, readCitations)) {
             if (tmp[0] == '+' && tmp[1] == '+') {
                 break;
@@ -148,10 +176,12 @@ int main() {
                     row[i] = 1; 
                 }
             }
+            // Print it out
             //shouldPrint = true; 
         }
         // Write the row to the file after the matrix row has been filled
         fwrite(row, sizeof(double), num_papers, writeMat);
+        /*
         // Test Print
         if (shouldPrint) {
             // Test
@@ -162,33 +192,49 @@ int main() {
                 }
             }
         }
+        */
+        // Reset the pointer to the beginning of the file
+        fseek(readCitations, 0, SEEK_SET);
         shouldPrint = false;
         count++;
         free(row);
+        if (count % benchmark == 0) {
+            printf("Benchmark %ld\n", count / benchmark);
+        }
     }
+    second = time(NULL);
     printf("Count of papers read in %ld vs. known %ld\n", count, num_papers);
+    printf("Time in seconds to complete: %ld\n", second - first);
     free(indices);
 
     // Close the files
     fclose(readCitations);
     fclose(writeMat);
 
+    /*
     // TEST matrix write file
     puts("STARTING TEST OF WRITE FILE");
     FILE* yeet = NULL;
     yeet = fopen("matrixfile", "r");
     double* readme = NULL;
     long int j;
-    for (i = 0; i < 40; i++) {
+    int sumcheck = 0;
+    for (i = 0; i < 200; i++) {
         readme = (double*)malloc(num_papers*sizeof(double));
         memset(readme, 0, num_papers*sizeof(double));
         fread(readme, sizeof(double), num_papers, yeet);
         for (j = 0; j < num_papers; j++) {
+            sumcheck += readme[j];
             if (readme[j] == 1) {
                 printf("Paper %ld\n", i);
                 puts("we have a winner!");
             }
         }
+        if (sumcheck == 0) {
+            printf("Paper %ld\n", i);
+            puts("all zeros row");
+        }
+        sumcheck = 0;
         free(readme);
     }
     fclose(yeet);
