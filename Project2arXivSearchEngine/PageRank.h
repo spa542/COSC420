@@ -16,5 +16,6 @@
 
 double* pageRank(Matrix*, MPI_Comm*, int, int);
 double* HITS(Matrix*, int, MPI_Comm*, int, int);
+double* FILEpageRank(int, MPI_Comm*, int, int);
 
 #endif // _PAGERANK_H_
