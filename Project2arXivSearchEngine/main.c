@@ -8,7 +8,7 @@
 
 
 
-void writeTestFileSpecfic(int dims, MPI_Comm* world, int worldSize, int myRank) {
+void writeTestFileSpecific(int dims, MPI_Comm* world, int worldSize, int myRank) {
     Matrix test = default_matrix;
 
     test.rows = test.cols = dims;
@@ -26,7 +26,7 @@ void writeTestFileSpecfic(int dims, MPI_Comm* world, int worldSize, int myRank) 
         test.data[i] = 0;
     }
     if(myRank == 0){
-        test.data[1] = test.data[2] = test.data[3] = test.data[7] = 1;
+        test.data[1] = test.data[2] = test.data[3] = test.data[4] = test.data[6] = test.data[8] = test.data[11]  = 1;
     }
     //test.data[11] = test.data[7] = test.data[3] = test.data[1] = test.data[2] = 1;
 
@@ -69,7 +69,7 @@ void writeTestFile(int dims, MPI_Comm* world, int worldSize, int myRank) {
     }
     test.data = (double*)malloc(Varray[myRank]*sizeof(double));
     for (i = 0; i < Varray[myRank]; i++) {
-        test.data[i] = 1 + rand() % 10;
+        test.data[i] = (int)rand() % 1;
     }
     int nextLength = 0;
     for (i = 0; i < worldSize; i++) {
@@ -148,15 +148,15 @@ int main(int argc, char** argv) {
     // Create the matrices
     Matrix a = default_matrix;
     Matrix Result = default_matrix;
-   
+    Matrix Result2 = default_matrix; 
 
     int i;
     int DIM = 4;
     a.cols = a.rows = DIM;
-    Result.cols = DIM;
-    Result.rows = 1;
+    Result.cols = Result2.cols = DIM;
+    Result.rows = Result2.rows = 1;
 
-    if(myRank == 0){
+    /*if(myRank == 0){
         a.data = (double*)malloc(a.cols*a.rows*sizeof(double));
         for(i=0; i<a.cols*a.rows; i++){
             a.data[i] = 0;
@@ -170,9 +170,9 @@ int main(int argc, char** argv) {
         puts("After test reg");
         printMatrix(&Result);
         free(Result.data);
-    }
+    }*/
     
-    writeTestFileSpecfic(DIM, &world, worldSize, myRank);
+    writeTestFileSpecific(DIM, &world, worldSize, myRank);
     
     /*Result.data = FILEpageRank(DIM, &world, worldSize, myRank);
     if(myRank == 0){

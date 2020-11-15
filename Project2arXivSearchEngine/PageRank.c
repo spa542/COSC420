@@ -371,12 +371,12 @@ double* FILEpageRank(int dim, MPI_Comm* world, int worldSize, int myRank){
             p->data[i] = 1;
             oldP->data[i] = 1;
         }
-        printf("p: | rows: %d | cols: %d\n", p->rows, p->cols);
-        printMatrix(p);
-        printf("oldP: | rows: %d | cols: %d\n", oldP->rows, oldP->cols);
-        printMatrix(oldP);
-        printf("ones: | rows: %d | cols: %d\n", ones->rows, ones->cols);
-        printMatrix(ones);
+        //printf("p: | rows: %d | cols: %d\n", p->rows, p->cols);
+        //printMatrix(p);
+        //printf("oldP: | rows: %d | cols: %d\n", oldP->rows, oldP->cols);
+        //printMatrix(oldP);
+        //printf("ones: | rows: %d | cols: %d\n", ones->rows, ones->cols);
+        //printMatrix(ones);
     }
 
 
@@ -408,16 +408,16 @@ double* FILEpageRank(int dim, MPI_Comm* world, int worldSize, int myRank){
 
 
 
-        puts("WHile loop");
-    while(done>=1 && counter<10000){
+    //puts("WHile loop");
+    while(done>=1 && counter<2500){
 
-        printf("count %d\n", counter);
+        //printf("count %d\n", counter);
 
         free(oldP->data);
         oldP->data = p->data;
          if(myRank == 0){
-            puts("oldP:");
-            printMatrix(p);
+            //puts("oldP:");
+            //printMatrix(p);
         }
         for(masterI=0; masterI<myRowsCount[myRank]; masterI+=grabbed){
             if(myRank == 0){           
@@ -437,7 +437,7 @@ double* FILEpageRank(int dim, MPI_Comm* world, int worldSize, int myRank){
 	        //int myRowsCount[worldSize];
 		//int myRowsDisp[worldSize];
         if(myRank == 0){
-        printf("Rank: %d | myRowsCount: %d | myRowsDisp: %d\n", myRank,myRowsCount[myRank], myRowsDisp[myRank]);	
+             //printf("Rank: %d | myRowsCount: %d | myRowsDisp: %d\n", myRank,myRowsCount[myRank], myRowsDisp[myRank]);	
         }
 
 	    MPI_File_open(*world, "scripttest", MPI_MODE_RDONLY, MPI_INFO_NULL, &fh);
@@ -447,8 +447,8 @@ double* FILEpageRank(int dim, MPI_Comm* world, int worldSize, int myRank){
         MPI_File_close(&fh);
 	    
         if(myRank == 0){
-            puts("This should be a read in row");
-            printMatrix(a);
+            //puts("This should be a read in row");
+            //printMatrix(a);
         } 
             
 
@@ -524,18 +524,18 @@ double* FILEpageRank(int dim, MPI_Comm* world, int worldSize, int myRank){
              local_ps->data[i] /= length;
         }
 
-        puts("local_ps ending ----");
-        printMatrix(local_ps); 
+        //puts("local_ps ending ----");
+        //printMatrix(local_ps); 
 
         if(myRank == 0){
             p->data = (double*)malloc(p->rows*p->cols*sizeof(double));
         }
         MPI_Gatherv(local_ps->data, myRowsCount[myRank], MPI_DOUBLE, p->data, myRowsCount, myRowsDisp, MPI_DOUBLE, 0, *world);
         if(myRank == 0){
-            puts("p oldp");
-            printMatrix(p);
-            puts("");
-            printMatrix(oldP);
+            //puts("p oldp");
+            //printMatrix(p);
+            //puts("");
+            //printMatrix(oldP);
         }
 
 

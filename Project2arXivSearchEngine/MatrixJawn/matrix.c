@@ -75,7 +75,7 @@ void printMatrix(Matrix *a) {
     int i, j;
     for (i = 0; i < a->rows; i++) {
         for (j = 0; j < a->cols; j++) {
-            printf("%0.13f ", ACCESS(a,i,j));
+            printf("%0.2f ", ACCESS(a,i,j));
         }
         puts("");
     }
