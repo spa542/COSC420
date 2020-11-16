@@ -35,12 +35,15 @@ how each module works, the possible issues with the module, and test results.
 ## Questions:
 
 #### (a) How long does it take to process the raw data into your index format?
-
-#### (b) How long does it take to laod your database into memory?
-
+CitationFile and MetaDataFile README's discuss this process and what is going right and wrong.
+#### (b) How long does it take to load your database into memory?
+We have not gotten far enough as to creating the final database yet.
 #### (c) How long does it take to return results to a user?
-
+This has not been achieved as of yet
 #### (d) Where is there room for improvement?
-
+This question is discussed individually within each folder's README. Overall, the improvement
+that could be made are timing. Most of these algorithms could have a significant decrease in time 
+to complete to make them work better. This is something that could require a lot of modifications
+or a little, but, nevertheless, the time it takes to complete these scripts could be a lot better.
 #### (e) Would your program make a decent "Google for research papers"?
-
+This cannot be answered. As of right now... no! :(
