@@ -39,7 +39,7 @@ How to run:
 
 - Type "make"
 
-- ./writedata
+- ./writematrix
 
 Current Issues:
 
