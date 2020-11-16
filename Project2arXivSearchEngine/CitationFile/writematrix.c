@@ -23,6 +23,7 @@ int main() {
     // Open the file to read the citation files in
     readCitations = fopen("arxiv-citations.txt", "r");
     // Read the index file to work with the matrix array
+    //readIndex = fopen("indexfile", "r");
     readIndex = fopen("indexfile", "r");
     // Open the file to write the matrix into
     writeMat = fopen("matrixfile", "w");
@@ -110,6 +111,7 @@ int main() {
     */
 
 
+    puts("Reading arXiv citation file and creating citation tree...");
     // Create the citetree head
     cnode* head = NULL;
     // Read arxiv file into bst
@@ -129,7 +131,7 @@ int main() {
             }
         }
     }
-    puts("Finished reading arXiv file...");
+    puts("Finished reading arXiv citation file and creating citation tree...");
     /*
      * TESTS FOR TREE BEFORE ALGORITHM
     // Print the tree
@@ -152,6 +154,7 @@ int main() {
 
     // Timing
     time_t first, second;
+    puts("Reading in struct matrix and creating binary tree...");
     // Create the pointer to hold each row of the matrix
     double* row = NULL;
     // Create the index array to keep track of each index and read it in
@@ -162,19 +165,43 @@ int main() {
     fclose(readIndex);
     long int p;
     snode* head2 = NULL;
-    for (p = 0; p < num_papers; p++) {
-        printf("Hi %ld\n", p);
+    long int semibenchmark = 20000;
+    for (p = 0; p < 400000; p++) {
+        //printf("Hi %ld\n", p);
         inserts(&head2, indices[p].id, indices[p].index);
+        if (p % semibenchmark == 0) {
+            printf("benchmark: %ld\n", p);
+        }
+    }
+    /*
+    snode* head2 = NULL;
+    char needMe[18];
+    char takeMe[36664];
+    long int coo = 0;
+    while(coo < num_papers) {
+        if (coo % 10000 == 0) {
+            printf("%ld\n", coo);
+        }
+        fgets(needMe, 18, readIndex);
+        needMe[strlen(needMe) - 1] = '\0';
+        inserts(&head2, needMe, coo);
+        fgets(takeMe, 36664, readIndex);
+        fgets(takeMe, 36664, readIndex);
+        fgets(takeMe, 36664, readIndex);
+        fgets(takeMe, 36664, readIndex);
+        coo++;
     }
     // Testing the second tree
-    //prints(head2);
+    prints(head2);
     clearTree(&head);
     clearTrees(&head2);
-    free(indices);
     fclose(readCitations);
     fclose(writeMat);
+    free(indices);
     return 0;
-    puts("Finished reading in indices array...");
+    */
+    puts("Finished reading in struct matrix and creating binary tree...");
+    puts("Running matrix file creation algorithm...");
     // Done reading the index structs in
     // Count the amount of papers to make sure it matches
     long int count = 0;
@@ -184,6 +211,8 @@ int main() {
     long int i;
     // Byte search variable
     long int byteSearch = 0;
+    // Index for tree search
+    long int indexForOne = 0;
     // Test bool
     bool allZeros = false;
     bool shouldPrint = false;
@@ -191,7 +220,7 @@ int main() {
     long int benchmark = 200;
     // Start the loop
     first = time(NULL);
-    while (count < 100) {
+    while (count < 1000) {
         // We have a tree of where to find every paper in the file
         // SO LETS USE IT BABY
         byteSearch = search(&head, indices[count].id);
@@ -243,11 +272,20 @@ int main() {
                 break;
             }
             tmp[strlen(tmp) - 1] = '\0';
+            /*
             for (i = 0; i < num_papers; i++) {
                 if (strcmp(tmp, indices[i].id) == 0) {
                     row[i] = 1; 
                 }
             }
+            */
+            indexForOne = searchs(&head2, tmp);
+            // Not enough time to run on full case, if not enough then continue
+            if (indexForOne == -1) {
+                //puts("failed");
+                continue;
+            }
+            row[indexForOne] = 1;
             // Print it out
             //shouldPrint = true; 
         }
@@ -271,20 +309,22 @@ int main() {
         count++;
         free(row);
         if (count % benchmark == 0) {
-            printf("Benchmark %ld\n", count / benchmark);
+            printf("Benchmark %ld\n", count);
         }
     }
     second = time(NULL);
     printf("Count of papers read in %ld vs. known %ld\n", count, num_papers);
     printf("Time in seconds to complete: %ld\n", second - first);
+    puts("Clearing all of the memory...");
     free(indices);
     clearTree(&head);
+    clearTrees(&head2);
 
     // Close the files
     fclose(readCitations);
     fclose(writeMat);
 
-    /*
+    puts("This is a just a test to show that the file is being written to correctly, every 'we have a winner' is a 1 found in the row of paper #, only 100 being printed so it doesnt take forever");
     // TEST matrix write file
     puts("STARTING TEST OF WRITE FILE");
     FILE* yeet = NULL;
@@ -311,7 +351,6 @@ int main() {
         free(readme);
     }
     fclose(yeet);
-    */
     
     return 0;
 }
