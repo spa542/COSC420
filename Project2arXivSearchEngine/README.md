@@ -42,5 +42,5 @@ how each module works, the possible issues with the module, and test results.
 
 #### (d) Where is there room for improvement?
 
-#### Would your program make a decent "Google for research papers"?
+#### (e) Would your program make a decent "Google for research papers"?
 
