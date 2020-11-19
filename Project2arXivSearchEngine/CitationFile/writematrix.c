@@ -2,6 +2,8 @@
 #include<stdlib.h>
 #include<string.h>
 #include<stdbool.h>
+#include<time.h>
+#include<mpi.h>
 #include"citetree.h"
 
 typedef struct IndexNode {
@@ -14,10 +16,12 @@ typedef struct IndexNode {
 
 int main() {
 
+    MPI_Init(NULL, NULL);
+
     // Create the necessary file pointers
     FILE* readCitations = NULL;
     FILE* writeMat = NULL;
-    FILE* writeMatIndex = NULL; 
+    //FILE* writeMatIndex = NULL; 
     FILE* readIndex = NULL;
 
     // Open the file to read the citation files in
@@ -165,8 +169,8 @@ int main() {
     fclose(readIndex);
     long int p;
     snode* head2 = NULL;
-    long int semibenchmark = 20000;
-    for (p = 0; p < 400000; p++) {
+    long int semibenchmark = 200000;
+    for (p = 0; p < num_papers; p++) {
         //printf("Hi %ld\n", p);
         inserts(&head2, indices[p].id, indices[p].index);
         if (p % semibenchmark == 0) {
@@ -214,13 +218,13 @@ int main() {
     // Index for tree search
     long int indexForOne = 0;
     // Test bool
-    bool allZeros = false;
-    bool shouldPrint = false;
+    //bool allZeros = false;
+    //bool shouldPrint = false;
     // Benchmark number
-    long int benchmark = 200;
+    long int benchmark = 100000;
     // Start the loop
     first = time(NULL);
-    while (count < 1000) {
+    while (count < num_papers) {
         // We have a tree of where to find every paper in the file
         // SO LETS USE IT BABY
         byteSearch = search(&head, indices[count].id);
@@ -233,7 +237,7 @@ int main() {
         if (byteSearch == -1) {
             fwrite(row, sizeof(double), num_papers, writeMat);
             fseek(readCitations, 0, SEEK_SET);
-            shouldPrint = false;
+            //shouldPrint = false;
             count++;
             free(row);
             continue;
@@ -305,7 +309,7 @@ int main() {
         */
         // Reset the pointer to the beginning of the file
         fseek(readCitations, 0, SEEK_SET);
-        shouldPrint = false;
+        //shouldPrint = false;
         count++;
         free(row);
         if (count % benchmark == 0) {
@@ -324,6 +328,7 @@ int main() {
     fclose(readCitations);
     fclose(writeMat);
 
+    /*
     puts("This is a just a test to show that the file is being written to correctly, every 'we have a winner' is a 1 found in the row of paper #, only 100 being printed so it doesnt take forever");
     // TEST matrix write file
     puts("STARTING TEST OF WRITE FILE");
@@ -351,6 +356,9 @@ int main() {
         free(readme);
     }
     fclose(yeet);
+    */
+
+    MPI_Finalize();
     
     return 0;
 }
