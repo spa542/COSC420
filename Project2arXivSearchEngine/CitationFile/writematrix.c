@@ -160,7 +160,7 @@ int main() {
     time_t first, second;
     puts("Reading in struct matrix and creating binary tree...");
     // Create the pointer to hold each row of the matrix
-    double* row = NULL;
+    char* row = NULL;
     // Create the index array to keep track of each index and read it in
     // Then add it to the tree that holds the metadata
     inode* indices = (inode*)malloc(num_papers*sizeof(inode));
@@ -228,14 +228,14 @@ int main() {
         // We have a tree of where to find every paper in the file
         // SO LETS USE IT BABY
         byteSearch = search(&head, indices[count].id);
-        row = (double*)malloc(num_papers*sizeof(double));
-        memset(row, 0, sizeof(double));
+        row = (char*)malloc(num_papers*sizeof(char));
+        memset(row, 0, sizeof(char));
         // Initialize the row
         for (i = 0; i < num_papers; i++) {
-            row[i] = 0;
+            row[i] = '0';
         }
         if (byteSearch == -1) {
-            fwrite(row, sizeof(double), num_papers, writeMat);
+            fwrite(row, sizeof(char), num_papers, writeMat);
             fseek(readCitations, 0, SEEK_SET);
             //shouldPrint = false;
             count++;
@@ -289,12 +289,12 @@ int main() {
                 //puts("failed");
                 continue;
             }
-            row[indexForOne] = 1;
+            row[indexForOne] = '1';
             // Print it out
             //shouldPrint = true; 
         }
         // Write the row to the file after the matrix row has been filled
-        fwrite(row, sizeof(double), num_papers, writeMat);
+        fwrite(row, sizeof(char), num_papers, writeMat);
         /*
         // Test Print
         if (shouldPrint) {

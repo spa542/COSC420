@@ -1,0 +1,19 @@
+Reading arXiv citation file and creating citation tree...
+Finished reading arXiv citation file and creating citation tree...
+Reading in struct matrix and creating binary tree...
+benchmark: 0
+benchmark: 200000
+benchmark: 400000
+benchmark: 600000
+benchmark: 800000
+benchmark: 1000000
+benchmark: 1200000
+benchmark: 1400000
+benchmark: 1600000
+Finished reading in struct matrix and creating binary tree...
+Running matrix file creation algorithm...
+Benchmark 100000
+Benchmark 200000
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+slurmstepd: error: *** JOB 3050 ON hpcl6-2 CANCELLED AT 2020-11-20T12:49:06 ***
+slurmstepd: error: *** STEP 3050.0 ON hpcl6-2 CANCELLED AT 2020-11-20T12:49:06 ***
