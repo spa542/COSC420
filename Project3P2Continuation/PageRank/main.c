@@ -20,12 +20,16 @@ int main(int argc, char** argv) {
 
     printf("Hi\n");    
 
-    int* arr = (int*)malloc(3*sizeof(int));  
+    int size = 5;
+
+    int* arr = (int*)malloc(size*sizeof(int));  
     arr[0] = 2;
     arr[1] = 3;
     arr[2] = 0;
+    arr[3] = -1;
+    arr[4] = 50;
     
-    double* test = decompress(arr, 3, 8, &world, worldSize, myRank);  
+    double* test = decompress(arr, size, 8, &world, worldSize, myRank);  
 
     int i;
     for(i=0; i<8; i++){
