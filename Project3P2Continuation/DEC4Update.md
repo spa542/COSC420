@@ -5,6 +5,7 @@ COSC 420-001
 # Project-3: arXiv Search Engine Update
 Files we updated:
 1.  PageRank
+2.  Citation File
 
 ## PageRank
 In PageRank since our last update, which was the second project (which is in the GitHub), 
@@ -23,4 +24,19 @@ task with smaller operations. So each one will be conducting matrix multiplicati
 additions on their own. As a matter of fact, each processor will take a separate row than 
 any other processor from the adjacency matrix. 
 
+## MetaFile Scripting
+Currently, the algorithm for reading in the citations and creating the matrix has been tweaked
+to be used with sparse matrices. The speed up is significant because we are only storing 
+padded rows of integers where each element represents the number of 0s between each 1 in the 
+matrix. This file is currently being ran in full on the cluster and should be confirmed as 
+finished within a day. That is the main change because there were some extra functions 
+regarding sorting the indices and special calculations needed to make the algorithm 
+work effectively.
 
+## Going Forward
+Overall, once we have both the sparse matrix file and the pagerank/hits working, we are going
+to create a script that will bring all of the calculated data paired with each paper into a struct
+and write those into a file. From there, we will use that metadata along with the already calculated
+metadata from the other paper script to bring it all together so that we can create one large struct 
+for each paper that has all of the information neat and tidy in one spot to be used in the actual
+program algorithm.
