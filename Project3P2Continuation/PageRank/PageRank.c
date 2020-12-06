@@ -43,16 +43,31 @@ double* pageRank(int dim, MPI_Comm* world, int worldSize, int myRank){
     Matrix* p = &pt;
     p->rows = dim;
     p->cols = 1;
-    if(myRank==0)
+    if(myRank==0){
         p->data = (double*)malloc(p->cols * p->rows * sizeof(double));
-       
+	for(i=0; i<p->rows*p->cols; i++)
+            p->data[i] = 1;
+    }
+	
     Matrix PreviousP = default_matrix;
     Matrix* oldP = &PreviousP;
     oldP->rows = dim;
     oldP->cols = 1;
-    if(myRank==0)
+    if(myRank==0){
         oldP->data = (double*)malloc(oldP->cols * oldP->rows * sizeof(double));
-  
+        for(i=0; i<oldP->rows*oldP->cols; i++)
+            oldP->data[i] = 1;
+    }
+    
+    Matrix locPs = default_matrix;
+    Matrix* section_p = &locPs;
+    section_p->rows = myRowsCount[myRank];
+    section_p->cols = 1;
+    section_p->data = (double*)malloc(section_p->rows * section_p->cols * sizeof(double));
+    for(i=0; i<section_p->rows * section_p->cols; i++){
+        section_p->data[i] = 1;
+    }
+	    
     Matrix tOnes = default_matrix;
     Matrix* ones = &tOnes;
     ones->rows = grabbed;
@@ -80,43 +95,92 @@ double* pageRank(int dim, MPI_Comm* world, int worldSize, int myRank){
     
     
     while(done>=1 && counter<2500){
-	free(oldP->data);
-	oldP->data = p->data;
+	if(myRank == 0){
+	    free(oldP->data);
+	    oldP->data = p->data;
+	}
 	
 	for(masterI=0; masterI<myRowsCount[myRank]; masterI+=grabbed){
-	    if(myRank == 0){           
+	    if(myRank == 0){//Root gets the P matrix for calculations           
                 for(i=0; i<p->rows*p->cols; i++){
                     local_p->data[i] = p->data[i]; 
                 }
             }
+            //Every node gets the P vectors for calculations
             MPI_Bcast(local_p, p->rows*p->cols, MPI_DOUBLE, 0, *world);
 	    
-	    Matrix inA = default_matrix;
-            Matrix* a = &inA;
-            a->cols = dim;
-            a->rows = grabbed;
-            a->data = (double*)malloc(a->cols*a->rows*sizeof(double));
+	    
+	    //This holds the Sparse version of the adjecncy rows
+	    int* sparseInFile = (int*)malloc(5064*grabbed*sizeof(int));//written to only work for grabbed = 1 TODO
+	    
+	    //This matrix will be the expanded version of the sparse Matrix
+	    Matrix inFile = default_matrix;
+            Matrix* fileData = &inFile;
+            fileData->cols = dim;
+            fileData->rows = grabbed;
 	    
 	    MPI_File_open(*world, "scripttest", MPI_MODE_RDONLY, MPI_INFO_NULL, &fh);
-	    MPI_File_read_at(fh, (masterI + myRowsDisp[myRank])*sizeof(double)*dim , a->data, grabbed*dim, MPI_DOUBLE, MPI_STATUS_IGNORE);
+	    MPI_File_read_at(fh, (masterI + myRowsDisp[myRank])*sizeof(int)*5064 , sparseInFile, grabbed*5064, MPI_DOUBLE, MPI_STATUS_IGNORE);
 	    MPI_File_close(&fh);
-	    
-	    for(i=0; i<a->rows*a->cols; i+=a->cols){     
+	    //5064 - This could be better but we this is from the file that
+            //has the adjecency sparse matrix in it. This is the buffer size
+ 
+	    //Now that we have the sparse matrix in we can decode and save
+	    fileData->data = decompressSerial(sparseInFile, 5064, dim, world, worldSize, myRank);
+
+	    //Normallize each row that was grabbed
+	    for(i=0; i<fileData->rows*fileData->cols; i+=fileData->cols){     
                 sum = 0;
-                for(j=0; j<a->cols; j++){
-                    sum += a->data[i+j];
-                }
+                for(j=0; j<fileData->cols; j++)
+                    sum += fileData->data[i+j];
                 if(sum == 0)
                     sum = 1;
-                for(j=0; j<a->cols; j++){
-                    a->data[i+j] /= sum;
-                }
-            } 
+                for(j=0; j<fileData->cols; j++)
+                    fileData->data[i+j] /= sum;
+            }
+            
+            //All data needed to do PageRank formula is ready!
+            //This below is the actual algorithm
+            
+            
+	    Mp.data = multMatricesSerial(fileData, local_p);
+	    tmp = multMatrixConstSerial(&Mp, alpha);
+	    free(Mp.data);
+	    Mp.data = tmp;
 	  
+	    tmp = addMatricesSerial(&Mp, ones);
+	    free(Mp.data);
+	    Mp.data = tmp;
 	    
-	    
+	    for(i=0; i<grabbed; i++){
+		section_p->data[masterI+i] = Mp.data[i];
+	    }
+	    free(tmp);
+	    free(fileData->data);
 	    
 	}
+	length = 0;
+        for(i=0; i<section_p->rows*section_p->cols; i++){
+            length += section_p->data[i];
+        }
+        for(i=0; i<section_p->rows*section_p->cols; i++){
+             section_p->data[i] /= length;
+        }
+	for(i=0; i<section_p->rows*section_p->cols; i+=section_p->cols){     
+            sum = 0;
+            for(j=0; j<section_p->cols; j++)
+                sum += section_p->data[i+j];
+            if(sum == 0)
+                sum = 1;
+            for(j=0; j<section_p->cols; j++)
+                section_p->data[i+j] /= sum;
+        }
+        
+        if(myRank == 0){
+            p->data = (double*)malloc(p->rows*p->cols*sizeof(double));
+        }  
+        MPI_Gatherv(local_ps->data, myRowsCount[myRank], MPI_DOUBLE, p->data, myRowsCount, myRowsDisp, MPI_DOUBLE, 0, *world);
+	
       
       
       
@@ -133,7 +197,9 @@ double* pageRank(int dim, MPI_Comm* world, int worldSize, int myRank){
 
 
 //Decompresses sparse matrix protocol view readME for more details
-//2000, 2, 100
+//0,3,1,0
+//1,0,0,0,1,0,1
+//There will be a 1 between each number
 //Returns a col matrix
 //Under assumption the file it is reading from is ints that holds the number of zeros
 double* decompressSerial(int* sparse, int size, int dim, MPI_Comm* world, int worldSize, int myRank){
@@ -151,12 +217,14 @@ double* decompressSerial(int* sparse, int size, int dim, MPI_Comm* world, int wo
         current = sparse[i];
         if(current == -1)
             break;
-      for(j=0; j<current; j++){
+	for(j=0; j<current; j++){
             rtn[itter] = 0;
             itter += 1;
-        }
-        rtn[itter]=1;
-        itter++;
+	}
+	if(i+1 < size){
+	  rtn[itter]=1;
+	  itter++;
+	}
     }
     return rtn;
 }
