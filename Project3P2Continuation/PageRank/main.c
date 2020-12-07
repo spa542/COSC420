@@ -2,6 +2,7 @@
 #include<stdlib.h>
 #include<mpi.h>
 #include<time.h>
+#include"PageRank.h"
 
 // Defining the buffer length for processor name
 #define pNameSize MPI_MAX_PROCESSOR_NAME
@@ -26,13 +27,13 @@ int main(int argc, char** argv) {
     arr[0] = 2;
     arr[1] = 3;
     arr[2] = 0;
-    arr[3] = -1;
-    arr[4] = 50;
+    arr[3] = 2;
+    arr[4] = -1;
     
-    double* test = decompress(arr, size, 8, &world, worldSize, myRank);  
+    double* test = decompressSerial(arr, size, &world, worldSize, myRank);  
 
     int i;
-    for(i=0; i<8; i++){
+    for(i=0; i<10; i++){
         printf("%f \n", test[i]);
     }
 
