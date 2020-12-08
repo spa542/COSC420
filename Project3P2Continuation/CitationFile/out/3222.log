@@ -15,6 +15,14 @@ Running matrix file creation algorithm...
 Benchmark 100000
 Benchmark 200000
 Benchmark 300000
-srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
-slurmstepd: error: *** JOB 3046 ON hpcl6-2 CANCELLED AT 2020-11-18T09:28:45 ***
-slurmstepd: error: *** STEP 3046.0 ON hpcl6-2 CANCELLED AT 2020-11-18T09:28:46 ***
+Benchmark 400000
+Benchmark 500000
+Benchmark 600000
+Benchmark 900000
+Benchmark 1000000
+Benchmark 1400000
+Benchmark 1500000
+Benchmark 1600000
+Count of papers read in 1628188 vs. known 1628188
+Time in seconds to complete: 45227
+Clearing all of the memory...

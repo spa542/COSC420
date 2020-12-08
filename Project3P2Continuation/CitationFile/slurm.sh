@@ -12,4 +12,4 @@ module load mpi/mpich-3.2-x86_64
 
 ##mpicc ~/Ryan/COSC420/
 
-mpirun ~/Repositories/COSC420/Project2arXivSearchEngine/CitationFile/writematrix
+mpirun ~/Repositories/COSC420/Project3P2Continuation/CitationFile/writematrix

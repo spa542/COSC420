@@ -13,6 +13,50 @@ typedef struct IndexNode {
 
 #define num_papers 1628188
 #define file_length 10913892
+#define pad_length 5064
+
+// cmpfunc Function:
+// Used for the qsort
+int cmpfunc(const void* a, const void* b) {
+    // Sort in ascending order
+    return (*(int*)a - *(int*)b);
+}
+
+// Sorts the indices in the keepTrack array
+// so that amount of 0's can be calculated correctly
+// in the fillRow function
+void sortIndices(int* kt, int numItems) {
+    qsort((void*)kt, numItems, sizeof(int), cmpfunc);
+}
+
+// Fills the row to be written to the file
+// with the correct sparse matrix values base on
+// the keepTrack array that has been sorted
+void fillRow(int* row, int* kt) {
+    int i; 
+    int prevNum = 0;
+    for (i = 0; i < pad_length; i++) {
+        if (kt[i] == -1) {
+            row[i] = (num_papers - 1) - prevNum;
+            break;
+        }
+        if (i == 0) {
+            row[i] = kt[i] - prevNum;
+            prevNum = kt[i];
+            continue;
+        }
+        /*
+        // FOR TESTING CASE WITH SUBSET
+        if (kt[i] == prevNum) {
+            printf("kt[i] duplicate = %d\n", kt[i]);
+            row[i] = 0;
+            continue;
+        }
+        */
+        row[i] = kt[i] - prevNum - 1;
+        prevNum = kt[i];
+    }
+}
 
 int main() {
 
@@ -160,7 +204,7 @@ int main() {
     time_t first, second;
     puts("Reading in struct matrix and creating binary tree...");
     // Create the pointer to hold each row of the matrix
-    double* row = NULL;
+    int* row = NULL;
     // Create the index array to keep track of each index and read it in
     // Then add it to the tree that holds the metadata
     inode* indices = (inode*)malloc(num_papers*sizeof(inode));
@@ -217,53 +261,43 @@ int main() {
     long int byteSearch = 0;
     // Index for tree search
     long int indexForOne = 0;
-    // Test bool
-    //bool allZeros = false;
-    //bool shouldPrint = false;
     // Benchmark number
     long int benchmark = 100000;
+    // Keep track of the index for KEEP TRACK!!!
+    int keepTrackIndex = 0;
+    // Keep the indices in an array
+    int* keepTrack = NULL;
+    // Keep track of how many citations we have added
+    int citationCount = 0;
+    // Track bool
+    bool hasCitations = true;
     // Start the loop
     first = time(NULL);
     while (count < num_papers) {
         // We have a tree of where to find every paper in the file
         // SO LETS USE IT BABY
         byteSearch = search(&head, indices[count].id);
-        row = (double*)malloc(num_papers*sizeof(double));
-        memset(row, 0, sizeof(double));
+        row = (int*)malloc(pad_length*sizeof(int));
+        keepTrack = (int*)malloc(pad_length*sizeof(int));
+        //memset(row, 0, sizeof(double));
         // Initialize the row
-        for (i = 0; i < num_papers; i++) {
-            row[i] = 0;
+        for (i = 0; i < pad_length; i++) {
+            row[i] = -1;
         }
         if (byteSearch == -1) {
-            fwrite(row, sizeof(double), num_papers, writeMat);
+            row[0] = num_papers;
+            fwrite(row, sizeof(int), pad_length, writeMat);
             fseek(readCitations, 0, SEEK_SET);
-            //shouldPrint = false;
             count++;
             free(row);
+            free(keepTrack);
             continue;
         }
-        fseek(readCitations, byteSearch, SEEK_SET);
-        /*
-        // Need to iterate over the amount of papers in the indexfile
-        // and find the right paper id that matches in the arxiv file
-        while (fgets(tmp, 18, readCitations)) {
-            // Kill the endline so somparisons work
-            tmp[strlen(tmp) - 1] = '\0';
-            if (strcmp(indices[count].id, tmp) == 0) {
-                puts("Found it!!!!!");
-                printf("struct id: %s\nfound id: %s\n", indices[count].id, tmp);
-                break;
-            }
-            // Skip all of the other elements until we get to the "next" paper for 
-            // citation checking
-            while(fgets(tmp, 18, readCitations)) {
-                if (tmp[0] == '+' && tmp[1] == '+') {
-                    break;
-                }
-            }
-            // If we reach the end of the file, the loops will hit NULL and skip!!!!
+        // Get the track array ready for all of the citations
+        for (i = 0; i < pad_length; i++) {
+            keepTrack[i] = -1;
         }
-        */
+        fseek(readCitations, byteSearch, SEEK_SET);
         // We know the structure and the order already
         // Will be the paper we know and a minus row next... skip it!!!!
         fgets(tmp, 18, readCitations);
@@ -273,8 +307,13 @@ int main() {
         // dividing line
         while(fgets(tmp, 18, readCitations)) {
             if (tmp[0] == '+' && tmp[1] == '+') {
+                if (citationCount == 0) {
+                    hasCitations = false; 
+                }
+                keepTrackIndex = 0;
                 break;
             }
+            citationCount++;
             tmp[strlen(tmp) - 1] = '\0';
             /*
             for (i = 0; i < num_papers; i++) {
@@ -284,40 +323,49 @@ int main() {
             }
             */
             indexForOne = searchs(&head2, tmp);
-            // Not enough time to run on full case, if not enough then continue
+            // In case not everything can be loaded
             if (indexForOne == -1) {
-                //puts("failed");
+                //puts("COULD NOT FIND A PAPER THIS SHOULDNT HAPPEN!!!!");
+                //keepTrack[keepTrackIndex++] = 1 + rand() % 4000; // Will not happen in the full case
+                citationCount--;
                 continue;
             }
-            row[indexForOne] = 1;
-            // Print it out
-            //shouldPrint = true; 
+            keepTrack[keepTrackIndex++] = indexForOne;
+            //row[rowIndex++] = indexForOne;
+            //row[indexForOne] = 1;
         }
-        // Write the row to the file after the matrix row has been filled
-        fwrite(row, sizeof(double), num_papers, writeMat);
+        if (hasCitations) {
+            sortIndices(keepTrack, citationCount); // Sort the keepTrack array so that the 0's can be calculated correctly
+        } else {
+            keepTrack[0] = num_papers;
+        }
+        fillRow(row, keepTrack); // Fill the actual row matrix with correct 0 values so that they can be written to the file
+        hasCitations = true; // set back to assumed true
+        citationCount = 0;
         /*
-        // Test Print
-        if (shouldPrint) {
-            // Test
-            printf("Paper %ld\n", count);
-            for (i = 0; i < num_papers; i++) {
-                if (row[i] == 1) {
-                    puts("we have a winner!");
-                }
+        // TESTING SORTING AND PREVIOUS WHILE LOOP
+        printf("Nums Sorted %d:\n", count);
+        for (i = 0; i < pad_length; i++) {
+            if (keepTrack[i] == -1) {
+                break;
             }
+            printf("%d ", keepTrack[i]);
         }
+        puts("");
         */
+        // Write the row to the file after the matrix row has been filled
+        fwrite(row, sizeof(int), pad_length, writeMat);
         // Reset the pointer to the beginning of the file
         fseek(readCitations, 0, SEEK_SET);
-        //shouldPrint = false;
         count++;
         free(row);
+        free(keepTrack);
         if (count % benchmark == 0) {
             printf("Benchmark %ld\n", count);
         }
     }
     second = time(NULL);
-    printf("Count of papers read in %ld vs. known %ld\n", count, num_papers);
+    printf("Count of papers read in %ld vs. known %d\n", count, num_papers);
     printf("Time in seconds to complete: %ld\n", second - first);
     puts("Clearing all of the memory...");
     free(indices);
@@ -334,23 +382,33 @@ int main() {
     puts("STARTING TEST OF WRITE FILE");
     FILE* yeet = NULL;
     yeet = fopen("matrixfile", "r");
-    double* readme = NULL;
+    int* readme = NULL;
     long int j;
     int sumcheck = 0;
     for (i = 0; i < 100; i++) {
-        readme = (double*)malloc(num_papers*sizeof(double));
-        memset(readme, 0, num_papers*sizeof(double));
-        fread(readme, sizeof(double), num_papers, yeet);
-        for (j = 0; j < num_papers; j++) {
-            sumcheck += readme[j];
-            if (readme[j] == 1) {
-                printf("Paper %ld\n", i);
-                puts("we have a winner!");
+        readme = (int*)malloc(pad_length*sizeof(int));
+        memset(readme, 0, pad_length*sizeof(int));
+        fread(readme, sizeof(int), pad_length, yeet);
+        printf("Paper %d\n", i);
+        for (j = 0; j < pad_length; j++) {
+            sumcheck += readme[j] + 1;
+            if (readme[j] == -1) {
+                sumcheck--;
+                break;
             }
+            printf("%d ", readme[j]);
         }
-        if (sumcheck == 0) {
-            printf("Paper %ld\n", i);
-            puts("all zeros row");
+        puts("");
+        if (sumcheck != num_papers) {
+            printf("Paper %d failed!!!!\n", i);
+            for (j = 0; j < pad_length; j++) {
+                if (readme[j] == -1) {
+                    printf("sumcheck = %d\n", sumcheck);
+                    break;
+                }
+                printf("%d ", readme[j]);
+            }
+            puts("");
         }
         sumcheck = 0;
         free(readme);
