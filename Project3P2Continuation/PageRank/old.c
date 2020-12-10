@@ -257,10 +257,10 @@ double* FILEpageRank(int dim, MPI_Comm* world, int worldSize, int myRank){
     MPI_File fh; 
   
     MPI_File_open(*world, "scripttest", MPI_MODE_RDONLY, MPI_INFO_NULL, &fh);
-	   
-	MPI_File_read(fh, tes.data, dim*dim, MPI_DOUBLE, MPI_STATUS_IGNORE);
-	    
-	MPI_File_close(&fh);
+       
+    MPI_File_read(fh, tes.data, dim*dim, MPI_DOUBLE, MPI_STATUS_IGNORE);
+        
+    MPI_File_close(&fh);
 
 
     puts("tes read in: =====================================");
@@ -406,7 +406,7 @@ double* FILEpageRank(int dim, MPI_Comm* world, int worldSize, int myRank){
                 }
             }
             MPI_Bcast(local_p->data, p->rows*p->cols, MPI_DOUBLE, 0, *world);
-	    //CREATE A HERE TODO
+        //CREATE A HERE TODO
             //TODO Read in from file M matrix What to read in from above
             Matrix inA = default_matrix;
             Matrix* a = &inA;
@@ -414,18 +414,18 @@ double* FILEpageRank(int dim, MPI_Comm* world, int worldSize, int myRank){
             a->rows = grabbed;
             a->data = (double*)malloc(a->cols*a->rows*sizeof(double));
                 //TODO READ
-	        //int myRowsCount[worldSize];
-		//int myRowsDisp[worldSize];
+            //int myRowsCount[worldSize];
+        //int myRowsDisp[worldSize];
         if(myRank == 0){
-             //printf("Rank: %d | myRowsCount: %d | myRowsDisp: %d\n", myRank,myRowsCount[myRank], myRowsDisp[myRank]);	
+             //printf("Rank: %d | myRowsCount: %d | myRowsDisp: %d\n", myRank,myRowsCount[myRank], myRowsDisp[myRank]);    
         }
 
-	    MPI_File_open(*world, "scripttest", MPI_MODE_RDONLY, MPI_INFO_NULL, &fh);
-	    
-	    MPI_File_read_at(fh, (masterI + myRowsDisp[myRank])*sizeof(double)*dim , a->data, grabbed*dim, MPI_DOUBLE, MPI_STATUS_IGNORE);
-	    
+        MPI_File_open(*world, "scripttest", MPI_MODE_RDONLY, MPI_INFO_NULL, &fh);
+        
+        MPI_File_read_at(fh, (masterI + myRowsDisp[myRank])*sizeof(double)*dim , a->data, grabbed*dim, MPI_DOUBLE, MPI_STATUS_IGNORE);
+        
         MPI_File_close(&fh);
-	    
+        
         if(myRank == 0){
             //puts("This should be a read in row");
             //printMatrix(a);
@@ -722,10 +722,10 @@ double* FILE_HITS(int dim, int HubOrAuth, MPI_Comm* world, int worldSize, int my
     MPI_File fh; 
   
     MPI_File_open(*world, "scripttest", MPI_MODE_RDONLY, MPI_INFO_NULL, &fh);
-	   
-	MPI_File_read(fh, tes.data, dim*dim, MPI_DOUBLE, MPI_STATUS_IGNORE);
-	    
-	MPI_File_close(&fh);
+       
+    MPI_File_read(fh, tes.data, dim*dim, MPI_DOUBLE, MPI_STATUS_IGNORE);
+        
+    MPI_File_close(&fh);
 
 
     puts("tes read in: =====================================");
@@ -771,11 +771,11 @@ double* FILE_HITS(int dim, int HubOrAuth, MPI_Comm* world, int worldSize, int my
 
             
         MPI_File_open(*world, "scripttest", MPI_MODE_RDONLY, MPI_INFO_NULL, &fh);
-	    
-	    MPI_File_read_at(fh, (masterI + myRowsDisp[myRank])*sizeof(double)*dim , a->data, grabbed*dim, MPI_DOUBLE, MPI_STATUS_IGNORE);
-	    
+        
+        MPI_File_read_at(fh, (masterI + myRowsDisp[myRank])*sizeof(double)*dim , a->data, grabbed*dim, MPI_DOUBLE, MPI_STATUS_IGNORE);
+        
         MPI_File_close(&fh);
-	    
+        
         Matrix aT = default_matrix;
         aT.cols = grabbed;
         aT.rows = dim;
@@ -822,10 +822,10 @@ double* FILE_HITS(int dim, int HubOrAuth, MPI_Comm* world, int worldSize, int my
 
 
     MPI_File_open(*world, "UseVector", MPI_MODE_RDONLY, MPI_INFO_NULL, &fh);
-	   
-	MPI_File_read(fh, tes.data, dim*dim, MPI_DOUBLE, MPI_STATUS_IGNORE);
-	    
-	MPI_File_close(&fh);
+       
+    MPI_File_read(fh, tes.data, dim*dim, MPI_DOUBLE, MPI_STATUS_IGNORE);
+        
+    MPI_File_close(&fh);
 
 
     puts("USE read in: =====================================");
@@ -941,11 +941,11 @@ double* FILE_HITS(int dim, int HubOrAuth, MPI_Comm* world, int worldSize, int my
             use.data = (double*)malloc(use.cols*use.rows*sizeof(double));
             
             MPI_File_open(*world, "UseVector", MPI_MODE_RDONLY, MPI_INFO_NULL, &fh);
-	    
-	        MPI_File_read_at(fh, (masterI + myRowsDisp[myRank])*sizeof(double)*dim , use.data, grabbed*dim, MPI_DOUBLE, MPI_STATUS_IGNORE);
-	    
+        
+            MPI_File_read_at(fh, (masterI + myRowsDisp[myRank])*sizeof(double)*dim , use.data, grabbed*dim, MPI_DOUBLE, MPI_STATUS_IGNORE);
+        
             MPI_File_close(&fh);
-	    
+        
 
             
             

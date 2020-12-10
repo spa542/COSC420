@@ -7,7 +7,9 @@
 
 
 
-double* pageRank(int dim, MPI_Comm* world, int worldSize, int myRank){
+
+double* pageRank(int dim, int numberOfNums,MPI_Comm* world, int worldSize, int myRank){
+    printf("START | Rank: %d\n", myRank);
     MPI_File fh; 
     double alpha = .88;
     int i, masterI, j;
@@ -46,10 +48,10 @@ double* pageRank(int dim, MPI_Comm* world, int worldSize, int myRank){
     p->cols = 1;
     if(myRank==0){
         p->data = (double*)malloc(p->cols * p->rows * sizeof(double));
-	for(i=0; i<p->rows*p->cols; i++)
+    for(i=0; i<p->rows*p->cols; i++)
             p->data[i] = 1;
     }
-	
+    
     Matrix PreviousP = default_matrix;
     Matrix* oldP = &PreviousP;
     oldP->rows = dim;
@@ -68,7 +70,7 @@ double* pageRank(int dim, MPI_Comm* world, int worldSize, int myRank){
     for(i=0; i<section_p->rows * section_p->cols; i++){
         section_p->data[i] = 1;
     }
-	    
+        
     Matrix tOnes = default_matrix;
     Matrix* ones = &tOnes;
     ones->rows = grabbed;
@@ -82,7 +84,7 @@ double* pageRank(int dim, MPI_Comm* world, int worldSize, int myRank){
     double errorTolerance = .0000000000000001;
     double* difference;
     int counter = 0;
-    int done = 0;
+    int done = 1;
     
     
     double length;
@@ -92,111 +94,156 @@ double* pageRank(int dim, MPI_Comm* world, int worldSize, int myRank){
     Mp.rows = 1;
 
     double* tmp=NULL;
+    int* sparseInFile;
     
     
-    
-    while(done>=1 && counter<2500){
-	if(myRank == 0){
-	    free(oldP->data);
-	    oldP->data = p->data;
-	}
-	
-	for(masterI=0; masterI<mRowsCount[myRank]; masterI+=grabbed){
-	    if(myRank == 0){//Root gets the P matrix for calculations           
-                for(i=0; i<p->rows*p->cols; i++){
-                    local_p->data[i] = p->data[i]; 
-                }
+    printf("Before while | Rank: %d\n", myRank);
+    while(done==1 && counter<500){
+        if(myRank == 0){
+            free(oldP->data);
+            oldP->data = p->data;
+        }
+        printf("In while | Rank: %d\n", myRank);
+        if(myRank == 0){//Root gets the P matrix for calculations           
+            for(i=0; i<p->rows*p->cols; i++){
+                local_p->data[i] = p->data[i]; 
+                printf("================%f ", p->data[i]);
+              
             }
-            //Every node gets the P vectors for calculations
-            MPI_Bcast(local_p, p->rows*p->cols, MPI_DOUBLE, 0, *world);
-	    
-	    
-	    //This holds the Sparse version of the adjecncy rows
-	    int* sparseInFile = (int*)malloc(5064*grabbed*sizeof(int));//written to only work for grabbed = 1 TODO
-	    
-	    //This matrix will be the expanded version of the sparse Matrix
-	    Matrix inFile = default_matrix;
-            Matrix* fileData = &inFile;
-            fileData->cols = dim;
-            fileData->rows = grabbed;
-	    
-	    MPI_File_open(*world, "scripttest", MPI_MODE_RDONLY, MPI_INFO_NULL, &fh);
-	    MPI_File_read_at(fh, (masterI + mRowsDisp[myRank])*sizeof(int)*5064 , sparseInFile, grabbed*5064, MPI_DOUBLE, MPI_STATUS_IGNORE);
-	    MPI_File_close(&fh);
-	    //5064 - This could be better but we this is from the file that
-            //has the adjecency sparse matrix in it. This is the buffer size
- 
-	    //Now that we have the sparse matrix in we can decode and save
-	    fileData->data = decompressSerial(sparseInFile, 5064, world, worldSize, myRank);
+            
+        }
+        MPI_Bcast(local_p->data, local_p->rows*local_p->cols, MPI_DOUBLE, 0, *world);
+        printMatrix(local_p);
+        
+        
+        for(masterI=0; masterI<mRowsCount[myRank]; masterI+=grabbed){
 
-	    //Normallize each row that was grabbed
-	    for(i=0; i<fileData->rows*fileData->cols; i+=fileData->cols){     
-                sum = 0;
-                for(j=0; j<fileData->cols; j++)
-                    sum += fileData->data[i+j];
-                if(sum == 0)
-                    sum = 1;
-                for(j=0; j<fileData->cols; j++)
-                    fileData->data[i+j] /= sum;
+                
+                printf("copy localP | Rank: %d\n", myRank);
+                //Every node gets the P vectors for calculations
+                
+            
+            
+            //This holds the Sparse version of the adjecncy rows
+            sparseInFile = (int*)malloc(numberOfNums*grabbed*sizeof(int));//written to only work for grabbed = 1 TODO
+            
+            //This matrix will be the expanded version of the sparse Matrix
+            Matrix inFile = default_matrix;
+                Matrix* fileData = &inFile;
+                fileData->cols = dim;
+                fileData->rows = grabbed;
+            
+            MPI_File_open(*world, "scripttest", MPI_MODE_RDONLY, MPI_INFO_NULL, &fh);
+            MPI_File_read_at(fh, (masterI + mRowsDisp[myRank])*sizeof(int)*numberOfNums , sparseInFile, grabbed*numberOfNums, MPI_INT, MPI_STATUS_IGNORE);
+            MPI_File_close(&fh);
+            printf("Read in file | Rank: %d\n", myRank);
+        for(i=0;i<numberOfNums; i++){
+            printf("%d ",sparseInFile[i]);
+        }
+        puts("");
+    
+            //Now that we have the sparse matrix in we can decode and save
+            fileData->data = decompressSerial(sparseInFile, numberOfNums, world, worldSize, myRank);
+        free(sparseInFile);
+            printf("Decompress: | Rank: %d\n", myRank);
+        printMatrix(fileData);
+        puts("");
+            //Normallize each row that was grabbed
+            for(i=0; i<fileData->rows*fileData->cols; i+=fileData->cols){     
+                    sum = 0;
+                    for(j=0; j<fileData->cols; j++)
+                        sum += fileData->data[i+j];
+                    if(sum == 0)
+                        sum = 1;
+                    for(j=0; j<fileData->cols; j++)
+                        fileData->data[i+j] /= sum;
+                }
+                printf("normalize | Rank: %d\n", myRank);
+                
+                //All data needed to do PageRank formula is ready!
+                //This below is the actual algorithm
+                if(myRank == 1){
+                    printf("==============Rank: %d | fileData: | rows: %d | cols: %d\n",myRank,fileData->rows, fileData->cols);
+                    printMatrix(fileData);
+                    printf("local_p | row: %d | col: %d\n", local_p->rows, local_p->cols);
+                    printMatrix(local_p);
+                }
+                
+                Mp.data = multMatricesSerial(fileData, local_p);
+                tmp = multMatrixConstSerial(&Mp, alpha);
+                free(Mp.data);
+                Mp.data = tmp;
+                if(myRank == 0){
+                    puts("MP");
+                    printMatrix(&Mp);
+                }
+          
+                tmp = addMatricesSerial(&Mp, ones);
+                free(Mp.data);
+                Mp.data = tmp;
+            
+                for(i=0; i<grabbed; i++){
+                        section_p->data[masterI+i] = Mp.data[i];
+                }
+                free(tmp);
+                free(fileData->data);
+		MPI_Barrier(*world);
             }
-            
-            //All data needed to do PageRank formula is ready!
-            //This below is the actual algorithm
-            
-            
-	        Mp.data = multMatricesSerial(fileData, local_p);
-	        tmp = multMatrixConstSerial(&Mp, alpha);
-	        free(Mp.data);
-	        Mp.data = tmp;
-	  
-	        tmp = addMatricesSerial(&Mp, ones);
-	        free(Mp.data);
-	        Mp.data = tmp;
-	    
-	        for(i=0; i<grabbed; i++){
-		        section_p->data[masterI+i] = Mp.data[i];
-	        }
-	        free(tmp);
-	        free(fileData->data);
-	    
-	    }
-	    length = 0;
+        length = 0;
+        int sum=0;
         for(i=0; i<section_p->rows*section_p->cols; i++){
             length += section_p->data[i];
         }
         for(i=0; i<section_p->rows*section_p->cols; i++){
-             section_p->data[i] /= length;
+            section_p->data[i] /= length;
         }
-	    for(i=0; i<section_p->rows*section_p->cols; i+=section_p->cols){     
-            sum = 0;
-            for(j=0; j<section_p->cols; j++)
-                sum += section_p->data[i+j];
-            if(sum == 0)
-                sum = 1;
-            for(j=0; j<section_p->cols; j++)
-                section_p->data[i+j] /= sum;
-        }
-        
+        for(i=0; i<section_p->rows*section_p->cols; i+=section_p->cols){     
+                sum = 0;
+            for(j=0; j<section_p->cols; j++){
+            sum += section_p->data[i+j];
+            }
+            if(sum == 0){
+                    sum = 1;
+                }
+                for(j=0; j<section_p->cols; j++)
+                    section_p->data[i+j] /= sum;
+            }
+            
+        printf("Boutta check error | Rank: %d\n", myRank);
         if(myRank == 0){
             p->data = (double*)malloc(p->rows*p->cols*sizeof(double));
         }  
         MPI_Gatherv(section_p->data, mRowsCount[myRank], MPI_DOUBLE, p->data, mRowsCount, mRowsDisp, MPI_DOUBLE, 0, *world);
-	
-	difference = subtractMatrices(p, oldP, world, worldSize, myRank);
-      
-	done = 0;
-	if(myRank==0){
-	    for(i=0; i<oldP->rows*oldP->cols; i++){
-		if(difference[i]>0 ? difference[i] : difference[i]*-1 > errorTolerance){
-		  done = 1;
-		  MPI_Bcast(&done, 1, MPI_INT, 0, *world);
-		  break;
-		}
-	    }
-	}
-	free(difference);
-	counter++;
+        
+        printf("Before diffrence: P then oldP | Rank: %d\n", myRank);
+
+        
+        difference = subtractMatrices(p, oldP, world, worldSize, myRank);
+        
+        puts("difference");
+        int w;
+        for(w = 0; w<5; w++){
+          printf("%f ", difference[w]);      
+        }
+        puts("");
+          
+        done = 0;
+        if(myRank==0){
+            for(i=0; i<oldP->rows*oldP->cols; i++){
+                if(difference[i]>0 ? difference[i] : difference[i]*-1 > errorTolerance){
+                    done = 1;
+                    puts("This means to rerun");
+                    MPI_Bcast(&done, 1, MPI_INT, 0, *world);
+                    break;
+                }
+            }
+        }
+        free(difference);
+        counter++;
+        printf("Checked error | Rank: %d\n", myRank);
+        printf("count %d\n", counter);
     }
+    printf("Done | Rank: %d\n", myRank);
     free(local_p->data);
     free(section_p->data);
     free(ones->data);
@@ -223,21 +270,22 @@ double* pageRank(int dim, MPI_Comm* world, int worldSize, int myRank){
 //There will be a 1 between each number
 //Returns a col matrix
 //Under assumption the file it is reading from is ints that holds the number of zeros
+//Sparse is the vectors of numbers
+//size is the number of elements in sparse
 double* decompressSerial(int* sparse, int size, MPI_Comm* world, int worldSize, int myRank){
-  printf("In decompress\n");  
+  //printf("In decompress\n");  
   if(size == 0){
-        printf("Why did you even decompress?");
+        printf("Why did you even decompress?\n");
         return NULL;
     }
 
     int i, j, current;
     int itter=0;
-    int sum = 0;
     int dim=0;
     for(i=0; i<size; i++){
         dim += sparse[i];
     }
-    dim += (size-1);
+    dim += (size);
   
     double* rtn = (double*)malloc(dim*sizeof(double));    
 
@@ -247,19 +295,19 @@ double* decompressSerial(int* sparse, int size, MPI_Comm* world, int worldSize, 
         current = sparse[i];
         if(current == -1)
             break;
-	    for(j=0; j<current; j++){
+        for(j=0; j<current; j++){
             rtn[itter] = 0;
-            printf("0");
+            //printf("0");
             itter += 1;
-	    }
-        printf("i: %d | size: %d\n", i, size);
-	    if(itter+1 < dim){
-	        rtn[itter]=1;
-            printf("1");
-	        itter++;
-	    }
+        }
+        //printf("i: %d | size: %d\n", i, size);
+        if(itter+1 < dim){
+            rtn[itter]=1;
+            //printf("1");
+            itter++;
+        }
     }
-    printf("\nOut of decompress\n");
+    //printf("\nOut of decompress\n");
     return rtn;
 }
 
