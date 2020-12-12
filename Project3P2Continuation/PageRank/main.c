@@ -47,7 +47,7 @@ int main(int argc, char** argv) {
     
     
     
-/*   
+   /*
     int* tes = (int*)malloc(20*sizeof(int));
 
     MPI_File fh; 
@@ -62,11 +62,11 @@ int main(int argc, char** argv) {
     for(w=1; w<21; w++){
       printf("%d ", tes[w-1]);  
       if(w%4==0){
-    puts("");
+        puts("");
       }
     }
     free(tes);
- */  
+  */
     
     
     
@@ -77,14 +77,14 @@ int main(int argc, char** argv) {
     printf("BF PageRank | Rank: %d\n", myRank);
     double* rtn = pageRank(5, 4, &world, worldSize, myRank);
     
-/*    
+    
     if(myRank == 0){
       for(i=0; i<5; i++){
     printf("%f ", rtn[i]);    
       }
       puts("");
     }
-*/
+
     free(rtn);
     MPI_Finalize(); // Finalizing MPI
 
