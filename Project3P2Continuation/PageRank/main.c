@@ -19,9 +19,10 @@ int main(int argc, char** argv) {
     MPI_Comm_rank(world, &myRank); // Gives the rank (number) node
     srand(time(0));      
 
-    printf("Hi\n");    
+    //printf("Hi\n");    
     int i;
 
+    /*
     if(myRank == 0){
       int arr[] = {
       2,0,0,0,
@@ -34,9 +35,9 @@ int main(int argc, char** argv) {
       for(i=0; i<5*4; i++){
       tmp[i] = arr[i];
       }
-      printf("REE | Rank: %d\n", myRank);
+      //printf("REE | Rank: %d\n", myRank);
 
-      printf("open | Rank: %d\n", myRank);
+      //printf("open | Rank: %d\n", myRank);
       FILE* fh = fopen("scripttest", "w");
       printf("write | Rank: %d\n", myRank);
       fwrite(tmp, sizeof(int),20, fh);
@@ -44,9 +45,7 @@ int main(int argc, char** argv) {
       fclose(fh);
       free(tmp);
     }
-    
-    
-    
+    */
    /*
     int* tes = (int*)malloc(20*sizeof(int));
 
@@ -68,24 +67,23 @@ int main(int argc, char** argv) {
     free(tes);
   */
     
-    
-    
-    
-    
-    
-    
-    printf("BF PageRank | Rank: %d\n", myRank);
-    double* rtn = pageRank(5, 4, &world, worldSize, myRank);
+    //printf("BF PageRank | Rank: %d\n", myRank);
+    double* rtn = pageRank(1628188, 5064, &world, worldSize, myRank);
     
     
     if(myRank == 0){
-      for(i=0; i<5; i++){
-    printf("%f ", rtn[i]);    
+      puts("============= Print Matrix ==============");
+      for(i=0; i<1628188; i++){
+        printf("%f ", rtn[i]);    
       }
       puts("");
     }
+    if (myRank == 0) {
+        puts("I FINISHED YEET");
+    }
 
     free(rtn);
+    
     MPI_Finalize(); // Finalizing MPI
 
     return 0;
