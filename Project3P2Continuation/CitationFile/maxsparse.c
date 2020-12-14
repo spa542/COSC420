@@ -19,8 +19,11 @@ int main() {
     FILE* fh2 = NULL;
     fh2 = fopen("arxiv-citations.txt", "r");
 
-    if (!fh || !fh2)
+    if (!fh || !fh2) {
         fprintf(stderr, "One of the files broke somehow!");
+        return 0;
+    }
+
 
     
     char tmp[18]; // Size is the max of an id

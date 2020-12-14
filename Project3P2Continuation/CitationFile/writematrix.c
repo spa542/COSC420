@@ -72,7 +72,7 @@ int main() {
     readCitations = fopen("arxiv-citations.txt", "r");
     // Read the index file to work with the matrix array
     //readIndex = fopen("indexfile", "r");
-    readIndex = fopen("indexfile", "r");
+    readIndex = fopen("../MetadataFile/indexfile", "r");
     // Open the file to write the matrix into
     writeMat = fopen("matrixfile", "w");
     // Open the file to write the indices of the matrix
@@ -80,6 +80,7 @@ int main() {
 
     if (!readCitations || !writeMat || !readIndex) { // If changed back, then fix this TODO
         puts("One of the three files broke :(");
+        MPI_Finalize();
         return 0;
     }
 
