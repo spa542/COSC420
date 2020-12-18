@@ -97,7 +97,7 @@ double* pageRank(int dim, int numberOfNums,MPI_Comm* world, int worldSize, int m
     int* sparseInFile;
     
     
-    MPI_File_open(*world, "matrixfile", MPI_MODE_RDONLY, MPI_INFO_NULL, &fh); // CHANGING THE FILE NAME
+    MPI_File_open(*world, "matrixtestfile", MPI_MODE_RDONLY, MPI_INFO_NULL, &fh); // CHANGING THE FILE NAME
     //printf("Before while | Rank: %d\n", myRank);
     while(done==1 && counter<500){
         if(myRank == 0){
@@ -134,7 +134,8 @@ double* pageRank(int dim, int numberOfNums,MPI_Comm* world, int worldSize, int m
             fileData->rows = grabbed;
             
             MPI_File_read_at(fh, (masterI + mRowsDisp[myRank])*sizeof(int)*numberOfNums , sparseInFile, grabbed*numberOfNums, MPI_INT, MPI_STATUS_IGNORE);
-            /*
+           
+            /* 
             printf("Read in file | Rank: %d\n", myRank);
             for(i=0;i<numberOfNums; i++){
                 printf("%d ",sparseInFile[i]);
