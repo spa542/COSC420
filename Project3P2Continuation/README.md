@@ -34,8 +34,13 @@ BST, CitationFile, MetadataFile, PageRank - These are the folders containing act
 See README's in each folder to run each module separately. Currently, a final build of
 this project bringing all of the data together is not complete.
 
-***Important Note*** - Each README file in each folder gives in-depth explanations on
-how each module works, the possible issues with the module, and test results.
+1. Run the the writedata executable in the MetadataFile module (Needs arxiv-metatdata.txt)
+
+2. Run the the writematrix executable in the CitationFile module (Needs arxiv-citations.txt)
+
+3. Run the main executable in the PageRank module (Tests are shown for proof of correctness, but takes a very long time). To continue testing, run the run executable to get a sample file of pageranks
+
+4. Run the main executable in the MainProgram module (Currently not finished, see issues section below to learn what is wrong)
 
 ## What we had before starting:
 #### PageRank:
@@ -72,7 +77,8 @@ how each module works, the possible issues with the module, and test results.
     * We have this new solution but it is now using a new protocol of Sparse Matrices - This wasn't the biggest deal but it still meant time we had to re-code working code so that we can use this new protocol.
 * Unclean data
     * Missing papers from citation file - the given metadata file had all the papers in it but the citation file was missing some of the papers cause for us to make our algorithms that read the files have to be very timmid and over engineered. 
-
+* Main Module incomplete
+    * We have been working on a solution on creating a backwards index but have not gotten the chance for fully implement it for production. The BST's work and are ready but more needs to be carved out so the main module works fluidly.
 
 ## Where are we left? What next?
 * We plan to finish this code. We plan to have a fully functioning bit of code. 
