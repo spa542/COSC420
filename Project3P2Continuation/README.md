@@ -62,6 +62,9 @@ this project bringing all of the data together is not complete.
 * Fully paralized code
 * Takes input from file
 * Equipt to take sparse matrices
+
+![Eigen Vector](https://github.com/spa542/COSC420/blob/master/Project3P2Continuation/Time%20vs.%20Number%20of%20Nodes.png)
+
 #### Files: 
 * Sparse Adjacency Matrix
 * PageRank File
@@ -81,6 +84,9 @@ this project bringing all of the data together is not complete.
     * We have been working on a solution on creating a backwards index but have not gotten the chance for fully implement it for production. The BST's work and are ready but more needs to be carved out so the main module works fluidly.
 
 ## Where are we left? What next?
-* We plan to finish this code. We plan to have a fully functioning bit of code. 
+* We plan to finish this code. We plan to have a fully functioning program. 
 * Make the code travel size
     * This involves us making the code both more portable and condensed. This allows for an easier user interface, changes in data it would read in so one day it would be able to work on bigger and smaller data sets with raw data files with the same protocols. 
+* Refining UI
+    * No user input is allowed (yet)
+
