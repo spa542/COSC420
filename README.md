@@ -1,7 +1,7 @@
 # COSC 420-001
 # Author: Ryan Rosiak
 # Teacher: Joseph Anderson
-# Contributor: Grant Dawson
+# Contributor: [Grant Dawson](https://github.com/dawsboss)
 <br /> <br />
 ## Primary Languages Used:
 * **C**
