@@ -1,4 +1,4 @@
-# COSC 420-001
+# COSC 420-001 High Performance Computing
 # Author: Ryan Rosiak
 # Teacher: Joseph Anderson
 # Contributor: [Grant Dawson](https://github.com/dawsboss)
