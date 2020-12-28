@@ -2,7 +2,7 @@
 # Author: Ryan Rosiak
 # Teacher: Joseph Anderson
 # Contributor: [Grant Dawson](https://github.com/dawsboss)
-<br /> <br />
+
 ## Course Overview:
 The course will study principles, practices, and implementations of parallel and distributed computing. It covers three areas of high performance computing: modern computing architectures, algorithm design, and applications and programming. Through this course, students will not only learn fundamental concepts of high performance computing but also gain hands-on hardware and programming experience in this field.
 <br /> <br />
