@@ -19,12 +19,15 @@ The course will study principles, practices, and implementations of parallel and
 ## Major Projects:
 ### Project 1 Project Euler:
 #### Authors: Ryan Rosiak, Grant Dawson, and Brock Forscythe
+#### Description:
 This project showcases applications of parallel computing to solve thought provoking questions from [Project Euler](https://projecteuler.net/). See more details within the project
 folder.
 ### Project 2 arXiv Search Engine:
 #### Authors: Ryan Rosiak and Grant Dawson
+#### Description:
 This project contains the first attempted portion of a search engine using PageRank and HITS algorithms in order to search for research papers by keyword.
 ### Project 3 arXiv Search Engine Continued:
 #### Authors: Ryan Rosiak and Grant Dawson
+#### Description:
 This project is the continuation of project 2 and is the current up to date version of the final product. Modules have been added and updated in order to move closer to a finished
 product.
